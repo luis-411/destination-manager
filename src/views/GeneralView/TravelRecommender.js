@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../App.css";
 import { Row, Col } from "react-bootstrap";
@@ -8,14 +8,19 @@ import { Results } from "../ResultsView/Results";
 import { Tooltip } from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
+import { useAuth0 } from "@auth0/auth0-react";
 
 const TravelRecommender = () => {
   const [activeResult, setActiveResult] = useState(0);
   const [leftColumnOpen, setLeftColumnOpen] = useState(true);
   const [rightColumnOpen, setRightColumnOpen] = useState(true);
-
+  const {isLoading, user ,loginWithRedirect, isAuthenticated } = useAuth0();
+  const { logout } = useAuth0();
   return (
     <div className="App">
+      { !isLoading &&   !isAuthenticated?
+      <button onClick={() => loginWithRedirect()}> Sign in</button>:
+      <button onClick={() => logout()}> Sign out</button>}
       <Row style={{ height: "100%" }}>
         {leftColumnOpen && (
           <Col style={{ height: "100%", paddingRight: 0 }}>
@@ -35,7 +40,7 @@ const TravelRecommender = () => {
         </Col>
         {rightColumnOpen && (
           <Col style={{ height: "100%" }}>
-            <Results activeResult={activeResult} />
+            <Results user={user} isAuthenticated={isAuthenticated} activeResult={activeResult} />
           </Col>
         )}
       </Row>

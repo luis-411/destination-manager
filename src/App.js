@@ -19,6 +19,7 @@ const App = () => {
       const loadCountriesTask = new LoadCountriesTask();
       loadCountriesTask.processCountries(
         fileRetrieved,
+        18,
         userData,
         setCountries,
         setResults
