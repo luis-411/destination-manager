@@ -26,16 +26,16 @@ const App = () => {
       );
     }
   };
-  // useEffect(load, []);
-  // useEffect(calculateScores, [userData, fileRetrieved, setCountries, setResults]);
+  useEffect(load, []);
+  useEffect(calculateScores, [userData, fileRetrieved, setCountries, setResults]);
 
   return (
     <div style={{ height: "100vh" }}>
-      {/* {countries.length === 0 ? ( */}
-        {/* <Loading /> */}
-      {/* ) : ( */}
+      {countries.length === 0 ? (
+        <Loading />
+      ) : (
         <TravelRecommender/>
-      {/* )} */}
+      )}
     </div>
   );
 };
