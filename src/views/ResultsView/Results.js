@@ -4,7 +4,7 @@ import "../../App.css";
 import ResultInfo from "./components/ResultInfo";
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 
-export const Results = ({ activeResult }) => {
+export const Results = ({ activeResult, user , isAuthenticated}) => {
   const results = useTravelRecommenderStore((state) => state.results);
   const [activeIndex, setActiveIndex] = useState(-1);
   const accordElem = useRef(null);
@@ -24,7 +24,7 @@ export const Results = ({ activeResult }) => {
   }, [activeResult]);
   return (
     <div style={{ padding: "10px 0", height: "100%", overflow: "hidden" }}>
-      <p style={{ textAlign: "left" }}>Best destinations for you:</p>
+      <p style={{ textAlign: "left" }}>Best destinations for {isAuthenticated? user.name : "you"}:</p>
       {results.length > 0 ? (
         <div style={{ overflow: "auto", height: "90%" }} ref={accordElem}>
           <Accordion activeKey={activeIndex}>
