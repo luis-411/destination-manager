@@ -9,18 +9,19 @@ import { Tooltip } from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { useAuth0 } from "@auth0/auth0-react";
+import LogButton from "./LogButton";
+import MyProfile from "./MyProfile"
+import { width } from "@fortawesome/free-solid-svg-icons/fa0";
 
 const TravelRecommender = () => {
   const [activeResult, setActiveResult] = useState(0);
   const [leftColumnOpen, setLeftColumnOpen] = useState(true);
   const [rightColumnOpen, setRightColumnOpen] = useState(true);
   const {isLoading, user ,loginWithRedirect, isAuthenticated } = useAuth0();
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const { logout } = useAuth0();
   return (
     <div className="App">
-      { !isLoading &&   !isAuthenticated?
-      <button onClick={() => loginWithRedirect()}> Sign in</button>:
-      <button onClick={() => logout()}> Sign out</button>}
       <Row style={{ height: "100%" }}>
         {leftColumnOpen && (
           <Col style={{ height: "100%", paddingRight: 0 }}>
@@ -40,7 +41,16 @@ const TravelRecommender = () => {
         </Col>
         {rightColumnOpen && (
           <Col style={{ height: "100%" }}>
+            <div>
+            <LogButton isLoading={isLoading}
+             loginWithRedirect={loginWithRedirect}
+             isAuthenticated={isAuthenticated}
+             logout={logout}
+             setIsPopupOpen={setIsPopupOpen}
+             />
+             <MyProfile isOpen={isPopupOpen}/>
             <Results user={user} isAuthenticated={isAuthenticated} activeResult={activeResult} />
+            </div>
           </Col>
         )}
       </Row>
