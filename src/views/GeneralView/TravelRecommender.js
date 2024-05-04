@@ -48,7 +48,7 @@ const TravelRecommender = () => {
              logout={logout}
              setIsPopupOpen={setIsPopupOpen}
              />
-             <MyProfile isOpen={isPopupOpen}/>
+             <MyProfile logout={logout}setIsPopupOpen={setIsPopupOpen} isOpen={isPopupOpen}/>
             <Results user={user} isAuthenticated={isAuthenticated} activeResult={activeResult} />
             </div>
           </Col>
