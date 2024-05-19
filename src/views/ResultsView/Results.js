@@ -9,6 +9,7 @@ export const Results = ({ activeResult}) => {
   const results = useTravelRecommenderStore((state) => state.results);
   const [activeIndex, setActiveIndex] = useState(-1);
   const accordElem = useRef(null);
+
   useEffect(() => {
     if (results.length > 0) {
       if (activeResult === activeIndex) {
@@ -17,12 +18,13 @@ export const Results = ({ activeResult}) => {
         setActiveIndex(activeResult);
         accordElem.current.scrollIntoView({
           behavior: "smooth",
-          block: "end",
+          block: "center",
           inline: "start",
         });
       }
     }
   }, [activeResult]);
+
   return (
     <div style={{ padding: "10px 0", height: "100%", overflow: "hidden" }}>
       <p style={{ textAlign: "left" }}>Best destinations for {user?user.username: "you"}:</p>
@@ -39,7 +41,7 @@ export const Results = ({ activeResult}) => {
                       setActiveIndex(index);
                       accordElem.current.scrollIntoView({
                         behavior: "smooth",
-                        block: "middle",
+                        block: "center",
                         inline: "nearest",
                       });
                     }

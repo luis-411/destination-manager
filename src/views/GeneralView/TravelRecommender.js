@@ -33,7 +33,7 @@ const TravelRecommender = ({children}) => {
           </div>
         </Col>
         {rightColumnOpen && (
-          <Col style={{ height: "100%" }}>
+          <Col style={{ height: "100%", maxHeight: '100vh', overflowY: 'scroll' }}>
             <div>
             <LogButton/>
              {children}
