@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
-import TravelRecommender from "./views/GeneralView/TravelRecommender";
 import LoadCountriesTask from "./tasks/LoadCountriesTask";
 import Loading from "./views/GeneralView/Loading";
 import useTravelRecommenderStore from "./store/travelRecommenderStore";
-
+import AppRoutes from "./Routes";
 const App = () => {
   const [fileRetrieved, setFileRetrieved] = useState([]);
   const { countries, setCountries, setResults, userData } = useTravelRecommenderStore();
@@ -19,7 +18,6 @@ const App = () => {
       const loadCountriesTask = new LoadCountriesTask();
       loadCountriesTask.processCountries(
         fileRetrieved,
-        18,
         userData,
         setCountries,
         setResults
@@ -34,7 +32,7 @@ const App = () => {
       {countries.length === 0 ? (
         <Loading />
       ) : (
-        <TravelRecommender/>
+        <AppRoutes/>
       )}
     </div>
   );
