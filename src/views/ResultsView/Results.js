@@ -3,8 +3,9 @@ import Accordion from "react-bootstrap/Accordion";
 import "../../App.css";
 import ResultInfo from "./components/ResultInfo";
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
-
-export const Results = ({ activeResult, user , isAuthenticated}) => {
+import { useAuthContext } from "../../context/AuthContext";
+export const Results = ({ activeResult}) => {
+  const {user} = useAuthContext();
   const results = useTravelRecommenderStore((state) => state.results);
   const [activeIndex, setActiveIndex] = useState(-1);
   const accordElem = useRef(null);
@@ -24,7 +25,7 @@ export const Results = ({ activeResult, user , isAuthenticated}) => {
   }, [activeResult]);
   return (
     <div style={{ padding: "10px 0", height: "100%", overflow: "hidden" }}>
-      <p style={{ textAlign: "left" }}>Best destinations for {isAuthenticated? user.name : "you"}:</p>
+      <p style={{ textAlign: "left" }}>Best destinations for {user?user.username: "you"}:</p>
       {results.length > 0 ? (
         <div style={{ overflow: "auto", height: "90%" }} ref={accordElem}>
           <Accordion activeKey={activeIndex}>

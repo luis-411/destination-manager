@@ -1,24 +1,39 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactComponent as ProfileSVG } from '../../images/profile.svg';
 import Button from './Button';
-const LoginButton = ({ isLoading, isAuthenticated, logout, loginWithRedirect,setIsPopupOpen }) => {
-    const logIn = !isLoading && !isAuthenticated;
-    const ProfileStr = "Profile";
-    const SignInStr = "Sign in"
-    const [logName, setLogName] = useState(logIn ? SignInStr : ProfileStr);
+import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../context/AuthContext';
+import { removeToken } from '../../helpers';
+import { message } from 'antd';
+const LoginButton = () => {
+    const { user,setUser } = useAuthContext();
+    const logIn = true
+    const navigate = useNavigate();
+    const [logName, setLogName] = useState("Sign in");
     const handleLog = () => {
-        if (logIn) {
-            loginWithRedirect();
-            setLogName(ProfileStr);
-
+        if (!user) {
+            navigate("/signin", { replace: true });
         }
         else {
-            setIsPopupOpen(true);
+            navigate("/", { replace: true })
+            setUser(undefined);
+            removeToken();
+            message.success(`Logged out successfully!`);
         }
+
     }
+    useEffect(() => {
+        if (user){
+            setLogName("Sign out");
+        }
+        else{
+            setLogName("Sign in");
+        }      
+        
+    }, [user])
     return (
         <Button handleButton={handleLog}>
-            <span style={{userSelect:"none",position: "absolute", left: "25%", top: "25%" }}>{logName}</span>
+            <span style={{ userSelect: "none", position: "absolute", left: "25%", top: "25%" }}>{logName}</span>
             <ProfileSVG style={{ position: "absolute", right: "10%", top: "20%" }} width={"30px"} height={"30px"} />
         </Button>
 
