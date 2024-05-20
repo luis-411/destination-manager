@@ -1,16 +1,17 @@
 import React from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
-import SignIn from "./views/GeneralView/components/SignIn";
-import SignUp from "./views/GeneralView/components/SignUp";
+import { Routes, Route } from "react-router-dom";
 import TravelRecommender from "./views/GeneralView/TravelRecommender";
-import LogForm from "./views/GeneralView/LogForm";
+import AuthForm, {AuthPaths} from "./views/GeneralView/AuthForm";
 const AppRoutes = () => {
     return (
+      <>
+        <AuthForm />
         <Routes>
-            <Route path="/" element={<TravelRecommender> <LogForm isOpen={false}><SignIn /></LogForm > </TravelRecommender>} />
-            <Route path="/signin" element={<TravelRecommender> <LogForm isOpen={true}><SignIn /></LogForm ></TravelRecommender> } />
-            <Route path="/signup" element={<TravelRecommender> <LogForm isOpen={true}><SignUp /></LogForm ></TravelRecommender> } />
+          <Route path="/" element={<TravelRecommender />} />
+          <Route path={AuthPaths.SIGN_IN} element={<TravelRecommender />} />
+          <Route path={AuthPaths.SIGN_UP} element={<TravelRecommender />} />
         </Routes>
+      </>
     );
 };
 
