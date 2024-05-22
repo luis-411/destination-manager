@@ -5,6 +5,8 @@ import LoadCountriesTask from "./tasks/LoadCountriesTask";
 import Loading from "./views/GeneralView/Loading";
 import useTravelRecommenderStore from "./store/travelRecommenderStore";
 import AppRoutes from "./Routes";
+import {useFavourites} from "./components/FavouriteTag";
+import {useAuthContext} from "./context/AuthContext";
 const App = () => {
   const [fileRetrieved, setFileRetrieved] = useState([]);
   const { countries, setCountries, setResults, userData } = useTravelRecommenderStore();
@@ -26,6 +28,16 @@ const App = () => {
   };
   useEffect(load, []);
   useEffect(calculateScores, [userData, fileRetrieved, setCountries, setResults]);
+  const auth = useAuthContext();
+  const { fetch } = useFavourites();
+
+
+  useEffect(() => {
+    if (auth.user?.id) {
+      // console.log(auth.user);
+      fetch(auth.user.id);
+    }
+  }, [auth.user]);
 
   return (
     <div style={{ height: "100vh" }}>

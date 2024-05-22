@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import Accordion from "react-bootstrap/Accordion";
 import "../../App.css";
-import ResultInfo from "./components/ResultInfo";
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import { useAuthContext } from "../../context/AuthContext";
+import ResultItem from "./ResultItem";
+
 export const Results = ({ activeResult}) => {
   const {user} = useAuthContext();
   const results = useTravelRecommenderStore((state) => state.results);
@@ -23,6 +24,7 @@ export const Results = ({ activeResult}) => {
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeResult]);
 
   return (
@@ -32,30 +34,13 @@ export const Results = ({ activeResult}) => {
         <div style={{ overflow: "auto", height: "90%" }} ref={accordElem}>
           <Accordion activeKey={activeIndex}>
             {results?.map((item, index) => (
-              <Accordion.Item eventKey={index} key={index}>
-                <Accordion.Header
-                  onClick={() => {
-                    if (index === activeIndex) {
-                      setActiveIndex(-1);
-                    } else {
-                      setActiveIndex(index);
-                      accordElem.current.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center",
-                        inline: "nearest",
-                      });
-                    }
-                  }}
-                >
-                  {index + 1}. {item.region}
-                </Accordion.Header>
-                <Accordion.Body>
-                  <ResultInfo
-                    country={item}
-                    label={index + 1}
-                  />
-                </Accordion.Body>
-              </Accordion.Item>
+              <ResultItem
+                item={item}
+                accordElem={accordElem}
+                index={index}
+                activeIndex={activeIndex}
+                setActiveIndex={setActiveIndex}
+              />
             ))}
           </Accordion>
         </div>

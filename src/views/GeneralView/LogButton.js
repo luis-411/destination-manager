@@ -6,7 +6,7 @@ import { useAuthContext } from '../../context/AuthContext';
 import { removeToken } from '../../helpers';
 import { message } from 'antd';
 const LoginButton = () => {
-    const { user,setUser } = useAuthContext();
+    const { user, setUser } = useAuthContext();
     const navigate = useNavigate();
     const [logName, setLogName] = useState("Sign in");
     const handleLog = () => {

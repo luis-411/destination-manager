@@ -30,7 +30,6 @@ const AuthForm = () => {
                 </div>
                 <div style={{ display: "flex", justifyContent: "space-evenly", width: "30rem" }}>
                 </div>
-
             </div>
         </div >
     );
