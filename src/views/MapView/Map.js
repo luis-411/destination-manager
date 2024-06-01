@@ -48,6 +48,7 @@ const Map = ({ setActiveResult }) => {
       dblclick: clickCountry,
       click: (event) => onOpenPopup(event, country)
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [countries]);
 
   const countryStyle = {
