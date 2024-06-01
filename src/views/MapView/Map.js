@@ -1,12 +1,10 @@
-import React, { useRef, useState, useEffect } from "react";
-import * as ReactDOMServer from "react-dom/server";
-import { MapContainer, GeoJSON } from "react-leaflet";
+import React, {useRef, useState, useEffect, useCallback} from "react";
+import {MapContainer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./styles/Map.css";
-import { CountryPopup } from "./components/CountryPopup";
-import { IndexLabel } from "./components/IndexLabel";
 import Legend from "./components/Legend";
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
+import LeafletTooltip from "../../components/LeafletPopup";
 
 const position = [51.0967884, 5.9671304];
 
@@ -21,38 +19,36 @@ const Map = ({ setActiveResult }) => {
     }
   });
 
-  const onEachCountry = (country, layer) => {
-    var c = countries.findIndex(
+  const addNumberToTheIndexedCountry = (layer, cIndex) => {
+    layer.options.fillColor = getColor(100);
+    layer.bindTooltip(`
+        <div>
+          <h4>${cIndex + 1}</h4>
+        </div>`, {
+      permanent: true,
+      opacity: 1,
+      direction: "center",
+    });
+  }
+
+  const onEachCountry = useCallback((country, layer) => {
+    const cIndex = countries.findIndex(
       (r) => r.properties.u_name === country.properties.u_name
     );
-    var score = country.properties.result.scores.totalScore;
+    const score = country.properties.result.scores.totalScore;
     layer.options.fillColor = getColor(score);
-    const popupContent = ReactDOMServer.renderToString(
-      <CountryPopup country={country.properties.result} />
-    );
-    layer.bindPopup(popupContent, {
-      direction: "auto",
-      keepInView: true,
-    });
-    const tooltipContent = ReactDOMServer.renderToString(
-      <IndexLabel ind={c} />
-    );
 
-    if (c < 10 && score > 0) {
-      layer.options.fillColor = getColor(100);
-      layer.bindTooltip(tooltipContent, {
-        permanent: true,
-        opacity: 1,
-        direction: "center",
-      });
+    if (cIndex < 10 && score > 0) {
+     addNumberToTheIndexedCountry(layer, cIndex);
     }
 
     layer.on({
       mouseover: highlightFeature,
       mouseout: resetHighlight,
       dblclick: clickCountry,
+      click: (event) => onOpenPopup(event, country)
     });
-  };
+  }, [countries]);
 
   const countryStyle = {
     fillOpacity: 1,
@@ -61,7 +57,7 @@ const Map = ({ setActiveResult }) => {
   };
 
   const highlightFeature = (e) => {
-    var layer = e.target;
+    const layer = e.target;
 
     layer.setStyle({
       weight: 5,
@@ -71,13 +67,28 @@ const Map = ({ setActiveResult }) => {
   };
 
   const resetHighlight = (e) => {
-    var layer = e.target;
+    const layer = e.target;
     layer.setStyle({
       fillOpacity: 1,
       color: "#868686",
       weight: 1,
     });
   };
+
+  const [tooltipPosition, setTooltipPosition] = useState([0,0]);
+  const [openPopup, setOpenPopup] = useState(false);
+  const [selectedResult, setSelectedResult] = useState();
+
+  /**
+   *
+   * @param {Object} event
+   * @param {Object} country
+   */
+  const onOpenPopup = (event, country) => {
+    setOpenPopup(true);
+    setTooltipPosition([event.latlng.lat, event.latlng.lng]);
+    setSelectedResult(country.properties.result);
+  }
 
   const clickCountry = (e) => {
     let ind = countries.findIndex(
@@ -106,26 +117,31 @@ const Map = ({ setActiveResult }) => {
 
   return (
     <div>
-      <MapContainer
-        style={{ height: "100vh", width: "auto" }}
-        zoom={4}
-        center={position}
-        ref={setMap}
-        doubleClickZoom={false}
-        // zoomControl={false}
-        // touchZoom={false}
-        // scrollWheelZoom={false}
-        // boxZoom={false}
-        // keyboard={false}
-      >
-        <GeoJSON
-          ref={geoJsonLayer}
-          style={countryStyle}
-          data={countries}
-          onEachFeature={onEachCountry}
-        />
-        <Legend map={map} />
-      </MapContainer>
+      <div>
+        <MapContainer
+          style={{height: "100vh", width: "auto"}}
+          zoom={4}
+          center={position}
+          ref={setMap}
+          doubleClickZoom={false}
+        >
+          <GeoJSON
+            ref={geoJsonLayer}
+            style={countryStyle}
+            data={countries}
+            onEachFeature={onEachCountry}
+          />
+          <LeafletTooltip
+            map={map}
+            data={{
+              position: tooltipPosition,
+            }}
+            isActive={openPopup}
+            country={selectedResult}
+          />
+          <Legend map={map}/>
+        </MapContainer>
+      </div>
     </div>
   );
 };

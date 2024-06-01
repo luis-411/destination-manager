@@ -1,5 +1,4 @@
 import Accordion from "react-bootstrap/Accordion";
-import styles from "./Results.module.css";
 import FavouriteTag from "../../components/FavouriteTag";
 import ResultInfo from "./components/ResultInfo";
 import React from "react";
@@ -21,10 +20,9 @@ const ResultItem = ({ accordElem, index, activeIndex, setActiveIndex, item }) =>
   return (
     <Accordion.Item eventKey={index}>
       <Accordion.Header
-        className={styles.accordionHeader}
         onClick={onClick}
       >
-        <div className={styles.headerContent}>
+        <div className={'d-flex w-100 gap-2'}>
           <FavouriteTag country={item.uname} />
           <span>{index + 1}. {item.region}</span>
         </div>

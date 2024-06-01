@@ -5,8 +5,9 @@ import LoadCountriesTask from "./tasks/LoadCountriesTask";
 import Loading from "./views/GeneralView/Loading";
 import useTravelRecommenderStore from "./store/travelRecommenderStore";
 import AppRoutes from "./Routes";
-import {useFavourites} from "./components/FavouriteTag";
 import {useAuthContext} from "./context/AuthContext";
+import {useFavourites} from "./hooks/useFavourites";
+
 const App = () => {
   const [fileRetrieved, setFileRetrieved] = useState([]);
   const { countries, setCountries, setResults, userData } = useTravelRecommenderStore();
@@ -37,6 +38,7 @@ const App = () => {
       // console.log(auth.user);
       fetch(auth.user.id);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [auth.user]);
 
   return (

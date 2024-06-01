@@ -35,6 +35,7 @@ export const Results = ({ activeResult}) => {
           <Accordion activeKey={activeIndex}>
             {results?.map((item, index) => (
               <ResultItem
+                key={index}
                 item={item}
                 accordElem={accordElem}
                 index={index}
