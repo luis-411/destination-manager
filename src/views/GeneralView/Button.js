@@ -1,17 +1,19 @@
-
-
-
-
-
-const Button = ({handleButton, children}) => {
-
+const Button = ({handleButton, children, className = ''}) => {
     return (
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "end", position: "relative", width: "100%", height: "5rem", marginBottom: "1rem" }}>
-            <div onClick={() => handleButton()} style={{ cursor: "pointer", position: "relative", width: "10rem", height: "3rem", background: "#0d6efd", borderRadius: "2rem", right: "0%", marginRight: "1rem" }}>
-                 {children}
-            </div>
-        </div>
-
+      <div
+        onClick={() => handleButton()}
+        className={`px-4 ${className}`}
+        style={{
+          cursor: "pointer",
+          position: "relative",
+          color: "black",
+          height: "2.3rem",
+          background: "white",
+          borderRadius: "0.8rem",
+          marginRight: "1rem"
+      }}>
+           {children}
+      </div>
     );
 }
 
