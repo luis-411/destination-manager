@@ -8,6 +8,7 @@ const Button = ({handleButton, children, className = ''}) => {
           position: "relative",
           color: "black",
           height: "2.3rem",
+          minWidth: "11.5rem",
           background: "white",
           borderRadius: "0.8rem",
           marginRight: "1rem"
