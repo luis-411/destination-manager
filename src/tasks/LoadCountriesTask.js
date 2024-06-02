@@ -154,7 +154,6 @@ class LoadCountriesTask {
       } else {
         totalAttrScore = { score: res.scores.presetTypeScore, weight: userData.PresetType.length };
       }
-
       var totalScore = isAffordable
         ? +((totalAttrScore.score +
           budgetScore +

@@ -41,7 +41,6 @@ const Map = ({ setActiveResult }) => {
     if (cIndex < 10 && score > 0) {
      addNumberToTheIndexedCountry(layer, cIndex);
     }
-
     layer.on({
       mouseover: highlightFeature,
       mouseout: resetHighlight,

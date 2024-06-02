@@ -5,18 +5,15 @@ import { Row, Col } from "react-bootstrap";
 
 export const DetailScores = ({ scores, travelMonths, budgetLevel }) => {
   return (
-    <div>
+    <>
       <div
         style={{
-          padding: "10px 10px",
           width: "250px",
-          backgroundColor: "white",
-          color: "#000",
+          color: "#fff",
         }}
       >
-        <div style={{ width: "100%" }}>
+        <div className='w-100 mb-2'>
           <p style={{ margin: 0 }}>Budget Level: {`${(budgetLevel / 10).toFixed(0)} (${budgetLevel < 40 ? "Low" : budgetLevel < 80 ? "Medium" : "High"})`}</p>
-          <hr style={{ marginBottom: "1.2rem", marginTop: 0 }} />
         </div>
         <div style={{ marginBottom: "10px" }}>
           <TravelMonthScore travelMonths={travelMonths} showMatches={false} />
@@ -47,6 +44,6 @@ export const DetailScores = ({ scores, travelMonths, budgetLevel }) => {
           </Col>
         </Row>
       </div>
-    </div>
+    </>
   );
 };
