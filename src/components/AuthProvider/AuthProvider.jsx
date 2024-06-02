@@ -1,21 +1,24 @@
 
-import React, { useState } from "react";
+import {useEffect, useState} from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { message } from "antd";
-import { useEffect } from "react";
 import { getToken } from "../../helpers";
+import {create} from "zustand";
+
+export const useToken = create(() => ({
+  token: getToken(),
+}));
 
 const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState();
   const [isLoading, setIsLoading] = useState(false);
-
-  const {authToken,_} = useState(getToken());
+  const authToken = useToken().token;
 
   const fetchLoggedInUser = async (token) => {
     setIsLoading(true);
     try {
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/users/me`, {
-        headers: { Authorization: `${process.env.BEARER} ${token}` },
+        headers: { Authorization: `bearer ${token}` },
       });
       const data = await response.json();
 

@@ -1,14 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import Accordion from "react-bootstrap/Accordion";
 import "../../App.css";
-import ResultInfo from "./components/ResultInfo";
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import { useAuthContext } from "../../context/AuthContext";
+import ResultItem from "./ResultItem";
+
 export const Results = ({ activeResult}) => {
   const {user} = useAuthContext();
   const results = useTravelRecommenderStore((state) => state.results);
   const [activeIndex, setActiveIndex] = useState(-1);
   const accordElem = useRef(null);
+
   useEffect(() => {
     if (results.length > 0) {
       if (activeResult === activeIndex) {
@@ -17,12 +19,14 @@ export const Results = ({ activeResult}) => {
         setActiveIndex(activeResult);
         accordElem.current.scrollIntoView({
           behavior: "smooth",
-          block: "end",
+          block: "center",
           inline: "start",
         });
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeResult]);
+
   return (
     <div style={{ padding: "10px 0", height: "100%", overflow: "hidden" }}>
       <p style={{ textAlign: "left" }}>Best destinations for {user?user.username: "you"}:</p>
@@ -30,30 +34,14 @@ export const Results = ({ activeResult}) => {
         <div style={{ overflow: "auto", height: "90%" }} ref={accordElem}>
           <Accordion activeKey={activeIndex}>
             {results?.map((item, index) => (
-              <Accordion.Item eventKey={index} key={index}>
-                <Accordion.Header
-                  onClick={() => {
-                    if (index === activeIndex) {
-                      setActiveIndex(-1);
-                    } else {
-                      setActiveIndex(index);
-                      accordElem.current.scrollIntoView({
-                        behavior: "smooth",
-                        block: "middle",
-                        inline: "nearest",
-                      });
-                    }
-                  }}
-                >
-                  {index + 1}. {item.region}
-                </Accordion.Header>
-                <Accordion.Body>
-                  <ResultInfo
-                    country={item}
-                    label={index + 1}
-                  />
-                </Accordion.Body>
-              </Accordion.Item>
+              <ResultItem
+                key={index}
+                item={item}
+                accordElem={accordElem}
+                index={index}
+                activeIndex={activeIndex}
+                setActiveIndex={setActiveIndex}
+              />
             ))}
           </Accordion>
         </div>

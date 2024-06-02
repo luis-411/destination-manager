@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../App.css";
 import { Row, Col } from "react-bootstrap";
@@ -33,7 +33,7 @@ const TravelRecommender = ({children}) => {
           </div>
         </Col>
         {rightColumnOpen && (
-          <Col style={{ height: "100%" }}>
+          <Col style={{ height: "100%", maxHeight: '100vh', overflowY: 'scroll' }}>
             <div>
             <LogButton/>
              {children}
@@ -45,7 +45,6 @@ const TravelRecommender = ({children}) => {
       <Tooltip id="prio-switch-tooltip" style={{ width: "300px", zIndex: 99999 }} />
       <Tooltip id="additional-info-tooltip" style={{ width: "300px", zIndex: 99999 }} place="bottom" />
       <Tooltip id="barchart-tooltip" style={{ width: "300px", zIndex: 99999 }} place="bottom" />
-
     </div>
   );
 };
