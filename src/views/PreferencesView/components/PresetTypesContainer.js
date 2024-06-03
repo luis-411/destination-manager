@@ -37,16 +37,18 @@ export const PresetTypesContainer = () => {
                                 }
                             }}
                         >
-                            <FontAwesomeIcon icon={icons[i * 3 + j]} />
-                            {Object.keys(userData.Attributes)[i * 3 + j]}
+                            <div style={{display:"flex", alignItems:"center"}}>
+                            <FontAwesomeIcon style={{padding:"3px",marginRight:"0.1rem"}}  icon={icons[i * 3 + j]} />
+                            <span style={{padding:"3px",fontSize:"10px",textOverflow: "ellipsis",overflow: "hidden",whiteSpace: "nowrap"}}>{Object.keys(userData.Attributes)[i * 3 + j]}</span>
+                            </div>             
                         </div>
                     </Col>
                 );
             }
             rows.push(
-                <Row key={`preset-row-${i * 3}`}>
+                <div style={{display:"flex", gap:"6px"}} key={`preset-row-${i * 3}`}>
                     {cols}
-                </Row>
+                </div>
             );
         }
         return rows;

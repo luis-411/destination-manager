@@ -13,7 +13,7 @@ const Preferences = () => {
   const [key, setKey] = useState('advanced');
 
   return (
-    <div style={{ height: "100%", overflowY: "auto", overflowX: "hidden", paddingRight: "5px" }}>
+    <div style={{ height: "100%", overflowY: "auto", overflowX: "hidden", padding: "1.25rem" }}>
       <p style={{ textAlign: "left", paddingTop: "10px", fontWeight: "700", fontSize: "1.1em" }}>DestiRec - Travel Destination Recommender System</p>
       <hr />
       <div style={{ padding: "10px 0" }}>

@@ -57,19 +57,13 @@ input.stay-days {
 }
 
 .preset-badge {
-  background-color: #6c757d;
-  width: 100%;
-  color: #fff;
+  border: 1.5px solid #6c757d;
   border-radius: 50rem;
+  width: 100%;
   margin-bottom: 20px;
   cursor: pointer;
   padding: 0.35em 0.15em;
   font-size: 0.9rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-  flex-direction: column;
 }
 
 .expand-bar {
