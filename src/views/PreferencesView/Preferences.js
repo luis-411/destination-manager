@@ -14,7 +14,11 @@ const Preferences = () => {
 
   return (
     <div style={{ height: "100%", overflowY: "auto", overflowX: "hidden", padding: "1.25rem" }}>
-      <p style={{ textAlign: "left", paddingTop: "10px", fontWeight: "700", fontSize: "1.1em" }}>DestiRec - Travel Destination Recommender System</p>
+      <div style={{textAlign: "left", paddingTop: "10px"}}>
+      <div style={{ fontWeight: "700", fontSize: "1.1em" }}>DestiRec</div>
+      <span style={{fontWeight:"300",fontSize:"0.8rem"}}>Travel Destination Recommender System</span>
+      </div>
+     
       <hr />
       <div style={{ padding: "10px 0" }}>
         <Budget />
