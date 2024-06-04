@@ -28,17 +28,17 @@ const TravelMonths = () => {
             key={`${i * 4 + j} - ${userData.Months[i * 4 + j]}`}
             id={`radio-${i * 4 + j}`}
             type="checkbox"
-            style={{ width: "20%", }}
+            style={{ width: "20%", margin:"0.5rem" , border: "1.5px solid #6c757d", borderRadius: "50rem" }}
             variant="outline-primary"
             checked={userData.Months[i * 4 + j] === 100}
             onChange={(e) => handleMonthChange(i * 4 + j)}
           >
-            <p style={{ fontSize: "0.8rem", margin: 0, color: "white" }}>{months[i * 4 + j]}</p>
+            <span style={{ fontSize: "0.6rem", color: "white" }}>{months[i * 4 + j]}</span>
           </ToggleButton>
         );
       }
       buttonGroups.push(
-        <ButtonGroup size="sm" style={{ width: "95%" }} key={`${i * 4}`}>
+        <ButtonGroup size="sm" style={{width: "95%" }} key={`${i * 4}`}>
           {buttons}
         </ButtonGroup>
       );
