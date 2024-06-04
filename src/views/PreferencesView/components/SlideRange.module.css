@@ -1,7 +1,3 @@
-:root {
-    --slider-progress: 50%; 
-  }
-  
   .slideRange {
     -webkit-appearance: none;
     appearance: none;

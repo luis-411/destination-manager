@@ -20,10 +20,8 @@ const SlideRange = ({ attrName,sliderColor }) => {
       },
     });
   };
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onChangeDebounced = useCallback(debounce(onChange, 500), [userData]);
-  console.log(hexToRgbA(sliderColor))
   return (
     <form style={{ width: "100%", display: "flex" }}>
       <input
