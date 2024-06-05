@@ -7,3 +7,10 @@
 .modal {
     --bs-modal-width: 1000px;
 }
+
+.card {
+    --bs-body-bg: linear-gradient(90deg, rgba(11,28,34,1) -20%, rgba(27,64,77,1) 100%);
+    --bs-card-border-color: #336273;
+    background: var(--bs-body-bg);
+    color: white;
+}

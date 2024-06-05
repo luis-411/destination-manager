@@ -3,32 +3,20 @@ import {Row} from "react-bootstrap";
 import styles from "./PersonalInformation.module.css";
 import AvatarIcon from "./AvatarIcon";
 import {capitalize} from "lodash";
-
-const CoverImageProfile = () => {
-  return (
-    <div className='position-relative'>
-      <img
-        src={require('../../images/add-image.jpg')}
-        alt='cover default background'
-        className={styles.coverImage}
-      />
-      <div className={styles.coverImageShadow}/>
-    </div>
-  );
-}
+import VisitedHistory from "./VisitedHistory";
+import CoverImage from "./CoverImage";
 
 const LeftPersonal = () => {
   const [{data: personalInfo}] = useLoadMe();
   if (!personalInfo) {
     return null;
   }
-
   const initials = personalInfo.username.slice(0, 2).toUpperCase();
 
   return (
     <div className='p-3'>
       <Row className='position-relative mb-4'>
-        <CoverImageProfile />
+        <CoverImage />
         <div className={styles.avatarWrapper}>
           <AvatarIcon
             size={56}
@@ -52,6 +40,9 @@ const LeftPersonal = () => {
           <h6 className={`${styles.fs7} col-5 fw-bold`}>{new Date(personalInfo.createdAt).toLocaleDateString()}</h6>
         </Row>
       </Row>
+      <div className='mt-4'>
+        <VisitedHistory userId={personalInfo.id} />
+      </div>
     </div>
   );
 };
