@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import { Form, Row, Col } from "react-bootstrap";
 import { debounce } from "lodash";
 import "../../../App.css";
@@ -9,15 +9,10 @@ const Budget = () => {
   const { userData, setUserData } = useTravelRecommenderStore();
   const [value, setValue] = useState(userData.Budget);
 
-  const onChange = (value) => {
-    setUserData({ ...userData, Budget: value });
-  };
-
-  const onChangeDebounced = debounce(onChange, 500);
 
   useEffect(() => {
-    onChangeDebounced(value);
-  }, [value, onChangeDebounced]);
+    debounce(() => setUserData({ ...userData, Budget: value }), 100);
+  }, [value]);
 
   return (
     <Form>
