@@ -31,13 +31,14 @@ const Budget = () => {
       <Row>
         <input
           style={{
-            padding: "0 15px",
+            padding: "0px",
+            margin: "0px",
             '--slider-color': '255, 255, 255',
             '--slider-progress': `${value}%`,
           }}
-          min={10}
+          min={0}
           max={100}
-          step={10}
+          step={1}
           type="range"
           value={value}
           className={styles.slideRange}
