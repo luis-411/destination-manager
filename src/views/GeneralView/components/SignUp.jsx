@@ -5,59 +5,22 @@ import {
     Col,
     Form,
     Input,
-    message,
     Row,
     Spin,
     Typography,
   } from "antd";
-  import React, { Fragment, useState } from "react";
-  import { useAuthContext } from "../../../context/AuthContext";
-//   import useScreenSize from "../../hooks/useScreenSize";
-import { useNavigate, Link} from "react-router-dom";
-
-  import { setToken } from "../../../helpers";
+import React, { Fragment } from "react";
+import { Link} from "react-router-dom";
+import useLoadUser from "../../../api/useLoadUser";
   
   const SignUp = () => {
     const { isDesktopView } = true;
-  
-    const { setUser } = useAuthContext();
-    const navigate = useNavigate();
-  
-    const [isLoading, setIsLoading] = useState(false);
-  
-    const [error, setError] = useState("");
-  
-    const onFinish = async (values) => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/auth/local/register`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-        });
-  
-        const data = await response.json();
-        if (data?.error) {
-          throw data?.error;
-        } else {
-          // set the token
-          setToken(data.jwt);
-  
-          // set the user
-          setUser(data.user);
-  
-          message.success(`Welcome to recommender systems!`);
-          navigate('/', {replace:true})
-        }
-      } catch (error) {
-        console.error(error);
-        setError(error?.message ?? "Something went wrong!");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+    const {
+      error,
+      isLoading,
+      setError,
+      onLoad: onFinish
+    } = useLoadUser(true);
   
     return (
       <Fragment>
