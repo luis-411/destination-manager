@@ -1,0 +1,9 @@
+
+.modal-backdrop {
+    --bs-backdrop-bg: #141414;
+    --bs-backdrop-opacity: 0.94;
+}
+
+.modal {
+    --bs-modal-width: 1000px;
+}

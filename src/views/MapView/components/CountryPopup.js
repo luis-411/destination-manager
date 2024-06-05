@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import "../../../App.css";
+import "../../../styles/App.css";
 import { DetailScores } from "./DetailScores";
 import { Col } from "react-bootstrap";
 import FavouriteTag from "../../../components/FavouriteTag";

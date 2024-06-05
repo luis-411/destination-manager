@@ -1,4 +1,4 @@
-import { ReactComponent as XSymbol } from '../../images/x_symbol.svg';
+import { ReactComponent as XSymbol } from '../../images/x-symbol.svg';
 import {useLocation, useNavigate} from "react-router-dom";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";

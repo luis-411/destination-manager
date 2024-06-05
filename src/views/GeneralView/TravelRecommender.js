@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "../../App.css";
+import "../../styles/App.css";
 import { Row, Col } from "react-bootstrap";
 import Map from "../MapView/Map";
 import Preferences from "../PreferencesView/Preferences";
@@ -9,6 +9,7 @@ import { Tooltip } from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import LogButton from "./LogButton";
+import PersonalInformation from "../Personalnformation/PersonalInformation";
 const TravelRecommender = ({children}) => {
   const [activeResult, setActiveResult] = useState(0);
   const [leftColumnOpen, setLeftColumnOpen] = useState(true);
@@ -45,6 +46,7 @@ const TravelRecommender = ({children}) => {
       <Tooltip id="prio-switch-tooltip" style={{ width: "300px", zIndex: 99999 }} />
       <Tooltip id="additional-info-tooltip" style={{ width: "300px", zIndex: 99999 }} place="bottom" />
       <Tooltip id="barchart-tooltip" style={{ width: "300px", zIndex: 99999 }} place="bottom" />
+      <PersonalInformation />
     </div>
   );
 };

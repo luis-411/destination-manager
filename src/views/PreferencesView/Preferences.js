@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../../App.css";
+import "../../styles/App.css";
 import Budget from "./components/Budget";
 import { CustomizationContainer } from "./components/CustomizationContainer";
 import { PresetTypesContainer } from "./components/PresetTypesContainer";
