@@ -1,12 +1,15 @@
 import {create} from "zustand";
 import {useToken} from "../components/AuthProvider/AuthProvider";
 import {FavouritesApi} from "../api/favourites";
+import {useAuthContext} from "../context/AuthContext";
+import {useEffect, useState} from "react";
 
 
-export const useFavourites = create((set, get) => ({
+const favouritesState = create((set, get) => ({
   favourites: [],
   fetcher: {},
   initialized: false,
+  error: false,
 
   /**
    * Setup the fetcher and get favourites
@@ -14,13 +17,17 @@ export const useFavourites = create((set, get) => ({
    * @returns {Promise<void>}
    */
   async fetch(userId) {
-    const token = useToken.getState().token;
-    const fetcher = new FavouritesApi(
-      `${process.env.REACT_APP_BACKEND_URL}/favourites/${userId}`,
-      { Authorization: `bearer ${token}` },
-    )
-    const data = await fetcher.getFavourites();
-    set({ favourites: data, fetcher, initialized: true });
+    try {
+      const token = useToken.getState().token;
+      const fetcher = new FavouritesApi(
+        `${process.env.REACT_APP_BACKEND_URL}/favourites/${userId}`,
+        { Authorization: `bearer ${token}` },
+      )
+      const data = await fetcher.getFavourites();
+      set({ favourites: data, fetcher, initialized: true });
+    } catch (e) {
+      set({ error: true })
+    }
   },
 
   async remove(country) {
@@ -47,3 +54,55 @@ export const useFavourites = create((set, get) => ({
     }
   }
 }));
+
+export const useFavourites = () => {
+  const state = favouritesState();
+  const auth = useAuthContext();
+
+  useEffect(() => {
+    if (!auth.user) {
+      return;
+    }
+    if (!state.initialized) {
+      state.fetch(auth.user.id);
+    }
+  }, [auth]);
+
+
+  return state;
+}
+
+
+/**
+ * TODO: Replace whole logic with the backend implementation
+ * Even though only backend pagination would be preferable there is
+ * no inherit hazard from doing it on the frontend (max num_countries elements << 1000)
+ */
+export const useFavouritesPaginationFrontend = (pageSize = 8) => {
+  const {favourites, error} = useFavourites();
+  const [paginator, setPaginator] = useState({
+    page: 1,
+    pageSize,
+    pageCount: Math.ceil(favourites.length / pageSize),
+    total: favourites.length,
+  });
+  const loading = favourites.length === 0;
+  const loadMore = () => {
+    if (paginator.page >= paginator.pageCount) {
+      return;
+    }
+    setPaginator(paginator => ({...paginator, page: paginator.page + 1}));
+  }
+
+  const currentFavourites = favourites.slice(
+    (paginator.page - 1) * paginator.pageSize,
+    paginator.page * paginator.pageSize
+  );
+
+  const data = {
+    data: currentFavourites,
+    meta: { pagination: paginator }
+  };
+
+  return { data, loadMore, loading, error };
+}

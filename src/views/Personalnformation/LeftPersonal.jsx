@@ -1,4 +1,3 @@
-import useLoadMe from "../../api/useLoadMe";
 import {Row} from "react-bootstrap";
 import styles from "./PersonalInformation.module.css";
 import AvatarIcon from "./AvatarIcon";
@@ -6,8 +5,7 @@ import {capitalize} from "lodash";
 import VisitedHistory from "./VisitedHistory";
 import CoverImage from "./CoverImage";
 
-const LeftPersonal = () => {
-  const [{data: personalInfo}] = useLoadMe();
+const LeftPersonal = ({ personalInfo }) => {
   if (!personalInfo) {
     return null;
   }

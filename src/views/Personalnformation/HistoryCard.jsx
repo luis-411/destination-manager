@@ -24,7 +24,7 @@ const HistoryCard = ({ historyEntity }) => {
         className={`px-4 position-absolute z-3 text-white d-flex justify-content-between w-100 ${styles.historyRegion}`}
       >
         <h5 className='fa-sm'>{regionInfo.region}</h5>
-        <h5 className='fa-sm'>Score: {regionInfo.score}/100</h5>
+        <h5 className='fa-sm'>Score: {Math.floor(regionInfo.score)}/100</h5>
       </div>
       <CoverImage
         src={toUrl(currentImage)}

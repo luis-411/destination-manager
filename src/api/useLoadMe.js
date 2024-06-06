@@ -7,6 +7,7 @@ import useAxios from "axios-hooks";
 import {useToken} from "../components/AuthProvider/AuthProvider";
 import authenticationHeader from "./authenticationHeader";
 
+// http://localhost:1337/api/users/me?populate[groups][populate][0]=regions
 const useLoadMe = () => {
   const token = useToken.getState().token;
   return useAxios({

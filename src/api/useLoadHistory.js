@@ -1,11 +1,9 @@
-
-
-// http://localhost:1337/api/visits?pagination[page]=1&pagination[pageSize]=10&populate=*&filters[user][id][$eq]=1
 import {useState} from "react";
 import useAxios from "axios-hooks";
 import authenticationHeader from "./authenticationHeader";
 import {useToken} from "../components/AuthProvider/AuthProvider";
 
+// http://localhost:1337/api/visits?pagination[page]=1&pagination[pageSize]=10&populate=*&filters[user][id][$eq]=1
 const useLoadHistory = ({
   initialPage = 1,
   pageSize = 8,
