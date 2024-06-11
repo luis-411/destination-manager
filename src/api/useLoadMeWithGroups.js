@@ -18,6 +18,7 @@ const useLoadMeWithGroups = (
   const [{ data, loading, error }] = useAxios({
     url: visitsUrl,
     params: getParams(),
+    method: 'GET',
     ...authenticationHeader(token)
   });
 
