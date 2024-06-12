@@ -18,7 +18,7 @@ const ResultItem = ({ accordElem, index, activeIndex, setActiveIndex, item }) =>
     }
   }
   return (
-    <Accordion.Item eventKey={index}>
+    <Accordion.Item  eventKey={index}>
       <Accordion.Header
         onClick={onClick}
       >

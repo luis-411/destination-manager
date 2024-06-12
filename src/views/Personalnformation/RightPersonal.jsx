@@ -56,7 +56,7 @@ const RightPersonal = () => {
     return null;
   }
   const groups = meData.groups ?? [];
-  const suggestions = statsData.statistics.recommendations ?? [];
+  const suggestions = statsData.statistics?.recommendations ?? [];
 
   return (
     <div className='p-3 d-flex flex-column gap-4'>
