@@ -1,9 +1,9 @@
 import React, {useCallback, useEffect, useState} from "react";
 import "../../../styles/App.css";
 import {DetailScores} from "./DetailScores";
-import {Col, InputGroup, Form} from "react-bootstrap";
+import {Col} from "react-bootstrap";
 import FavouriteTag from "../../../components/FavouriteTag";
-import {FolderAddFilled, FolderAddOutlined, FieldTimeOutlined, LikeOutlined} from "@ant-design/icons";
+import {FolderAddFilled, LikeOutlined, FieldTimeOutlined} from "@ant-design/icons";
 import {useAuthContext} from "../../../context/AuthContext";
 import {useAppModal} from "../../../components/AppModal";
 import CreateNewVisit from "../../../components/Modals/CreateNewVisit";
@@ -76,7 +76,7 @@ export const CountryPopup = ({country}) => {
     regionId: country.country.id
   });
 
-  const createNewRegionVisit = useCallback(() => {
+  const onCreateNewRegionVisit = useCallback(() => {
     modal.setIsOpen(true);
     modal.setComponent(<CreateNewVisit country={country}/>);
   }, [country]);
@@ -98,7 +98,12 @@ export const CountryPopup = ({country}) => {
 
   return (
     <div style={{color: "white"}}>
-      <p className={'m-0'} style={{fontSize: '10px', paddingLeft: '1.2rem'}}>{country.country}</p>
+      <Col className={'d-flex justify-content-between align-items-center'}>
+        <p className={'m-0'} style={{fontSize: '10px', paddingLeft: '1.2rem'}}>{country.country}</p>
+        <button onClick={onCreateNewRegionVisit} className='btn fw-bold text-white py-0 px-0' style={{fontSize: '10px'}}>
+          Add new visit
+        </button>
+      </Col>
       <h6 className={'d-flex fw-bold gap-2'} style={{fontSize: '12px'}}>
         <FavouriteTag country={country.uname}/>
         {country.region}
