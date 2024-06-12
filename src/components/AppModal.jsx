@@ -7,7 +7,9 @@ import CreateNewVisit from "./Modals/CreateNewVisit";
 
 export const useAppModal = create((set) => ({
   isOpen: false,
+  widthClassName: 'modal-50w',
   setIsOpen: (isOpen) => set({ isOpen }),
+  setWidthClassName: (widthClassName) => {set({widthClassName})},
   labelBy: 'app-modal',
   header: '',
   component: null,
@@ -25,14 +27,15 @@ const AppModal = () => {
     setIsOpen,
     labelBy,
     component,
-    reset
+    reset,
+    widthClassName
   } = useAppModal();
 
   return (
     <Modal
       show={isOpen}
       onHide={() => setIsOpen(false)}
-      dialogClassName='modal-50w'
+      dialogClassName={widthClassName}
       aria-labelledby={labelBy}
       contentClassName={styles.modalBody}
       centered
