@@ -7,6 +7,7 @@ import {FolderAddFilled, FolderAddOutlined, FieldTimeOutlined, LikeOutlined} fro
 import {useAuthContext} from "../../../context/AuthContext";
 import {useAppModal} from "../../../components/AppModal";
 import {useMap} from "usehooks-ts";
+import useLoadMeWithGroups from "../../../api/useLoadMeWithGroups";
 
 
 const PopupGroup = ({name}) => {
@@ -77,6 +78,20 @@ export const CreateNewVisit = () => {
   )
 }
 
+export const AddGroups = () => {
+  const {data,loading,error} = useLoadMeWithGroups();
+  useEffect(() => {console.log(data)}, [data])
+  return (
+    <div>
+      <h4 className={'fs-5 fw-bold'}>Add Groups</h4>
+      {!loading && <div>
+          Hello
+      </div>}
+    </div>
+  );
+
+}
+
 export const CountryPopup = ({country}) => {
   const groups = ['Lala Land', 'Lumpapo'];
   const iconStyle = {fontSize: '18px'};
@@ -84,13 +99,17 @@ export const CountryPopup = ({country}) => {
   const modal = useAppModal();
 
   const onChangeVisited = () => {
-    console.log('change is visited');
     modal.setIsOpen(true);
     modal.setComponent(<CreateNewVisit/>);
   }
 
+  const onAddGroups = () => {
+    modal.setIsOpen(true);
+    modal.setComponent(<AddGroups/>);
+  }
+
   const [helperButtons] = useState([
-    {name: 'Add to Group', icon: <FolderAddOutlined style={iconStyle}/>, onClick: () => null},
+    {name: 'Add to Group', icon: <FolderAddOutlined style={iconStyle}/>, onClick: onAddGroups},
     {name: 'Visited', icon: <FieldTimeOutlined style={iconStyle}/>, onClick: onChangeVisited},
     {name: 'Recommended', icon: <LikeOutlined style={iconStyle}/>, onClick: () => console.log('change to visited')},
   ]);
