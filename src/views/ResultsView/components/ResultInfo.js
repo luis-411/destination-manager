@@ -39,7 +39,7 @@ const ResultInfo = ({ country, label }) => {
   }
 
   return (
-    <div className="dark-theme">
+    <div className="white-theme">
       <PieChartComponent
         scores={scores}
         label={label}

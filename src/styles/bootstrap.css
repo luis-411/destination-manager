@@ -7,6 +7,47 @@
 .modal {
     --bs-modal-width: 1000px;
 }
+.accordion-button{
+    border-radius: 20px;
+    --bs-accordion-inner-border-radius:20px;
+    --bs-accordion-btn-bg: transparent;
+    --bs-accordion-btn-color: #FFFFFF ;
+    border: 1px solid #336273;
+    background: linear-gradient(to right,#193D4A 0% , #1D5163 100%);
+}
+.accordion-button:not(.collapsed){
+    --bs-accordion-active-color: #FFFFFF ;
+    --bs-accordion-active-bg: transparent;
+    box-shadow: none;
+    border-color: #FFFFFF;
+}
+.accordion-button:focus{
+    box-shadow: none;
+}
+.accordion-button::after{
+    --bs-accordion-btn-icon: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPg0KICA8cGF0aCBkPSJNMiA1TDggMTFMMTQgNSIvPg0KPC9zdmc+");
+}
+.accordion-button:not(.collapsed)::after{
+    --bs-accordion-btn-active-icon: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNiAxNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZGRkZGIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPg0KICA8cGF0aCBkPSJNMiA1TDggMTFMMTQgNSIvPg0KPC9zdmc+")
+}
+.accordion-item{
+    border-radius: 20px;
+    background-color: transparent;
+    border:none;
+}
+.accordion-collapse{
+    background-color: #193D4A;
+}
+
+.accordion-body{
+    margin: 15px 0px;
+    border: 1px solid #FFFFFF;
+    border-radius: 20px;
+}
+.accordion-header{
+    margin: 16px 0px;
+}
+ز
 
 .card {
     --bs-body-bg: linear-gradient(90deg, rgba(11,28,34,1) -20%, rgba(27,64,77,1) 100%);
