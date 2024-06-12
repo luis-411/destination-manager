@@ -8,13 +8,12 @@ export const DetailScores = ({ scores, travelMonths, budgetLevel }) => {
     <>
       <div
         style={{
-          width: "250px",
           color: "#fff",
         }}
       >
-        <div className='w-100 mb-2'>
-          <p style={{ margin: 0 }}>Budget Level: {`${(budgetLevel / 10).toFixed(0)} (${budgetLevel < 40 ? "Low" : budgetLevel < 80 ? "Medium" : "High"})`}</p>
-        </div>
+        {/*<div className='w-100 mb-2'>*/}
+        {/*  <p style={{ margin: 0 }}>Budget Level: {`${(budgetLevel / 10).toFixed(0)} (${budgetLevel < 40 ? "Low" : budgetLevel < 80 ? "Medium" : "High"})`}</p>*/}
+        {/*</div>*/}
         <div style={{ marginBottom: "10px" }}>
           <TravelMonthScore travelMonths={travelMonths} showMatches={false} />
         </div>
@@ -24,7 +23,7 @@ export const DetailScores = ({ scores, travelMonths, budgetLevel }) => {
           ))}
         </div>
       </div>
-      <div style={{ padding: "0px 10px", width: "250px" }}>
+      <div style={{ padding: "0px 10px" }}>
         <Row style={{ alignItems: "center", justifyContent: "end" }}>
           <Col xs={8}>
             <Row>

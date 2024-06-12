@@ -55,7 +55,7 @@ const RightPersonal = () => {
   if (groupsLoading || statsLoading) {
     return null;
   }
-  const groups = meData.groups ?? [];
+  const groups = meData?.groups ?? [];
   const suggestions = statsData.statistics?.recommendations ?? [];
 
   return (

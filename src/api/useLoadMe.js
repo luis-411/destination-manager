@@ -1,6 +1,3 @@
-
-
-
 // http://localhost:1337/api/users/me?populate=coverPhoto,profilePhoto
 // needed to retrieve full information of the user
 import useAxios from "axios-hooks";

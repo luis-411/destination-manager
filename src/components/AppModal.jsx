@@ -2,13 +2,14 @@ import {create} from "zustand";
 import {Modal} from "react-bootstrap";
 import styles from "../views/Personalnformation/PersonalInformation.module.css";
 import {CloseOutlined} from "@ant-design/icons";
-import {CreateNewVisit} from "../views/MapView/components/CountryPopup";
+import CreateNewVisit from "./Modals/CreateNewVisit";
 
 
 export const useAppModal = create((set) => ({
   isOpen: false,
   setIsOpen: (isOpen) => set({ isOpen }),
   labelBy: 'app-modal',
+  header: '',
   component: null,
   setComponent: (component) => set({ component }),
   reset: () => {

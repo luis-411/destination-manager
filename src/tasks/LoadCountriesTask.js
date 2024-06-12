@@ -9,11 +9,10 @@ class LoadCountriesTask {
   load = (setFileRetrieved) => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/regions?populate=*`)
       .then((response) => {
-        setFileRetrieved(response.data.data?.map((region) => region.attributes));
+        setFileRetrieved(response.data.data?.map((region) => ({...region.attributes, id: region.id})));
       });
   };
   processCountries = (countryScores, userData, setCountries, setResults) => {
-
     for (let i = 0; i < this.mapCountries.length; i++) {
       const mapCountry = this.mapCountries[i];
       const scoreCountry = countryScores.find(
@@ -31,6 +30,7 @@ class LoadCountriesTask {
         (c) => c.properties.u_name === scoreCountry.u_name
       );
       var res = {
+        id: scoreCountry.id,
         country: scoreCountry.ParentRegion.data.attributes.Region,
         region: scoreCountry.Region,
         uname: scoreCountry.u_name,

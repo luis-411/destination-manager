@@ -9,13 +9,13 @@ const toUrl = (image) =>
   `${process.env.REACT_APP_STORAGE_URL}${image.attributes.url}`
 
 const HistoryCard = ({ historyEntity }) => {
-  const currentImage = historyEntity.images.data[0];
+  const currentImage = historyEntity.images.data?.[0];
   const { countries } = useTravelRecommenderStore();
 
-  const currentRegion = countries.find(country => country.properties.result.region === historyEntity.region.data.attributes.Region);
+  const currentRegion = countries?.find(country => country.properties.result.region === historyEntity.region.data?.attributes.Region);
   const regionInfo = {
-    region: currentRegion.properties.result.region,
-    score: currentRegion.properties.result.scores.totalScore
+    region: currentRegion?.properties.result.region,
+    score: currentRegion?.properties.result.scores.totalScore
   };
 
   return (
@@ -27,7 +27,7 @@ const HistoryCard = ({ historyEntity }) => {
         <h5 className='fa-sm'>Score: {Math.floor(regionInfo.score)}/100</h5>
       </div>
       <CoverImage
-        src={toUrl(currentImage)}
+        src={currentImage ? toUrl(currentImage) : ''}
         height={'11.5rem'}
       />
       <Card.Body>

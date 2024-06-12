@@ -1,4 +1,4 @@
-import useLoadHistory from "../../api/useLoadHistory";
+import useLoadHistory from "../../api/history/useLoadHistory";
 import HistoryCard from "./HistoryCard";
 
 
@@ -14,9 +14,11 @@ const VisitedHistory = ({ userId }) => {
       <div className='d-flex justify-content-between mb-2'>
         <h4 className='fs-6 fw-bold'>History</h4>
       </div>
-      {historyEntities.data.map((historyEntity, key) => (
-        <HistoryCard historyEntity={historyEntity.attributes} key={key} />
-      ))}
+      <div className={'overflow-y-scroll'} style={{ maxHeight: '400px' }}>
+        {historyEntities.data.map((historyEntity, key) => (
+          <HistoryCard historyEntity={historyEntity.attributes} key={key} />
+        ))}
+      </div>
     </>
   )
 };

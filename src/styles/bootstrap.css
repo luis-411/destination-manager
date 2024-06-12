@@ -11,6 +11,7 @@
 .modal-50w {
     max-width: 36rem;
 }
+
 .accordion-button{
     border-radius: 20px;
     --bs-accordion-inner-border-radius:20px;
@@ -44,18 +45,22 @@
 }
 
 .accordion-body{
-    margin: 15px 0px;
+    margin: 15px 0;
     border: 1px solid #FFFFFF;
     border-radius: 20px;
 }
 .accordion-header{
-    margin: 16px 0px;
+    margin: 16px 0;
 }
-ز
 
 .card {
     --bs-body-bg: linear-gradient(90deg, rgba(11,28,34,1) -20%, rgba(27,64,77,1) 100%);
     --bs-card-border-color: #336273;
     background: var(--bs-body-bg);
     color: white;
+}
+
+.dropdown-menu {
+    max-height: 10rem;
+    overflow-y: scroll;
 }
