@@ -85,9 +85,16 @@ const Map = ({ setActiveResult }) => {
    * @param {Object} country
    */
   const onOpenPopup = (event, country) => {
+    if (!event.latlng) {
+      return;
+    }
     setOpenPopup(true);
-    setTooltipPosition([event.latlng.lat, event.latlng.lng]);
+    setTooltipPosition([event.latlng?.lat, event.latlng?.lng]);
     setSelectedResult(country.properties.result);
+  }
+
+  const onPopupReset = () => {
+    setOpenPopup(false);
   }
 
   const clickCountry = (e) => {
@@ -121,6 +128,7 @@ const Map = ({ setActiveResult }) => {
         <MapContainer
           style={{height: "100vh", width: "auto"}}
           zoom={4}
+          id={'map'}
           center={position}
           ref={setMap}
           doubleClickZoom={false}
@@ -138,6 +146,7 @@ const Map = ({ setActiveResult }) => {
             }}
             isActive={openPopup}
             country={selectedResult}
+            reset={onPopupReset}
           />
           <Legend map={map}/>
         </MapContainer>

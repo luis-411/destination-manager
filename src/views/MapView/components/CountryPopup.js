@@ -5,6 +5,7 @@ import { Col } from "react-bootstrap";
 import FavouriteTag from "../../../components/FavouriteTag";
 import {FolderAddFilled, FolderAddOutlined, FieldTimeOutlined, LikeOutlined} from "@ant-design/icons";
 import {useAuthContext} from "../../../context/AuthContext";
+import {useAppModal} from "../../../components/AppModal";
 
 
 const PopupGroup = ({ name }) => {
@@ -24,18 +25,24 @@ export const CountryPopup = ({ country }) => {
   const groups = ['Lala Land', 'Lumpapo'];
   const iconStyle = { fontSize: '18px'};
   const { user } = useAuthContext();
+  const modal = useAppModal();
+
+  const onChangeVisited = () => {
+    console.log('change is visited');
+    modal.setIsOpen(true);
+  }
 
   const [helperButtons] = useState([
-    { name: 'Add to Group', icon: <FolderAddOutlined style={iconStyle} />, onClick: () => console.log('Add to group') },
-    { name: 'Not visited', icon: <FieldTimeOutlined style={iconStyle} />, onClick: () => console.log('change to visited') },
+    { name: 'Add to Group', icon: <FolderAddOutlined style={iconStyle} />, onClick: () => null  },
+    { name: 'Visited', icon: <FieldTimeOutlined style={iconStyle} />, onClick: onChangeVisited },
     { name: 'Recommended', icon: <LikeOutlined style={iconStyle} />, onClick: () => console.log('change to visited') },
   ]);
 
   const IconButton = ({ item }) => (
-    <div className={'d-flex flex-column gap-1'}>
+    <button className={'btn d-flex flex-column align-items-center gap-1 text-white'} onClick={item.onClick}>
       <div className='d-flex justify-content-center'>{item.icon}</div>
       <h6 className='m-0' style={{fontSize: '10px'}}>{item.name}</h6>
-    </div>
+    </button>
   )
 
   return (
