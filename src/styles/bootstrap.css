@@ -5,7 +5,11 @@
 }
 
 .modal {
-    --bs-modal-width: 1000px;
+    --bs-modal-width: 62.5rem;
+}
+
+.modal-50w {
+    max-width: 36rem;
 }
 
 .card {

@@ -2,7 +2,7 @@ import {Icon} from "leaflet";
 import React, {useEffect, useRef, useState} from "react";
 import {Marker, Popup} from "react-leaflet";
 import {CountryPopup} from "../views/MapView/components/CountryPopup";
-import {useClickAnyWhere, useOnClickOutside} from "usehooks-ts";
+import {useClickAnyWhere} from "usehooks-ts";
 
 
 const invisibleIcon = new Icon({
@@ -14,7 +14,7 @@ const invisibleIcon = new Icon({
 const LeafletTooltip = ({ isActive, data, map, country, reset }) => {
   const [refReady, setRefReady] = useState(false);
   let popupRef = useRef();
-  const htmlRef = useRef(map._container);
+  const htmlRef = useRef(map?._container);
 
   useEffect(() => {
     if (refReady && isActive && data) {
@@ -22,7 +22,7 @@ const LeafletTooltip = ({ isActive, data, map, country, reset }) => {
     } else if (!isActive) {
       popupRef.close();
     }
-    htmlRef.current = map._container;
+    htmlRef.current = map?._container;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isActive, refReady, data]);
 
