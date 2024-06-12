@@ -80,13 +80,41 @@ export const CreateNewVisit = () => {
 
 export const AddGroups = () => {
   const {data,loading,error} = useLoadMeWithGroups();
-  useEffect(() => {console.log(data)}, [data])
+  const [dataWithProperties, setDataWithProperties] = useState();
+  useEffect(() => {
+    {
+      !loading && setDataWithProperties(data.groups.map((group) => ({...group, isSelected:false})))
+    }
+  }, [loading])
+
+  console.log(dataWithProperties)
   return (
     <div>
       <h4 className={'fs-5 fw-bold'}>Add Groups</h4>
-      {!loading && <div>
-          Hello
-      </div>}
+      {dataWithProperties && !loading && <div>
+        <div style={{marginTop:"1.5rem", display:"grid",gap:"1rem", gridTemplateColumns: "0.25fr 0.25fr 0.25fr 0.25fr"}}>
+        {dataWithProperties.map((group,index) => {
+            console.log(group.isSelected)
+          return (
+            <div
+            key={index}
+            onClick={() => {
+              setDataWithProperties(dataWithProperties.map((group1) => group1.id !== group.id?group1:{...group,isSelected:!group.isSelected}))
+            }}
+            style={{cursor:"pointer",border:group.isSelected? "1px solid white":"1px solid #336273" ,display:"grid" , width:"162px", height: "32px",backgroundImage: "linear-gradient(to right,#0B1C22 0%,#1B404D 100%)", borderRadius:"18px"}}>
+              <div style={{paddingLeft:"1rem",paddingRight:"1rem",display:"flex", alignItems:"center", justifyContent: "space-between"}}>
+                <span style={{fontSize: "10px", fontWeight: "Bold"}}>
+                {group.name}
+                </span>
+                <div style={{height:"1.3rem", width: "1.3rem", backgroundColor: "#336273", borderRadius: "50%", display:"inline-block"}}>
+                </div>
+              </div>
+            </div>
+        );
+        })}
+        </div>  
+      </div>
+      }
     </div>
   );
 
@@ -105,6 +133,7 @@ export const CountryPopup = ({country}) => {
 
   const onAddGroups = () => {
     modal.setIsOpen(true);
+    modal.setWidthClassName('modal-70w');
     modal.setComponent(<AddGroups/>);
   }
 

@@ -11,6 +11,10 @@
 .modal-50w {
     max-width: 36rem;
 }
+
+.modal-70w {
+    max-width: 48rem;
+}
 .accordion-button{
     border-radius: 20px;
     --bs-accordion-inner-border-radius:20px;
