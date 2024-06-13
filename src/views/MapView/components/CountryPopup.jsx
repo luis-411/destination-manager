@@ -9,7 +9,6 @@ import {useAppModal} from "../../../components/AppModal";
 import CreateNewVisit from "../../../components/Modals/CreateNewVisit";
 import useLoadHistory from "../../../api/history/useLoadHistory";
 import useLoadMeWithGroups from "../../../api/useLoadMeWithGroups";
-import data from "bootstrap/js/src/dom/data";
 import {useDebounceCallback} from "usehooks-ts";
 
 const PopupGroup = ({name}) => {
@@ -89,7 +88,7 @@ export const CountryPopup = ({country}) => {
 
   const onCreateNewRegionVisit = useCallback(() => {
     modal.setIsOpen(true);
-    modal.setComponent(<CreateNewVisit country={country}/>);
+    modal.setComponent(<CreateNewVisit country={country} />);
   }, [country]);
 
   const onAddGroups = () => {

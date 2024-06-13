@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import useAxios from "axios-hooks";
 import authenticationHeader from "../authenticationHeader";
 import {useToken} from "../../components/AuthProvider/AuthProvider";
@@ -9,7 +9,8 @@ const useLoadHistory = ({
   pageSize = 8,
   userId,
   regionId,
-  manual = false
+  manual = false,
+  rerun = false
 }) => {
   const [page, setPage] = useState(initialPage);
   const visitsUrl = `${process.env.REACT_APP_BACKEND_URL}/visits`;
@@ -36,6 +37,12 @@ const useLoadHistory = ({
     params: getParams(),
     ...authenticationHeader(token),
   }, { manual });
+
+  useEffect(() => {
+    if (rerun) {
+      reFetch();
+    }
+  }, []);
 
   const getDataForTheRegion = (region) => {
     reFetch({
