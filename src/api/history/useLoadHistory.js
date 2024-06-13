@@ -30,14 +30,14 @@ const useLoadHistory = ({
     setPage(page + 1);
   }
 
-  const [{ data, loading, error }] = useAxios({
+  const [{ data, loading, error }, reFetch] = useAxios({
     url: visitsUrl,
     params: getParams(),
-    ...authenticationHeader(token)
+    ...authenticationHeader(token),
   });
 
 
-  return { data, loading, error, loadMore };
+  return { data, loading, error, loadMore, reFetch };
 };
 
 export default useLoadHistory;

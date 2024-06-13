@@ -70,9 +70,10 @@ export const CountryPopup = ({country}) => {
   const groups = ['Lala Land', 'Lumpapo'];
   const iconStyle = {fontSize: '12px'};
   const {user} = useAuthContext();
+
   const modal = useAppModal();
   const { data: historyData } = useLoadHistory({
-    userId: user.id,
+    userId: user?.id,
     regionId: country.country.id
   });
 
