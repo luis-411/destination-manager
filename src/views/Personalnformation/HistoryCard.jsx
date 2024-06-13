@@ -3,9 +3,7 @@ import Card from "react-bootstrap/Card";
 import styles from "./VisitedHistory.module.css";
 import CoverImage from "./CoverImage";
 import {Col, Row} from "react-bootstrap";
-import {GlobalOutlined} from "@ant-design/icons";
-import {useReferencedCountry} from "../MapView/Map";
-import {usePersonalInfoModal} from "./PersonalInformation";
+import GoToMapCountryButton from "../../components/GoToMapCountry";
 
 const toUrl = (image) =>
   `${process.env.REACT_APP_STORAGE_URL}${image.attributes.url}`
@@ -13,22 +11,12 @@ const toUrl = (image) =>
 const HistoryCard = ({ historyEntity }) => {
   const currentImage = historyEntity.images.data?.[0];
   const { countries } = useTravelRecommenderStore();
-  const {
-    setCountry: setReferencedCountry
-  } = useReferencedCountry();
-  const { setIsOpen } = usePersonalInfoModal();
 
   const currentRegion = countries?.find(country => country.properties.result.region === historyEntity.region.data?.attributes.Region);
   const regionInfo = {
     region: currentRegion?.properties.result.region,
     score: currentRegion?.properties.result.scores.totalScore
   };
-
-  const goToMap = () => {
-    if (!currentRegion) return
-    setReferencedCountry(currentRegion.properties.result.id);
-    setIsOpen(false);
-  }
 
   return (
     <Card className={'rounded-4'}>
@@ -68,12 +56,10 @@ const HistoryCard = ({ historyEntity }) => {
         <Card.Footer className='border-0 px-0'>
           <Col
             className='col-6'
-            onClick={goToMap}
           >
-            <button className={'btn d-flex align-items-center gap-2 text-white'}>
-              <GlobalOutlined />
-              <span className='fa-xs'>Show on map</span>
-            </button>
+           <GoToMapCountryButton
+             regionId={currentRegion?.properties?.result.id}
+           />
           </Col>
         </Card.Footer>
       </Card.Body>
