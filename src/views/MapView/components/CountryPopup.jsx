@@ -101,7 +101,8 @@ export const CountryPopup = ({country}) => {
       <Col className={'d-flex justify-content-between align-items-center'}>
         <p className={'m-0'} style={{fontSize: '10px', paddingLeft: '1.2rem'}}>{country.country}</p>
         <button onClick={onCreateNewRegionVisit} className='btn fw-bold text-white py-0 px-0' style={{fontSize: '10px'}}>
-          Add new visit
+          <FieldTimeOutlined  />
+          <span className={'ms-1'}>Add new visit</span>
         </button>
       </Col>
       <h6 className={'d-flex fw-bold gap-2'} style={{fontSize: '12px'}}>
@@ -121,8 +122,8 @@ export const CountryPopup = ({country}) => {
         Characteristics
       </Col>
       <div className='d-flex justify-content-between align-items-center'>
-        { characteristics.map(characteristic => characteristic.show && (
-          <div className='text-center d-flex flex-column gap-2'>
+        { characteristics.map((characteristic, key) => characteristic.show && (
+          <div key={key} className='text-center d-flex flex-column gap-2'>
             <div
               className='d-block px-1 m-0 rounded-2'
               style={{ border: '1px solid #336273', width: '70px', height: '1rem'  }}
