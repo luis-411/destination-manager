@@ -3,19 +3,25 @@ import styles from "./PersonalInformation.module.css";
 import AvatarIcon from "./AvatarIcon";
 import {capitalize} from "lodash";
 import VisitedHistory from "./VisitedHistory";
-import CoverImage from "./CoverImage";
+import UploadImage from "../../components/UploadImage";
+import useUploadImages from "../../api/user/useUploadImages";
 
 const LeftPersonal = ({ personalInfo }) => {
+  const { uploadCover } = useUploadImages({ userId: personalInfo.id });
   if (!personalInfo) {
     return null;
   }
   const initials = personalInfo.username.slice(0, 2).toUpperCase();
-
   return (
     <div className='p-3'>
       <Row className='position-relative mb-4'>
-        <CoverImage />
-        <div className={styles.avatarWrapper}>
+        <UploadImage
+          image={personalInfo.coverPhoto}
+          onSave={(file) => uploadCover(file, personalInfo)}
+        />
+        <div
+          className={styles.avatarWrapper}
+        >
           <AvatarIcon
             size={56}
             image={personalInfo.profilePhoto}

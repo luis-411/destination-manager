@@ -4,9 +4,7 @@ import styles from "./VisitedHistory.module.css";
 import CoverImage from "./CoverImage";
 import {Col, Row} from "react-bootstrap";
 import GoToMapCountryButton from "../../components/GoToMapCountry";
-
-const toUrl = (image) =>
-  `${process.env.REACT_APP_STORAGE_URL}${image.attributes.url}`
+import {toImageUrl} from "../../tasks/toImageUrl";
 
 const HistoryCard = ({ historyEntity }) => {
   const currentImage = historyEntity.images.data?.[0];
@@ -27,7 +25,7 @@ const HistoryCard = ({ historyEntity }) => {
         <h5 className='fa-sm'>Score: {Math.floor(regionInfo.score)}/100</h5>
       </div>
       <CoverImage
-        src={currentImage ? toUrl(currentImage) : require('../../images/default-image.jpg')}
+        src={currentImage ? toImageUrl(currentImage.attributes) : require('../../images/default-image.jpg')}
         height={'11.5rem'}
       />
       <Card.Body>
