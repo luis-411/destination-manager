@@ -8,20 +8,21 @@ const useLoadHistory = ({
   initialPage = 1,
   pageSize = 8,
   userId,
-  regionId
+  regionId,
+  manual = false
 }) => {
   const [page, setPage] = useState(initialPage);
   const visitsUrl = `${process.env.REACT_APP_BACKEND_URL}/visits`;
   const token = useToken.getState().token;
 
-  const getParams = () => {
+  const getParams = (region = regionId) => {
     const params = new URLSearchParams();
     params.append('pagination[page]', String(page));
     params.append('pagination[pageSize]', String(pageSize));
     params.append('populate', 'images,region');
     params.append('filters[user][id][$eq]', userId);
-    if (regionId) {
-      params.append('filters[region][id][$eq]', regionId);
+    if (region) {
+      params.append('filters[region][id][$eq]', region);
     }
     return params;
   }
@@ -34,10 +35,16 @@ const useLoadHistory = ({
     url: visitsUrl,
     params: getParams(),
     ...authenticationHeader(token),
-  });
+  }, { manual });
+
+  const getDataForTheRegion = (region) => {
+    reFetch({
+      params: getParams(region)
+    });
+  }
 
 
-  return { data, loading, error, loadMore, reFetch };
+  return { data, loading, error, loadMore, getDataForTheRegion  };
 };
 
 export default useLoadHistory;

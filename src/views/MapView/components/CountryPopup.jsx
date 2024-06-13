@@ -9,6 +9,8 @@ import {useAppModal} from "../../../components/AppModal";
 import CreateNewVisit from "../../../components/Modals/CreateNewVisit";
 import useLoadHistory from "../../../api/history/useLoadHistory";
 import useLoadMeWithGroups from "../../../api/useLoadMeWithGroups";
+import data from "bootstrap/js/src/dom/data";
+import {useDebounceCallback} from "usehooks-ts";
 
 const PopupGroup = ({name}) => {
   return (
@@ -72,10 +74,18 @@ export const CountryPopup = ({country}) => {
   const {user} = useAuthContext();
 
   const modal = useAppModal();
-  const { data: historyData } = useLoadHistory({
+  const { data: historyData, getDataForTheRegion: getHistoryDataForRegion } = useLoadHistory({
     userId: user?.id,
-    regionId: country.country.id
+    regionId: country.country.id,
+    manual: false
   });
+
+  const updateHistoryData = useDebounceCallback(() =>
+    getHistoryDataForRegion(country.id), 400);
+
+  useEffect(() => {
+    updateHistoryData();
+  }, [country]);
 
   const onCreateNewRegionVisit = useCallback(() => {
     modal.setIsOpen(true);
