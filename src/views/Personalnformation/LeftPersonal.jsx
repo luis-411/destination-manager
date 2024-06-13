@@ -7,7 +7,7 @@ import UploadImage from "../../components/UploadImage";
 import useUploadImages from "../../api/user/useUploadImages";
 
 const LeftPersonal = ({ personalInfo }) => {
-  const { uploadCover } = useUploadImages({ userId: personalInfo.id });
+  const { uploadImageToField } = useUploadImages({ userId: personalInfo.id });
   if (!personalInfo) {
     return null;
   }
@@ -17,7 +17,7 @@ const LeftPersonal = ({ personalInfo }) => {
       <Row className='position-relative mb-4'>
         <UploadImage
           image={personalInfo.coverPhoto}
-          onSave={(file) => uploadCover(file, personalInfo)}
+          onSave={(file) => uploadImageToField(file, personalInfo)}
         />
         <div
           className={styles.avatarWrapper}
@@ -26,6 +26,7 @@ const LeftPersonal = ({ personalInfo }) => {
             size={56}
             image={personalInfo.profilePhoto}
             label={initials}
+            onSave={(file) => uploadImageToField(file, personalInfo, 'profilePhoto')}
           />
         </div>
       </Row>

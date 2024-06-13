@@ -49,25 +49,20 @@ const useUploadImages = ({ userId }) => {
   const { uploadFile } = useUploadFile();
   const { removeFile } = useRemoveFile();
 
-  const uploadCover = async (coverFile, personalInfo) => {
-    if (personalInfo.coverPhoto) {
-      await removeFile(personalInfo.coverPhoto.id);
+  const uploadImageToField = async (file, personalInfo, field = 'coverPhoto') => {
+    if (personalInfo[field]) {
+      await removeFile(personalInfo[field].id);
     }
-    await uploadFile(coverFile).then(response => {
+    await uploadFile(file).then(response => {
       const id = response.data[0].id;
       execute({
-        data: { coverPhoto: id },
+        data: { [field]: id },
       })
-        .catch(e => console.error(e))
-        .then(r => console.log(response))
-      ;
+        .catch(e => console.error(e));
     });
-    // formData.append('files.coverPhoto', coverFile, coverFile.name);
-    // formData.append('data', JSON.stringify({ occupation: 'LAZ' }));
-
   }
 
-  return { loading, error, uploadCover };
+  return { loading, error, uploadImageToField };
 };
 
 export default useUploadImages;

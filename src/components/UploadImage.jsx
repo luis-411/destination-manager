@@ -1,13 +1,7 @@
 import CoverImage from "../views/Personalnformation/CoverImage";
-import {CheckOutlined, CloseOutlined, EditOutlined} from "@ant-design/icons";
-import styles from "../views/Personalnformation/PersonalInformation.module.css";
 import {useRef, useState} from "react";
 import {toImageUrl} from "../tasks/toImageUrl";
-
-const Steps = {
-  UPLOAD: 'upload',
-  SAVE: 'save'
-};
+import ActionIcons, {Steps} from "./ActionIcons";
 
 const UploadImage = ({ image, onSave }) => {
   const [photo, setPhoto] = useState(image ? toImageUrl(image) : undefined);
@@ -27,7 +21,7 @@ const UploadImage = ({ image, onSave }) => {
   }
 
   const cancelUpload = () => {
-    setPhoto(image);
+    setPhoto(image ? toImageUrl(image) : undefined);
     setStep(Steps.UPLOAD);
   }
 
@@ -41,18 +35,12 @@ const UploadImage = ({ image, onSave }) => {
       <CoverImage
         src={photo}
       />
-      {step === Steps.UPLOAD && (
-        <EditOutlined
-          onClick={onInputSelect}
-          className={styles.editCoverIcon}
-        />
-      )}
-      {step === Steps.SAVE && (
-        <div className={`${styles.editCoverIcon} d-flex justify-content-between gap-2`}>
-          <CheckOutlined className={styles.hoverBorderBottom} onClick={saveUpload} />
-          <CloseOutlined className={styles.hoverBorderBottom} onClick={cancelUpload} />
-        </div>
-      )}
+      <ActionIcons
+        step={step}
+        onEdit={onInputSelect}
+        onCheck={saveUpload}
+        onCancel={cancelUpload}
+      />
       <input
         type="file"
         className={'invisible'}
