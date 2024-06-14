@@ -22,7 +22,8 @@ const useLoadMeWithGroups = (
     method: 'GET',
     ...authenticationHeader(token)
   }, {
-    useCache:false
+    useCache:false,
+    autoCancel:false
   });
 
 

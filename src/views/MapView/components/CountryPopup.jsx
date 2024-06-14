@@ -126,8 +126,8 @@ export const AddGroups = ({ country }) => {
 
 
 export const CountryPopup = ({ country }) => {
-  const { data, loading, error } = useLoadMeWithGroups();
-  const [selectedGroup,setSelectedGroup] = useState();
+  const { data, fetch, loading, error } = useLoadMeWithGroups();
+  const [selectedGroup, setSelectedGroup] = useState();
   const iconStyle = { fontSize: '12px' };
   const { user } = useAuthContext();
   const modal = useAppModal();
@@ -159,11 +159,14 @@ export const CountryPopup = ({ country }) => {
     { name: 'Budget Level', value: budgetLabel, show: true },
     { name: 'Recommended', value: <LikeOutlined style={iconStyle} />, show: !!user?.id },
   ];
-
+  useEffect(() => { 
+    if(!modal.isOpen)
+    fetch() 
+  }, [modal]);
   useEffect(() => {
-    data&& setSelectedGroup(data.groups.filter(
+    data && setSelectedGroup(data.groups.filter(
       (group) => group.regions.some((country1) => country.id === country1.id)))
-  },[data])
+  }, [data])
 
   return (
     <div style={{ color: "white" }}>
@@ -212,7 +215,7 @@ export const CountryPopup = ({ country }) => {
           </Col>
           <Col className='mobile-scroll d-flex gap-2 mb-3'>
             {data && selectedGroup?.map((group, idx) => (
-              <PopupGroup  name={group.name} key={idx} />
+              <PopupGroup name={group.name} key={idx} />
             ))}
           </Col>
         </>
