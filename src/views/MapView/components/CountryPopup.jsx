@@ -160,9 +160,10 @@ export const CountryPopup = ({ country }) => {
     { name: 'Recommended', value: <LikeOutlined style={iconStyle} />, show: !!user?.id },
   ];
   useEffect(() => { 
-    if(!modal.isOpen)
-    fetch() 
-  }, [modal]);
+    if(!modal.isOpen){
+      fetch()
+    }
+  }, [modal,country]);
   useEffect(() => {
     data && setSelectedGroup(data.groups.filter(
       (group) => group.regions.some((country1) => country.id === country1.id)))
