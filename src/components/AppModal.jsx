@@ -39,7 +39,7 @@ const AppModal = () => {
       contentClassName={styles.modalBody}
       centered
     >
-      <Modal.Body className='d-flex flex-column justify-content-between pb-5'>
+      <Modal.Body className='d-flex flex-column justify-content-between pb-4'>
         <div className={'d-flex justify-content-end w-100'}>
           <button className={'btn text-white py-0'} onClick={reset}>
             <CloseOutlined />

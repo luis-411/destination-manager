@@ -60,21 +60,23 @@ const RightPersonal = () => {
 
   return (
     <div className='p-3 d-flex flex-column gap-4'>
-      <Col>
-        <h5 className='fs-6 fw-bold pb-2'>Personal Recommendations</h5>
-        <div className={styles.favouritesHeight}>
-          <div className={'d-flex flex-column gap-3'}>
-            {suggestions.map(suggestion => (
-              <FavouriteRow
-                key={suggestion.id}
-                region={regions[suggestion.u_name].name}
-                score={regions[suggestion.u_name].score}
-                id={regions[suggestion.name].id}
-              />
-            ))}
+      {suggestions.length > 0 && (
+        <Col>
+          <h5 className='fs-6 fw-bold pb-2'>Personal Recommendations</h5>
+          <div className={styles.favouritesHeight}>
+            <div className={'d-flex flex-column gap-3'}>
+              {suggestions.map(suggestion => (
+                <FavouriteRow
+                  key={suggestion.id}
+                  region={regions[suggestion.u_name].name}
+                  score={regions[suggestion.u_name].score}
+                  id={regions[suggestion.name].id}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </Col>
+        </Col>
+      )}
       <Col>
         <h5 className='fs-6 fw-bold pb-2'>Favourite Regions</h5>
         <div className={styles.favouritesHeight}>

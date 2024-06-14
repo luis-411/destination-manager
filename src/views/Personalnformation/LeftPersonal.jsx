@@ -5,6 +5,7 @@ import {capitalize} from "lodash";
 import VisitedHistory from "./VisitedHistory";
 import UploadImage from "../../components/UploadImage";
 import useUploadImages from "../../api/user/useUploadImages";
+import ActionIcons from "../../components/ActionIcons";
 
 const LeftPersonal = ({ personalInfo }) => {
   const { uploadImageToField } = useUploadImages({ userId: personalInfo.id });
@@ -32,7 +33,10 @@ const LeftPersonal = ({ personalInfo }) => {
       </Row>
       <Row className='pt-2'>
         <h4 className='fs-6 fw-bold'>{capitalize(personalInfo.username)}</h4>
-        <h5 className='fs-6 fw-light'>{capitalize(personalInfo.occupation ?? 'No occupation')}</h5>
+        <div>
+          <h5 className='fs-6 fw-light'>{capitalize(personalInfo.occupation ?? 'No occupation')}</h5>
+          <ActionIcons />
+        </div>
       </Row>
       <Row className='pt-2'>
         <h4 className='fs-6 fw-bold fw-normal'>Personal Information</h4>
