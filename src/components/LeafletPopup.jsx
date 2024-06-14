@@ -27,7 +27,9 @@ const LeafletTooltip = ({ isActive, data, map, country, reset }) => {
   }, [isActive, refReady, data]);
 
   useClickAnyWhere((event) => {
-    if (htmlRef.current?.contains(event.target)) {
+    const containsMap = htmlRef.current?.contains(event.target);
+    const containsPopup = popupRef._contentNode.contains(event.target)
+    if (containsMap && !containsPopup) {
       reset();
     }
   });

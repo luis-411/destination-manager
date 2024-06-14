@@ -126,7 +126,7 @@ export const AddGroups = ({ country }) => {
 
 
 export const CountryPopup = ({ country }) => {
-  const { data, fetch, loading, error } = useLoadMeWithGroups();
+  const { data, fetch } = useLoadMeWithGroups();
   const [selectedGroup, setSelectedGroup] = useState();
   const iconStyle = { fontSize: '12px' };
   const { user } = useAuthContext();
@@ -159,11 +159,13 @@ export const CountryPopup = ({ country }) => {
     { name: 'Budget Level', value: budgetLabel, show: true },
     { name: 'Recommended', value: <LikeOutlined style={iconStyle} />, show: !!user?.id },
   ];
+
   useEffect(() => { 
     if(!modal.isOpen){
       fetch()
     }
   }, [modal,country]);
+
   useEffect(() => {
     data && setSelectedGroup(data.groups.filter(
       (group) => group.regions.some((country1) => country.id === country1.id)))
