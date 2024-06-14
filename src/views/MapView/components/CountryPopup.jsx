@@ -133,14 +133,10 @@ export const CountryPopup = ({ country }) => {
   const { data: historyData, getDataForTheRegion: getHistoryDataForRegion } = useLoadHistory({
     userId: user?.id,
     regionId: country.country.id,
-    manual: false
   });
 
-  const updateHistoryData = useDebounceCallback(() =>
-    getHistoryDataForRegion(country.id), 400);
-
   useEffect(() => {
-    updateHistoryData();
+    getHistoryDataForRegion(country.id);
   }, [country]);
 
   const onCreateNewRegionVisit = useCallback(() => {

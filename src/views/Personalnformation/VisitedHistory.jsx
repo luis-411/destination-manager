@@ -1,11 +1,8 @@
 import useLoadHistory from "../../api/history/useLoadHistory";
 import HistoryCard from "./HistoryCard";
-import {useTimeout} from "usehooks-ts";
 
 const VisitedHistory = ({ userId }) => {
-  const { data: historyEntities, loading, error, getDataForTheRegion } = useLoadHistory({userId});
-  useTimeout(() => getDataForTheRegion(), 200);
-
+  const { data: historyEntities, loading, error } = useLoadHistory({userId});
   if (loading || error) {
     return null;
   }
