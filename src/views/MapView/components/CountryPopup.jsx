@@ -34,13 +34,13 @@ export const AddGroups = ({ country }) => {
     !loading
       && setDataWithProperties(data.groups.map((group) => ({ ...group, isSelected: group.regions.some((country1) => country1.id === country.id) })))
   }, [loading])
-  useEffect(() => {
-    {
-      dataWithProperties &&
-        console.log(dataWithProperties);
-    }
+  // useEffect(() => {
+  //   {
+  //     dataWithProperties &&
+  //       console.log(dataWithProperties);
+  //   }
 
-  }, [dataWithProperties])
+  // }, [dataWithProperties])
   return (
     <div>
       <h4 className={'fs-5 fw-bold'}>Add Groups</h4>
@@ -126,7 +126,8 @@ export const AddGroups = ({ country }) => {
 
 
 export const CountryPopup = ({ country }) => {
-  const groups = ['Lala Land', 'Lumpapo'];
+  const { data, loading, error } = useLoadMeWithGroups();
+  const [selectedGroup,setSelectedGroup] = useState();
   const iconStyle = { fontSize: '12px' };
   const { user } = useAuthContext();
   const modal = useAppModal();
@@ -135,7 +136,6 @@ export const CountryPopup = ({ country }) => {
     regionId: country.country.id,
     manual: false
   });
-
   const updateHistoryData = useDebounceCallback(() =>
     getHistoryDataForRegion(country.id), 400);
 
@@ -163,17 +163,22 @@ export const CountryPopup = ({ country }) => {
     { name: 'Recommended', value: <LikeOutlined style={iconStyle} />, show: !!user?.id },
   ];
 
+  useEffect(() => {
+    data&& setSelectedGroup(data.groups.filter(
+      (group) => group.regions.some((country1) => country.id === country1.id)))
+  },[data])
+
   return (
-    <div style={{color: "white"}}>
+    <div style={{ color: "white" }}>
       <Col className={'d-flex justify-content-between align-items-center'}>
-        <p className={'m-0'} style={{fontSize: '10px', paddingLeft: '1.2rem'}}>{country.country}</p>
-        <button onClick={onCreateNewRegionVisit} className='btn fw-bold text-white py-0 px-0' style={{fontSize: '10px'}}>
-          <FieldTimeOutlined  />
+        <p className={'m-0'} style={{ fontSize: '10px', paddingLeft: '1.2rem' }}>{country.country}</p>
+        <button onClick={onCreateNewRegionVisit} className='btn fw-bold text-white py-0 px-0' style={{ fontSize: '10px' }}>
+          <FieldTimeOutlined />
           <span className={'ms-1'}>Add new visit</span>
         </button>
       </Col>
-      <h6 className={'d-flex fw-bold gap-2'} style={{fontSize: '12px'}}>
-        <FavouriteTag country={country.uname}/>
+      <h6 className={'d-flex fw-bold gap-2'} style={{ fontSize: '12px' }}>
+        <FavouriteTag country={country.uname} />
         {country.region}
         <Col style={{ textAlign: "end" }}>
           {country.scores.totalScore}/100
@@ -208,9 +213,9 @@ export const CountryPopup = ({ country }) => {
             <h6 style={{ fontSize: '10px' }}>In groups</h6>
             <button onClick={onAddGroups} className={'btn fw-bold text-white'} style={{ fontSize: '10px' }}>Add groups</button>
           </Col>
-          <Col className='d-flex gap-2 mb-3'>
-            {groups.map((group, idx) => (
-              <PopupGroup name={group} key={idx} />
+          <Col className='mobile-scroll d-flex gap-2 mb-3'>
+            {data && selectedGroup?.map((group, idx) => (
+              <PopupGroup  name={group.name} key={idx} />
             ))}
           </Col>
         </>
