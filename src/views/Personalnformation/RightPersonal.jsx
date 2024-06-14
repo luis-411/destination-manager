@@ -1,21 +1,20 @@
 import {Col} from "react-bootstrap";
 import {useFavouritesPaginationFrontend} from "../../hooks/useFavourites";
-import {GlobalOutlined} from "@ant-design/icons";
 import styles from "./RightPersonal.module.css";
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import useLoadMeWithGroups from "../../api/useLoadMeWithGroups";
 import useLoadStatistics from "../../api/useLoadStatistics";
+import GoToMapCountryButton from "../../components/GoToMapCountry";
 
-const FavouriteRow = ({ score, region }) => {
+const FavouriteRow = ({ score, region, id }) => {
   return (
     <div className={styles.elementRow}>
-      <Col className='col-8 d-flex flex-column'>
+      <Col className='col-6 d-flex flex-column'>
         {score && <h6 className='fa-xs lh-1 fw-bold'>Score {Math.floor(score)}/100</h6>}
         <h5 className={`fs-6 fw-bold ${styles.groupRegions}`}>{region}</h5>
       </Col>
-      <Col className={'d-flex justify-content-evenly align-items-center'}>
-        <GlobalOutlined/>
-        <span className='fa-xs'>Show on map</span>
+      <Col className={'d-flex justify-content-evenly align-items-center ms-5'}>
+        <GoToMapCountryButton regionId={id} />
       </Col>
     </div>
   )
@@ -44,7 +43,8 @@ const RightPersonal = () => {
       ...acc,
       [country.properties.result.uname]: {
         name: country.properties.name,
-        score: country.properties.result.scores.totalScore
+        score: country.properties.result.scores.totalScore,
+        id: country.properties.result?.id
       },
     }
   ), {});
@@ -60,20 +60,23 @@ const RightPersonal = () => {
 
   return (
     <div className='p-3 d-flex flex-column gap-4'>
-      <Col>
-        <h5 className='fs-6 fw-bold pb-2'>Personal Recommendations</h5>
-        <div className={styles.favouritesHeight}>
-          <div className={'d-flex flex-column gap-3'}>
-            {suggestions.map(suggestion => (
-              <FavouriteRow
-                key={suggestion.id}
-                region={regions[suggestion.u_name].name}
-                score={regions[suggestion.u_name].score}
-              />
-            ))}
+      {suggestions.length > 0 && (
+        <Col>
+          <h5 className='fs-6 fw-bold pb-2'>Personal Recommendations</h5>
+          <div className={styles.favouritesHeight}>
+            <div className={'d-flex flex-column gap-3'}>
+              {suggestions.map(suggestion => (
+                <FavouriteRow
+                  key={suggestion.id}
+                  region={regions[suggestion.u_name].name}
+                  score={regions[suggestion.u_name].score}
+                  id={regions[suggestion.name].id}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      </Col>
+        </Col>
+      )}
       <Col>
         <h5 className='fs-6 fw-bold pb-2'>Favourite Regions</h5>
         <div className={styles.favouritesHeight}>
@@ -83,6 +86,7 @@ const RightPersonal = () => {
                 key={favourite.id}
                 region={regions[favourite.name].name}
                 score={regions[favourite.name].score}
+                id={regions[favourite.name].id}
               />
             ))}
           </div>

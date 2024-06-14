@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "../../../styles/App.css";
 import { DetailScores } from "./DetailScores";
-import { Col, InputGroup, Form } from "react-bootstrap";
+import { Col } from "react-bootstrap";
 import FavouriteTag from "../../../components/FavouriteTag";
 import { FolderAddFilled, FolderAddOutlined, FieldTimeOutlined, LikeOutlined, CheckOutlined } from "@ant-design/icons";
 import { useAuthContext } from "../../../context/AuthContext";
@@ -10,6 +10,7 @@ import CreateNewVisit from "../../../components/Modals/CreateNewVisit";
 import useLoadHistory from "../../../api/history/useLoadHistory";
 import useLoadMeWithGroups from "../../../api/useLoadMeWithGroups";
 import useUpdateMeWithGroups from "../../../api/useUpdateMeWithGroups";
+import { useDebounceCallback } from "usehooks-ts";
 const PopupGroup = ({ name }) => {
   return (
     <div
@@ -129,12 +130,20 @@ export const CountryPopup = ({ country }) => {
   const iconStyle = { fontSize: '12px' };
   const { user } = useAuthContext();
   const modal = useAppModal();
-  const { data: historyData } = useLoadHistory({
-    userId: user.id,
-    regionId: country.country.id
+  const { data: historyData, getDataForTheRegion: getHistoryDataForRegion } = useLoadHistory({
+    userId: user?.id,
+    regionId: country.country.id,
+    manual: false
   });
 
-  const createNewRegionVisit = useCallback(() => {
+  const updateHistoryData = useDebounceCallback(() =>
+    getHistoryDataForRegion(country.id), 400);
+
+  useEffect(() => {
+    updateHistoryData();
+  }, [country]);
+
+  const onCreateNewRegionVisit = useCallback(() => {
     modal.setIsOpen(true);
     modal.setComponent(<CreateNewVisit country={country} />);
   }, [country]);
@@ -155,10 +164,16 @@ export const CountryPopup = ({ country }) => {
   ];
 
   return (
-    <div style={{ color: "white" }}>
-      <p className={'m-0'} style={{ fontSize: '10px', paddingLeft: '1.2rem' }}>{country.country}</p>
-      <h6 className={'d-flex fw-bold gap-2'} style={{ fontSize: '12px' }}>
-        <FavouriteTag country={country.uname} />
+    <div style={{color: "white"}}>
+      <Col className={'d-flex justify-content-between align-items-center'}>
+        <p className={'m-0'} style={{fontSize: '10px', paddingLeft: '1.2rem'}}>{country.country}</p>
+        <button onClick={onCreateNewRegionVisit} className='btn fw-bold text-white py-0 px-0' style={{fontSize: '10px'}}>
+          <FieldTimeOutlined  />
+          <span className={'ms-1'}>Add new visit</span>
+        </button>
+      </Col>
+      <h6 className={'d-flex fw-bold gap-2'} style={{fontSize: '12px'}}>
+        <FavouriteTag country={country.uname}/>
         {country.region}
         <Col style={{ textAlign: "end" }}>
           {country.scores.totalScore}/100

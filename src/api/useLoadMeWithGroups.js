@@ -7,7 +7,7 @@ import { useState } from "react";
 const useLoadMeWithGroups = (
   initialPage = 1,
 ) => {
-  const visitsUrl = `${process.env.REACT_APP_BACKEND_URL}/users/me`;
+  const url = `${process.env.REACT_APP_BACKEND_URL}/users/me`;
   const token = useToken.getState().token;
 
   const getParams = () => {
@@ -17,7 +17,7 @@ const useLoadMeWithGroups = (
   }
 
   const [{ data, loading, error },fetch] = useAxios({
-    url: visitsUrl,
+    url,
     params: getParams(),
     method: 'GET',
     ...authenticationHeader(token)

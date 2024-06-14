@@ -3,13 +3,12 @@ import Card from "react-bootstrap/Card";
 import styles from "./VisitedHistory.module.css";
 import CoverImage from "./CoverImage";
 import {Col, Row} from "react-bootstrap";
-import {GlobalOutlined} from "@ant-design/icons";
-
-const toUrl = (image) =>
-  `${process.env.REACT_APP_STORAGE_URL}${image.attributes.url}`
+import GoToMapCountryButton from "../../components/GoToMapCountry";
+import {toImageUrl} from "../../tasks/toImageUrl";
+import AppCarousel from "../../components/AppCarousel";
 
 const HistoryCard = ({ historyEntity }) => {
-  const currentImage = historyEntity.images.data?.[0];
+  // const currentImage = historyEntity.images.data?.[0];
   const { countries } = useTravelRecommenderStore();
 
   const currentRegion = countries?.find(country => country.properties.result.region === historyEntity.region.data?.attributes.Region);
@@ -17,6 +16,8 @@ const HistoryCard = ({ historyEntity }) => {
     region: currentRegion?.properties.result.region,
     score: currentRegion?.properties.result.scores.totalScore
   };
+  const currentImages = historyEntity.images.data?.map(image => toImageUrl(image.attributes)) ??
+    [require('../../images/default-image.jpg')];
 
   return (
     <Card className={'rounded-4'}>
@@ -26,10 +27,7 @@ const HistoryCard = ({ historyEntity }) => {
         <h5 className='fa-sm'>{regionInfo.region}</h5>
         <h5 className='fa-sm'>Score: {Math.floor(regionInfo.score)}/100</h5>
       </div>
-      <CoverImage
-        src={currentImage ? toUrl(currentImage) : ''}
-        height={'11.5rem'}
-      />
+      <AppCarousel images={currentImages} />
       <Card.Body>
         <Row>
           <Col className={'mb-2 col-6'}>
@@ -53,13 +51,14 @@ const HistoryCard = ({ historyEntity }) => {
         <Card.Text className={`${styles.description} fa-xs mb-1`}>
           {historyEntity.description}
         </Card.Text>
-        <Card.Footer className='border-0'>
-          <Row>
-            <Col className='col-6 d-flex align-items-center gap-2'>
-              <GlobalOutlined />
-              <span className='fa-xs'>Show on map</span>
-            </Col>
-          </Row>
+        <Card.Footer className='border-0 px-0'>
+          <Col
+            className='col-6'
+          >
+           <GoToMapCountryButton
+             regionId={currentRegion?.properties?.result.id}
+           />
+          </Col>
         </Card.Footer>
       </Card.Body>
     </Card>

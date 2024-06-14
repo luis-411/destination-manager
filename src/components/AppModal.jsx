@@ -2,7 +2,6 @@ import {create} from "zustand";
 import {Modal} from "react-bootstrap";
 import styles from "../views/Personalnformation/PersonalInformation.module.css";
 import {CloseOutlined} from "@ant-design/icons";
-import CreateNewVisit from "./Modals/CreateNewVisit";
 
 
 export const useAppModal = create((set) => ({
@@ -40,7 +39,7 @@ const AppModal = () => {
       contentClassName={styles.modalBody}
       centered
     >
-      <Modal.Body className='d-flex flex-column justify-content-between pb-5'>
+      <Modal.Body className='d-flex flex-column justify-content-between pb-4'>
         <div className={'d-flex justify-content-end w-100'}>
           <button className={'btn text-white py-0'} onClick={reset}>
             <CloseOutlined />

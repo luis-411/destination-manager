@@ -1,4 +1,4 @@
-
+/* modals */
 .modal-backdrop {
     --bs-backdrop-bg: #141414;
     --bs-backdrop-opacity: 0.94;
@@ -15,12 +15,17 @@
 .modal-70w {
     max-width: 48rem;
 }
+<<<<<<< HEAD
 .btn:hover{
     color: var(--bs-btn-active-color);
     background-color: var(--bs-btn-active-bg);
     border-color: var(--bs-btn-active-border-color);
     transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
+=======
+
+/* accordions */
+>>>>>>> eeb6bc6c8c2b1fcda46ce20b66a725b001fdafdd
 .accordion-button{
     border-radius: 20px;
     --bs-accordion-inner-border-radius:20px;
@@ -62,6 +67,63 @@
     margin: 16px 0;
 }
 
+/* inputs */
+
+.form-control {
+    --bs-body-bg: transparent;
+    --bs-body-color: white;
+    --bs-border-color: #336273;
+    --bs-border-radius: 1.125rem;
+}
+
+.form-control[type=file] {
+    --bs-body-color: rgba(255, 255, 255, 0.7);
+}
+
+.form-control::file-selector-button {
+    background-color: transparent;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.form-control:hover {
+    color: white;
+}
+
+.form-control:hover::file-selector-button {
+    background-color: transparent !important;
+    color: white;
+}
+
+.form-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-left: 0.5rem;
+}
+
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+
+/* buttons */
+
+.btn-primary {
+    --bs-btn-bg: rgba(255, 255, 255, 0.95);
+    --bs-btn-hover-bg: white;
+    --bs-btn-border-color: transparent;
+    --bs-btn-hover-border-color: transparent;
+    --bs-btn-disabled-border-color: transparent;
+    --bs-btn-color: rgba(0,0,0);
+    --bs-btn-font-size: 14px;
+    --bs-btn-font-weight: 600;
+    --bs-btn-hover-color: rgba(0,0,0);
+    --bs-border-radius: 0.7rem;
+    --bs-btn-padding-y: 0.3rem;
+    min-width: 12rem;
+}
+
+/* random */
 .card {
     --bs-body-bg: linear-gradient(90deg, rgba(11,28,34,1) -20%, rgba(27,64,77,1) 100%);
     --bs-card-border-color: #336273;
