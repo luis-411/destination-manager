@@ -38,7 +38,7 @@ const useRemoveFile = () => {
   return { removeFile }
 }
 
-const useUploadImages = ({ userId }) => {
+const useUpdateUser = ({ userId }) => {
   const url = `${process.env.REACT_APP_BACKEND_URL}/users/${userId}`;
   const token = useToken.getState().token;
   const [{ loading, error }, execute] = useAxios({
@@ -62,7 +62,13 @@ const useUploadImages = ({ userId }) => {
     });
   }
 
-  return { loading, error, uploadImageToField };
+  const update = (personalInfo) => {
+    execute({
+      data: personalInfo,
+    });
+  }
+
+  return { loading, error, uploadImageToField, update };
 };
 
-export default useUploadImages;
+export default useUpdateUser;
