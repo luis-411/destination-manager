@@ -3,7 +3,7 @@ import "../../../styles/App.css";
 import { DetailScores } from "./DetailScores";
 import { Col } from "react-bootstrap";
 import FavouriteTag from "../../../components/FavouriteTag";
-import { FolderAddFilled, FolderAddOutlined, FieldTimeOutlined, LikeOutlined, CheckOutlined } from "@ant-design/icons";
+import { FolderFilled, FieldTimeOutlined, LikeOutlined, CheckOutlined } from "@ant-design/icons";
 import { useAuthContext } from "../../../context/AuthContext";
 import { useAppModal } from "../../../components/AppModal";
 import CreateNewVisit from "../../../components/Modals/CreateNewVisit";
@@ -18,7 +18,7 @@ const PopupGroup = ({ name }) => {
       className='d-flex justify-content-between align-items-center
       gap-2 border border-2 px-3 py-1 rounded-5'
     >
-      <FolderAddFilled />
+      <FolderFilled />
       <h6 className='m-0' style={{ fontSize: '10px' }}>{name}</h6>
     </div>
   )

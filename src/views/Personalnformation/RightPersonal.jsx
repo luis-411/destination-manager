@@ -5,6 +5,7 @@ import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import useLoadMeWithGroups from "../../api/useLoadMeWithGroups";
 import useLoadStatistics from "../../api/useLoadStatistics";
 import GoToMapCountryButton from "../../components/GoToMapCountry";
+import { useState, useRef } from "react";
 
 const FavouriteRow = ({ score, region, id }) => {
   return (
@@ -39,6 +40,7 @@ const GroupRow = ({ name, regions }) => {
 const RightPersonal = () => {
   const {data: favourites} = useFavouritesPaginationFrontend();
   const { countries } = useTravelRecommenderStore();
+  const scrollRef = useRef();
   const regions = countries.reduce((acc, country) => ({
       ...acc,
       [country.properties.result.uname]: {
@@ -93,8 +95,11 @@ const RightPersonal = () => {
         </div>
       </Col>
       <Col>
-        <h5 className='fs-6 fw-bold pb-2'>Groups</h5>
-        <div className={styles.favouritesHeight}>
+      <div style={{justifyContent:"space-between",display:"flex"}}>
+      <h5 className='fs-6 fw-bold pb-2'>Groups</h5>
+      <span onClick={() => scrollRef.current.scrollTo({ top: 1000000, behavior: "smooth" })} style={{cursor:"pointer",fontSize:"15px",marginRight:"25px"}}>Add group</span>
+      </div>
+        <div ref={scrollRef} className={styles.favouritesHeight}>
           <div className={'d-flex flex-column gap-3'}>
             {groups.map(group => (
               <GroupRow
