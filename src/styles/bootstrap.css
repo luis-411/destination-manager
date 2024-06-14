@@ -15,17 +15,8 @@
 .modal-70w {
     max-width: 48rem;
 }
-<<<<<<< HEAD
-.btn:hover{
-    color: var(--bs-btn-active-color);
-    background-color: var(--bs-btn-active-bg);
-    border-color: var(--bs-btn-active-border-color);
-    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-}
-=======
 
 /* accordions */
->>>>>>> eeb6bc6c8c2b1fcda46ce20b66a725b001fdafdd
 .accordion-button{
     border-radius: 20px;
     --bs-accordion-inner-border-radius:20px;
@@ -107,6 +98,13 @@
 
 
 /* buttons */
+
+.btn:hover{
+    color: var(--bs-btn-active-color);
+    background-color: var(--bs-btn-active-bg);
+    border-color: var(--bs-btn-active-border-color);
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
 
 .btn-primary {
     --bs-btn-bg: rgba(255, 255, 255, 0.95);
