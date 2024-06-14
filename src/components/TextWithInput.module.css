@@ -1,0 +1,19 @@
+
+.actionStates {
+    position: absolute;
+    right: 1.1rem;
+    top: 0;
+    cursor: pointer;
+}
+
+.input {
+    padding: 0;
+    border-bottom: 1px solid white;
+    /* border: none; */
+    border-right: none;
+    border-top: none;
+    border-left: none;
+    border-radius: 0;
+    outline: none;
+    font-size: 1rem;
+}

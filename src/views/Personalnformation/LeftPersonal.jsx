@@ -4,11 +4,12 @@ import AvatarIcon from "./AvatarIcon";
 import {capitalize} from "lodash";
 import VisitedHistory from "./VisitedHistory";
 import UploadImage from "../../components/UploadImage";
-import useUploadImages from "../../api/user/useUploadImages";
+import useUpdateUser from "../../api/user/useUpdateUser";
 import ActionIcons from "../../components/ActionIcons";
+import TextWithInput from "../../components/TextWithInput";
 
 const LeftPersonal = ({ personalInfo }) => {
-  const { uploadImageToField } = useUploadImages({ userId: personalInfo.id });
+  const { uploadImageToField, update } = useUpdateUser({ userId: personalInfo.id });
   if (!personalInfo) {
     return null;
   }
@@ -34,7 +35,12 @@ const LeftPersonal = ({ personalInfo }) => {
       <Row className='pt-2'>
         <h4 className='fs-6 fw-bold'>{capitalize(personalInfo.username)}</h4>
         <div>
-          <h5 className='fs-6 fw-light'>{capitalize(personalInfo.occupation ?? 'No occupation')}</h5>
+          <TextWithInput
+            text={personalInfo.occupation}
+            defaultText={'No occupation'}
+            onSave={(occupation) =>
+              update({ occupation })}
+          />
           <ActionIcons />
         </div>
       </Row>

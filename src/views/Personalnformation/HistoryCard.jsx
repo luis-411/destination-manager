@@ -5,9 +5,10 @@ import CoverImage from "./CoverImage";
 import {Col, Row} from "react-bootstrap";
 import GoToMapCountryButton from "../../components/GoToMapCountry";
 import {toImageUrl} from "../../tasks/toImageUrl";
+import AppCarousel from "../../components/AppCarousel";
 
 const HistoryCard = ({ historyEntity }) => {
-  const currentImage = historyEntity.images.data?.[0];
+  // const currentImage = historyEntity.images.data?.[0];
   const { countries } = useTravelRecommenderStore();
 
   const currentRegion = countries?.find(country => country.properties.result.region === historyEntity.region.data?.attributes.Region);
@@ -15,6 +16,8 @@ const HistoryCard = ({ historyEntity }) => {
     region: currentRegion?.properties.result.region,
     score: currentRegion?.properties.result.scores.totalScore
   };
+  const currentImages = historyEntity.images.data?.map(image => toImageUrl(image.attributes)) ??
+    [require('../../images/default-image.jpg')];
 
   return (
     <Card className={'rounded-4'}>
@@ -24,10 +27,7 @@ const HistoryCard = ({ historyEntity }) => {
         <h5 className='fa-sm'>{regionInfo.region}</h5>
         <h5 className='fa-sm'>Score: {Math.floor(regionInfo.score)}/100</h5>
       </div>
-      <CoverImage
-        src={currentImage ? toImageUrl(currentImage.attributes) : require('../../images/default-image.jpg')}
-        height={'11.5rem'}
-      />
+      <AppCarousel images={currentImages} />
       <Card.Body>
         <Row>
           <Col className={'mb-2 col-6'}>
