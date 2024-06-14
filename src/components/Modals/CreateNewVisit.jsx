@@ -87,6 +87,7 @@ export const CreateNewVisit = ({ country }) => {
 
   const onSave = () => {
     createNewVisit(visit, ['photos']);
+    reset();
   }
 
   return (

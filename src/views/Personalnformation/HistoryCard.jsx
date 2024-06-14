@@ -1,7 +1,6 @@
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import Card from "react-bootstrap/Card";
 import styles from "./VisitedHistory.module.css";
-import CoverImage from "./CoverImage";
 import {Col, Row} from "react-bootstrap";
 import GoToMapCountryButton from "../../components/GoToMapCountry";
 import {toImageUrl} from "../../tasks/toImageUrl";
