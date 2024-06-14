@@ -15,6 +15,12 @@
 .modal-70w {
     max-width: 48rem;
 }
+.btn:hover{
+    color: var(--bs-btn-active-color);
+    background-color: var(--bs-btn-active-bg);
+    border-color: var(--bs-btn-active-border-color);
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+}
 .accordion-button{
     border-radius: 20px;
     --bs-accordion-inner-border-radius:20px;
