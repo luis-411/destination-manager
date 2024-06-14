@@ -13,7 +13,6 @@ export const usePersonalInfoModal = create((set) => ({
 const PersonalInformation = () => {
   const {isOpen, setIsOpen} = usePersonalInfoModal();
   const [{data: personalInfo, loading}] = useLoadMe();
-
   if (loading) {
     return null;
   }

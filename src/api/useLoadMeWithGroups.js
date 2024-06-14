@@ -2,6 +2,7 @@
 import {useToken} from "../components/AuthProvider/AuthProvider";
 import useAxios from "axios-hooks";
 import authenticationHeader from "./authenticationHeader";
+import { useState } from "react";
 
 const useLoadMeWithGroups = (
   initialPage = 1,
@@ -15,15 +16,17 @@ const useLoadMeWithGroups = (
     return params;
   }
 
-  const [{ data, loading, error }] = useAxios({
+  const [{ data, loading, error },fetch] = useAxios({
     url,
     params: getParams(),
     method: 'GET',
     ...authenticationHeader(token)
+  }, {
+    useCache:false
   });
 
 
-  return { data, loading, error };
+  return { data, fetch ,loading, error };
 };
 
 
