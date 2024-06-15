@@ -24,7 +24,6 @@ class LoadCountriesTask {
       }
     }
     this.allPrices.sort((a, b) => a - b);
-
     for (let scoreCountry of this.scoreCountries) {
       const mapCountry = this.mapCountries.find(
         (c) => c.properties.u_name === scoreCountry.u_name
