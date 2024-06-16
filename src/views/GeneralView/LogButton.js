@@ -50,7 +50,7 @@ const LoginButton = () => {
 
     return (
       <div
-        className={`w-100 d-flex justify-content-between ${orderElements}`}
+        className={`w-100 d-flex justify-content-between ${orderElements} gap-2`}
       >
           <Button className={'d-flex align-items-center gap-3'} handleButton={handleCTAButton}>
               <div className='rounded-circle' style={{ backgroundColor: '#D9D9D9', width: '1.5rem' }}>

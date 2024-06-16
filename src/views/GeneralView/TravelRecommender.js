@@ -4,7 +4,7 @@ import "../../styles/App.css";
 import { Row, Col } from "react-bootstrap";
 import Map from "../MapView/Map";
 import Preferences from "../PreferencesView/Preferences";
-import { Results } from "../ResultsView/Results";
+import { RightSidebar } from "../ResultsView/RightSidebar";
 import { Tooltip } from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
@@ -84,8 +84,7 @@ const TravelRecommender = () => {
             className='right-column'
             {...rightColumnSizes}
           >
-            <LogButton/>
-            <Results activeResult={activeResult} />
+            <RightSidebar activeResult={activeResult} />
           </Col>
         )}
       </Row>

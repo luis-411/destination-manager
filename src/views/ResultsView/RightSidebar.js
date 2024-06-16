@@ -5,7 +5,8 @@ import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import { useAuthContext } from "../../context/AuthContext";
 import ResultItem from "./ResultItem";
 import {capitalize} from "lodash";
-export const Results = ({ activeResult}) => {
+import LogButton from "../GeneralView/LogButton";
+export const RightSidebar = ({ activeResult}) => {
   const {user} = useAuthContext();
   const results = useTravelRecommenderStore((state) => state.results);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -29,6 +30,7 @@ export const Results = ({ activeResult}) => {
 
   return (
     <div className={'py-2 h-100 overflow-y-scroll'}>
+      <LogButton/>
       <p className={'m-0'} style={{ textAlign: "left" }}>
         Best destinations for {capitalize(user?.username ?? "you")}
       </p>
