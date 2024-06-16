@@ -14,7 +14,7 @@ export const AttributeScore = ({ score, index }) => {
   return (
     <Row>
       <Col xs={4}>
-        <h6  className='px-2' style={{ fontSize: '10px' }}>{capitalize(score.name)}</h6>
+        <h6 className='px-2' style={{ fontSize: '0.625rem' }}>{capitalize(score.name)}</h6>
       </Col>
       <Col xs={8} className='d-flex align-items-center'>
         <BarChart

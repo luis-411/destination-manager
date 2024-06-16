@@ -1,5 +1,6 @@
 @import "bootstrap.css";
 @import "datepicker.css";
+@import "leaflet.css";
 
 * {
   box-sizing: border-box;

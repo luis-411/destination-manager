@@ -5,11 +5,11 @@ import useTravelRecommenderStore from "../../../store/travelRecommenderStore";
 export const NoviceScores = ({ scores }) => {
     const { userData } = useTravelRecommenderStore();
     const getCountryData = (attrName) => {
-        var key = attrName.charAt(0).toLowerCase() + attrName.slice(1);
+        const key = attrName.charAt(0).toLowerCase() + attrName.slice(1);
         return scores.find((c) => c.name === key);
     };
     return (
-        <div style={{ padding: "0px 10px" }}>
+        <div className='d-flex flex-column gap-2'>
             {userData.PresetType.map((attrName, index) => (
                 <NoviceAttributeScores
                     score={getCountryData(attrName)}
