@@ -16,7 +16,7 @@ export const PresetTypesContainer = () => {
             let cols = [];
             for (let j = 0; j < 3; j++) {
                 cols.push(
-                    <Col xs={4} s="auto" key={`preset-col-${i * 3 + j}`}>
+                    <div  key={`preset-col-${i * 3 + j}`}>
                         <div
                             className="preset-badge"
                             id={`preset-${i * 3 + j}`}
@@ -37,38 +37,38 @@ export const PresetTypesContainer = () => {
                             }}
                         >
                             <div
-                              className='d-flex align-items-center justify-content-center'
+                                className='d-flex align-items-center justify-content-center'
                             >
-                              <FontAwesomeIcon
-                                style={{
-                                  padding:"3px",
-                                  marginRight:"0.1rem",
-                                  color: userData.PresetType.includes(Object.keys(userData.Attributes)[i * 3 + j]) ? myConstant.COLORS[i * 3 + j] : undefined
-                                }}
-                                icon={icons[i * 3 + j]}
-                              />
-                              <span
-                                style={{
-                                  padding:"3px",
-                                  fontSize:"10px",
-                                  textOverflow: "ellipsis",
-                                  overflow: "hidden",
-                                  whiteSpace: "nowrap"
-                                }}>
-                                {Object.keys(userData.Attributes)[i * 3 + j]}
-                              </span>
-                            </div>             
+                                <FontAwesomeIcon
+                                    style={{
+                                        padding: "3px",
+                                        marginRight: "0.1rem",
+                                        color: userData.PresetType.includes(Object.keys(userData.Attributes)[i * 3 + j]) ? myConstant.COLORS[i * 3 + j] : undefined
+                                    }}
+                                    icon={icons[i * 3 + j]}
+                                />
+                                <span
+                                    style={{
+                                        padding: "3px",
+                                        fontSize: "10px",
+                                        textOverflow: "ellipsis",
+                                        overflow: "hidden",
+                                        whiteSpace: "nowrap"
+                                    }}>
+                                    {Object.keys(userData.Attributes)[i * 3 + j]}
+                                </span>
+                            </div>
                         </div>
-                    </Col>
+                    </div>
                 );
             }
             rows.push(
-                <div style={{display:"flex", gap:"6px"}} key={`preset-row-${i * 3}`}>
+                <>
                     {cols}
-                </div>
+                </>
             );
         }
-        return rows;
+        return <div style={{ display: "grid", gridAutoFlow: "column", columnGap: "0.5rem", gridTemplateColumns: "1fr 1fr 1fr" }}>{rows}</div>;
     }, [userData, setUserData]);
 
 
@@ -77,7 +77,9 @@ export const PresetTypesContainer = () => {
             <p style={{ textAlign: "start", fontSize: "small" }}>
                 Choose the topics that interest you the most:
             </p>
-            {presetTypesRows}
+            <div >
+                {presetTypesRows}
+            </div>
         </div>
     );
 };

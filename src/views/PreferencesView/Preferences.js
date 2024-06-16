@@ -32,7 +32,8 @@ const Preferences = () => {
           activeKey={key}
           id="mode"
           onSelect={(k) => { setKey(k); setUserData({ ...userData, PresetType: [] }); }}
-          className="mb-3 justify-content-around"
+          className="mb-3"
+          style={{display:"grid",columnGap:"1rem",gridAutoFlow:"column"}}
         >
           <Tab eventKey="novice" title="Presets (Novice)">
             <PresetTypesContainer />
