@@ -24,9 +24,25 @@ const FavouriteRow = ({ score, region, id }) => {
   )
 };
 
-const GroupRow = ({ name, regions, onCreate, setCreateNewGroup, groups, setGroups }) => {
+const GroupRow = ({ id, name, regions, onCreate, setCreateNewGroup, groups, setGroups }) => {
   const { data: dataPut, executePutGroups, loading: putLoading, error: putError } = useUpdateMeWithGroups();
   const { data: meData, fetch, loading: groupsLoading } = useLoadMeWithGroups();
+  const deleteGroup = () => {
+    executePutGroups({
+      data: {
+        groups: groups.filter((group) => group.id !== id)
+      }
+    }).then((response) => {
+      if (response.status < 400) {
+        setGroups(groups.filter((group) => group.id !== id))
+        message.success("Group deleted successfully")
+      } else {
+        throw new Error('Failed to delete the group')
+      }
+    }).catch((error) => {
+      message.error(error.message);
+    })
+  }
   const onSave = (groupName) => {
     executePutGroups({
       data: {
@@ -64,8 +80,7 @@ const GroupRow = ({ name, regions, onCreate, setCreateNewGroup, groups, setGroup
           </h6>
         </Col>
         <Col className={'d-flex justify-content-end cursor align-items-center'}>
-          {/* <span className='fa-xs'></span> */}
-          <button className="btn text-white">
+          <button onClick={deleteGroup} className="btn text-white">
             <DeleteOutlined />
           </button>
         </Col>
@@ -171,9 +186,13 @@ const RightPersonal = () => {
             {groups.map(group => (
               <GroupRow
                 key={group.id}
+                id={group.id}
                 name={group.name}
+                groups={groups}
                 regions={group.regions}
                 onCreate={false}
+                setGroups={setGroups}
+
               />
             ))}
             {newGroupCreation && <div style={{ display: "block" }}>
