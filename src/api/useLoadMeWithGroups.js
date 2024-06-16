@@ -2,7 +2,6 @@
 import {useToken} from "../components/AuthProvider/AuthProvider";
 import useAxios from "axios-hooks";
 import authenticationHeader from "./authenticationHeader";
-import { useState } from "react";
 
 const useLoadMeWithGroups = (
   initialPage = 1,

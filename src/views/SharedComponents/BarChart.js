@@ -1,5 +1,6 @@
 import React from "react";
 import "../../styles/App.css";
+import styles from "./BarChart.module.css";
 
 export const BarChart = ({ score, benchmark, color, showBenchmark }) => {
   const getText = () => {
@@ -59,38 +60,28 @@ export const BarChart = ({ score, benchmark, color, showBenchmark }) => {
       );
     }
   };
+
   return (
     <div
-      className="bar-chart"
-      style={{
-        height: "15px",
-        width: "100%",
-        position: "relative",
-        border: "solid 1px #868686",
-      }}
+      className={`${styles.barChart} w-100 position-relative rounded-5`}
       data-tooltip-id="barchart-tooltip"
       data-tooltip-content={getText()}
     >
 
       <div
+        className={`${styles.bar} rounded-5`}
         style={{
-          height: "13px",
           width: `calc(100% * (${score.value} / 100))`,
           backgroundColor: color,
-          position: "absolute",
-          left: "0",
         }}
-      ></div>
+      />
       {showBenchmark && (
         <span
           style={{
-            width: "2px",
-            height: "15px",
-            backgroundColor: "rgb(255, 255, 255, 0.8)",
-            position: "absolute",
             left: `calc(100% * (${benchmark} / 100))`,
           }}
-        ></span>
+          className={styles.benchmark}
+        />
       )}
     </div>
   );

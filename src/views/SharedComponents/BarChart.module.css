@@ -1,0 +1,19 @@
+.barChart {
+    height: 2px;
+    background-color: rgba(255, 255, 255, 0.75);
+}
+
+.barChart .bar {
+    height: 2px;
+    position: absolute;
+    left: 0;
+}
+
+.barChart .benchmark {
+    width: 3px;
+    height: 6px;
+    border-radius: 3px;
+    background-color: white;
+    position: absolute;
+    top: -2px;
+}

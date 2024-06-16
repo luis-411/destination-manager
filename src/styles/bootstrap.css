@@ -143,6 +143,41 @@
     min-width: 12rem;
 }
 
+.btn-secondary {
+    --bs-btn-bg: transparent;
+    --bs-btn-active-bg: transparent;
+    --bs-btn-active-border-color: transparent;
+    --bs-btn-border-color: transparent;
+    --bs-btn-active-color: white;
+    --bs-btn-color: white;
+    --bs-btn-border-radius: 0;
+    border: 1px solid transparent;
+}
+
+.btn-secondary:hover {
+    border-bottom: 1px solid white;
+}
+
+/* progress bar */
+.progress {
+    --bs-secondary-bg: transparent;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    height: max-content;
+}
+
+.progress-bar {
+    --bs-progress-bar-bg: transparent;
+    --bs-progress-bg: transparent;
+    --bs-border-radius: 0.7rem;
+    border: 1px solid;
+    border-radius: var(--bs-border-radius);
+}
+
+.progress-bar * {
+
+}
+
 /* random */
 .card {
     --bs-body-bg: linear-gradient(90deg, rgba(11, 28, 34, 1) -20%, rgba(27, 64, 77, 1) 100%);
@@ -154,4 +189,8 @@
 .dropdown-menu {
     max-height: 10rem;
     overflow-y: scroll;
+}
+
+.row {
+    --bs-gutter-x: 0;
 }

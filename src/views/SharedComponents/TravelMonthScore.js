@@ -41,7 +41,7 @@ const indexToMonth = (index) => {
   }
 }
 
-export const TravelMonthScore = ({ travelMonths, showMatches }) => {
+export const TravelMonthScore = ({ travelMonths, showMatches, visitorIndexes }) => {
   const { userData } = useTravelRecommenderStore();
 
   const travelMonthMatchCols = useMemo(() => {
@@ -58,15 +58,23 @@ export const TravelMonthScore = ({ travelMonths, showMatches }) => {
     return cols;
   }, [userData?.Months]);
 
-  return (
+  const progressNode = (index) => (
     <div>
+      <p className='m-0' style={{fontSize: "10px"}}>{indexToMonth(index)}</p>
+      {visitorIndexes && visitorIndexes[index] &&
+        <p className='m-0' style={{fontSize: "8px"}}>Visits: {visitorIndexes[index]}</p>}
+    </div>
+  )
+
+  return (
+    <>
       <ProgressBar>
         {travelMonths.map((entry, index) => (
           <ProgressBar
-            style={{ backgroundColor: scoreToColor(entry) }}
-            now={8.333}
+            style={{ borderColor: scoreToColor(entry) }}
+            now={23}
             key={index}
-            label={<p style={{ color: "black", fontSize: "10px", margin: 0 }}>{indexToMonth(index)}</p>}
+            label={progressNode(index)}
           />
         ))}
       </ProgressBar>
@@ -75,6 +83,6 @@ export const TravelMonthScore = ({ travelMonths, showMatches }) => {
           {travelMonthMatchCols}
         </Row>
       )}
-    </div>
+    </>
   );
 };
