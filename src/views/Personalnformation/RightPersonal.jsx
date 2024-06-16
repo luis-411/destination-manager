@@ -8,6 +8,8 @@ import useUpdateMeWithGroups from "../../api/useUpdateMeWithGroups";
 import GoToMapCountryButton from "../../components/GoToMapCountry";
 import { useState, useRef, useEffect, useDeferredValue } from "react";
 import TextWithInput from "../../components/TextWithInput";
+import { DeleteOutlined } from "@ant-design/icons";
+import { message } from "antd";
 const FavouriteRow = ({ score, region, id }) => {
   return (
     <div className={styles.elementRow}>
@@ -25,6 +27,33 @@ const FavouriteRow = ({ score, region, id }) => {
 const GroupRow = ({ name, regions, onCreate, setCreateNewGroup, groups, setGroups }) => {
   const { data: dataPut, executePutGroups, loading: putLoading, error: putError } = useUpdateMeWithGroups();
   const { data: meData, fetch, loading: groupsLoading } = useLoadMeWithGroups();
+  const onSave = (groupName) => {
+    executePutGroups({
+      data: {
+        groups: [...groups, { name: groupName, regions: [] }]
+      }
+    })
+      .then((response) => {
+        if (response.status < 400) {
+          return fetch().catch((error) => {
+            throw new Error('Failed to fetch the groups');
+          });
+        } else {
+          throw new Error(response.data.error.message || 'Failed to executePutGroups');
+        }
+      })
+      .then(() => {
+        setGroups([...groups, { name: groupName, regions: [] }]);
+        setCreateNewGroup(false);
+        message.success("Group created successfully");
+
+      })
+      .catch((error) => {
+        message.error(error.response?.data?.error?.message || error.message);
+        setCreateNewGroup(true);
+      });
+
+  }
   return (
     <>
       {!onCreate && <div className={styles.elementRow}>
@@ -34,8 +63,11 @@ const GroupRow = ({ name, regions, onCreate, setCreateNewGroup, groups, setGroup
             {regions.map(region => region.u_name).join(', ')}
           </h6>
         </Col>
-        <Col className={'d-flex justify-content-evenly align-items-center'}>
-          <span className='fa-xs'>Show More</span>
+        <Col className={'d-flex justify-content-end cursor align-items-center'}>
+          {/* <span className='fa-xs'></span> */}
+          <button className="btn text-white">
+            <DeleteOutlined />
+          </button>
         </Col>
 
 
@@ -50,21 +82,7 @@ const GroupRow = ({ name, regions, onCreate, setCreateNewGroup, groups, setGroup
               setCreateNewGroup={setCreateNewGroup}
               style={{ marginTop: "1rem" }}
               defaultText={'No group'}
-              onSave={(groupName) => {
-                executePutGroups({
-                  data: {
-                    "groups": [...groups, { name: groupName, regions: [] }]
-                  }
-                }).then((response) => {
-                  if(response.status >= 200 && response.status < 300){
-                  fetch().then(() => {        
-                    setGroups([...groups, { name: groupName, regions: [] }])
-                    setCreateNewGroup(false)
-                  })}
-                })
-                
-
-              }}
+              onSave={onSave}
             />
           </div>
         </div>
@@ -98,8 +116,8 @@ const RightPersonal = () => {
 
   const [groups, setGroups] = useState([]);
   useEffect(() => {
-    {!groupsLoading && meData && setGroups(meData?.groups)}
-  } , [groupsLoading])
+    { !groupsLoading && meData && setGroups(meData?.groups) }
+  }, [groupsLoading])
   if (groupsLoading || statsLoading) {
     return null;
   }

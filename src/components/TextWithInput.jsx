@@ -9,8 +9,8 @@ const TextWithInput = ({ text, defaultText, onSave, createNewGroup , setCreateNe
   const [currentText, setCurrentText] = useState(text ?? '');
 
   const onCheck = () => {
-    onSave(currentText);
-    setState(Steps.UPLOAD);
+    onSave(currentText)
+    !createNewGroup && setState(Steps.UPLOAD);
   }
 
   return (
