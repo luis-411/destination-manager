@@ -2,12 +2,13 @@
 import {useToken} from "../components/AuthProvider/AuthProvider";
 import useAxios from "axios-hooks";
 import authenticationHeader from "./authenticationHeader";
+import {useAuthContext} from "../context/AuthContext";
+import {useEffect, useState} from "react";
 
-const useLoadMeWithGroups = (
-  initialPage = 1,
-) => {
+const useLoadMeWithGroups = () => {
   const url = `${process.env.REACT_APP_BACKEND_URL}/users/me`;
   const token = useToken.getState().token;
+  const user = useAuthContext();
 
   const getParams = () => {
     const params = new URLSearchParams();
@@ -15,18 +16,26 @@ const useLoadMeWithGroups = (
     return params;
   }
 
+  const [axiosOptions] = useState({
+    useCache:false,
+    autoCancel:false,
+    manual: !user?.id
+  });
   const [{ data, loading, error },fetch] = useAxios({
     url,
     params: getParams(),
     method: 'GET',
     ...authenticationHeader(token)
-  }, {
-    useCache:false,
-    autoCancel:false
-  });
+  }, axiosOptions);
+
+  useEffect(() => {
+    if (user.id && axiosOptions.manual) {
+      fetch();
+    }
+  }, [user.id])
 
 
-  return { data, fetch ,loading, error };
+  return { data, fetch, loading, error };
 };
 
 

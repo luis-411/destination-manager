@@ -30,7 +30,7 @@ export const Results = ({ activeResult}) => {
   return (
     <div className={'py-2 h-100 overflow-y-scroll'}>
       <p className={'m-0'} style={{ textAlign: "left" }}>
-        Best destinations for {capitalize(user.username ?? "you")}
+        Best destinations for {capitalize(user?.username ?? "you")}
       </p>
       {results.length > 0 ? (
         <div ref={accordElem}>

@@ -6,11 +6,12 @@ import useLoadMeWithGroups from "../../api/useLoadMeWithGroups";
 import useLoadStatistics from "../../api/useLoadStatistics";
 import useUpdateMeWithGroups from "../../api/useUpdateMeWithGroups";
 import GoToMapCountryButton from "../../components/GoToMapCountry";
-import { useState, useRef, useEffect, useDeferredValue } from "react";
+import { useState, useRef, useEffect } from "react";
 import TextWithInput from "../../components/TextWithInput";
 import { DeleteOutlined } from "@ant-design/icons";
 import { message } from "antd";
 import { EditOutlined } from "@ant-design/icons";
+import {useAuthContext} from "../../context/AuthContext";
 
 const FavouriteRow = ({ score, region, id }) => {
   return (
@@ -27,8 +28,8 @@ const FavouriteRow = ({ score, region, id }) => {
 };
 
 const GroupRow = ({ id, inputRef, name, regions, onCreate, setCreateNewGroup, groups, setGroups }) => {
-  const { data: dataPut, executePutGroups, loading: putLoading, error: putError } = useUpdateMeWithGroups();
-  const { data: meData, fetch, loading: groupsLoading } = useLoadMeWithGroups();
+  const { executePutGroups } = useUpdateMeWithGroups();
+  const { fetch} = useLoadMeWithGroups();
   const deleteGroup = () => {
     executePutGroups({
       data: {

@@ -48,10 +48,6 @@ const LoginButton = () => {
       ? 'flex-row align-items-center py-3'
       : 'flex-column-reverse align-items-start pb-3';
 
-    useEffect(() => {
-        console.log(orderElements, breakpoints);
-    }, [breakpoints])
-
     return (
       <div
         className={`w-100 d-flex justify-content-between ${orderElements}`}

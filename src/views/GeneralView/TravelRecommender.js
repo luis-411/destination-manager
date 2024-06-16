@@ -11,11 +11,13 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import LogButton from "./LogButton";
 import PersonalInformation from "../Personalnformation/PersonalInformation";
 import AppModal from "../../components/AppModal";
+import {useAuthContext} from "../../context/AuthContext";
 
-const TravelRecommender = ({children}) => {
+const TravelRecommender = () => {
   const [activeResult, setActiveResult] = useState(0);
   const [leftColumnOpen, setLeftColumnOpen] = useState(true);
   const [rightColumnOpen, setRightColumnOpen] = useState(true);
+  const { user } = useAuthContext();
 
   /**
    *
@@ -90,7 +92,7 @@ const TravelRecommender = ({children}) => {
       <Tooltip id="prio-switch-tooltip" style={{ width: "300px", zIndex: 99999 }} />
       <Tooltip id="additional-info-tooltip" style={{ width: "300px", zIndex: 99999 }} place="bottom" />
       <Tooltip id="barchart-tooltip" style={{ width: "300px", zIndex: 99999 }} place="bottom" />
-      <PersonalInformation />
+      {user?.id && <PersonalInformation/>}
       <AppModal />
     </div>
   );

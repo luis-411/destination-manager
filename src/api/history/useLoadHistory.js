@@ -34,7 +34,9 @@ const useLoadHistory = ({
     url: visitsUrl,
     params: getParams(),
     ...authenticationHeader(token),
-  }, { useCache: false, autoCancel: false });
+  },
+    { useCache: false, autoCancel: false, manual: !userId }
+  );
 
   const getDataForTheRegion = (region) => {
     reFetch({
