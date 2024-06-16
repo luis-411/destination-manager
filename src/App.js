@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/App.css";
+import { ThemeProvider } from "react-bootstrap";
 import LoadCountriesTask from "./tasks/LoadCountriesTask";
 import Loading from "./views/GeneralView/Loading";
 import useTravelRecommenderStore from "./store/travelRecommenderStore";
@@ -43,11 +44,11 @@ const App = () => {
 
   return (
     <div style={{ height: "100vh" }}>
-      {countries.length === 0 ? (
-        <Loading />
-      ) : (
-        <AppRoutes/>
-      )}
+        {countries.length === 0 ? (
+          <Loading />
+        ) : (
+          <AppRoutes/>
+        )}
     </div>
   );
 };

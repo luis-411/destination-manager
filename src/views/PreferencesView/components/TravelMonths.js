@@ -35,7 +35,7 @@ const TravelMonths = () => {
             onChange={(e) => handleMonthChange(i * 4 + j)}
             value={months[i * 4 + j]}
           >
-            <span style={{ fontSize: "0.7rem", color: "white" }}>{months[i * 4 + j]}</span>
+            <span>{months[i * 4 + j]}</span>
           </ToggleButton>
         );
       }
@@ -54,7 +54,7 @@ const TravelMonths = () => {
       <p style={{ textAlign: "left", justifyContent: "center", margin: 0 }}>
         Preferred Travel Months
       </p>
-      <div className='d-flex justify-content-end'>
+      <div className='d-flex justify-content-end mb-3'>
         <Button variant="secondary" size="sm" style={{ fontSize: '0.625rem' }} onClick={() => {
           setUserData({
             ...userData,

@@ -10,10 +10,10 @@ const Attribute = ({ attrName, sliderColor }) => {
       <Col>
         <PrioritySwitch attrName={attrName} />
       </Col>
-      <Col xs={4} className='d-flex align-items-center'>
-        <h6 className='fw-normal m-0' style={{ fontSize: '0.875rem' }}>{attrName}</h6>
+      <Col xs={3} className='d-flex align-items-center'>
+        <h6 className='fw-normal m-0' style={{ fontSize: '0.7rem' }}>{attrName}</h6>
       </Col>
-      <Col xs={7} className='d-flex align-items-center'>
+      <Col xs={8} className='d-flex align-items-center'>
         <SlideRange sliderColor={sliderColor} attrName={attrName} />
       </Col>
     </Row>

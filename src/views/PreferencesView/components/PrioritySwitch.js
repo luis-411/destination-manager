@@ -40,7 +40,11 @@ const PrioritySwitch = ({ attrName }) => {
         At the lowest setting, this attribute will not be considered in the score."
             style={{ cursor: "pointer" }}
         >
-            <FontAwesomeIcon icon={switchIcon} onClick={onClick} />
+            <FontAwesomeIcon
+              style={{ height: '0.8rem' }}
+              icon={switchIcon}
+              onClick={onClick}
+            />
         </div>
 
     );

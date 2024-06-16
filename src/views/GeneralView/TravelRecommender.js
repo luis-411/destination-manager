@@ -16,15 +16,57 @@ const TravelRecommender = ({children}) => {
   const [activeResult, setActiveResult] = useState(0);
   const [leftColumnOpen, setLeftColumnOpen] = useState(true);
   const [rightColumnOpen, setRightColumnOpen] = useState(true);
+
+  /**
+   *
+   * @type {{xl: number, xs: number, lg: number}}
+   */
+  const leftColumnSizes = {
+    xs: 12,
+    lg: 4,
+    xl: 3,
+  };
+
+  /**
+   *
+   * @type {{xl: number, xs: number, lg: number}}
+   */
+  const rightColumnSizes = {
+    xs: 12,
+    lg: 3,
+    xl: 3,
+  };
+
+  const calculateMiddleSize = (size) =>
+    (12 - leftColumnSizes[size] - rightColumnSizes[size]) +
+    (leftColumnOpen ? 0 : leftColumnSizes[size]) +
+    (rightColumnOpen ? 0 : rightColumnSizes[size]);
+
+  /**
+   *
+   * @type {{xl: number, xs: number, lg: number}}
+   */
+  const middleColumnSizes = {
+    xs: calculateMiddleSize('xs'),
+    lg: calculateMiddleSize('lg'),
+    xl: calculateMiddleSize('xl'),
+  };
+
   return (
     <div className="App">
       <Row style={{ height: "100%" }}>
         {leftColumnOpen && (
-          <Col style={{ height: "100%", paddingRight: 0 }}>
+          <Col
+            style={{ height: "100%" }}
+            {...leftColumnSizes}
+          >
             <Preferences />
           </Col>
         )}
-        <Col xs={6 + (leftColumnOpen ? 0 : 3) + (rightColumnOpen ? 0 : 3)} style={{ height: "100%", padding: 0 }}>
+        <Col
+          style={{ height: "100%", padding: 0 }}
+          {...middleColumnSizes}
+        >
           <div style={{ display: "grid", gridTemplateColumns: "10px 1fr 10px", height: "100%" }}>
             <div className="expand-bar" onClick={() => setLeftColumnOpen(oldState => !oldState)}>
               <FontAwesomeIcon icon={leftColumnOpen ? faAngleLeft : faAngleRight} />
@@ -36,7 +78,10 @@ const TravelRecommender = ({children}) => {
           </div>
         </Col>
         {rightColumnOpen && (
-          <Col className='right-column'>
+          <Col
+            className='right-column'
+            {...rightColumnSizes}
+          >
             <LogButton/>
              {children}
             <Results activeResult={activeResult} />

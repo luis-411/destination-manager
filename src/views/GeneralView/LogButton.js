@@ -42,7 +42,7 @@ const LoginButton = () => {
     }, [user]);
 
     return (
-      <div className='w-100 py-3 d-flex align-items-center justify-content-between'>
+      <div className='w-100 py-3 d-flex flex-wrap align-items-center justify-content-between'>
           <Button className={'d-flex align-items-center gap-3'} handleButton={handleCTAButton}>
               <div className='rounded-circle' style={{ backgroundColor: '#D9D9D9', width: '1.5rem' }}>
                   <UserIcon />
