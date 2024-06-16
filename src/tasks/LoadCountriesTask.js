@@ -24,11 +24,11 @@ class LoadCountriesTask {
       }
     }
     this.allPrices.sort((a, b) => a - b);
-    for (let scoreCountry of this.scoreCountries) {
+    for (const scoreCountry of this.scoreCountries) {
       const mapCountry = this.mapCountries.find(
         (c) => c.properties.u_name === scoreCountry.u_name
       );
-      var res = {
+      const res = {
         id: scoreCountry.id,
         country: scoreCountry.ParentRegion.data.attributes.Region,
         region: scoreCountry.Region,
@@ -60,6 +60,8 @@ class LoadCountriesTask {
           this.calculateRecursiveScore(scoreCountry, countryScores, "nov"),
           this.calculateRecursiveScore(scoreCountry, countryScores, "dec"),
         ],
+        peakSeasons: this.preprocessSeason(scoreCountry.peakSeason),
+        visitorIndex: scoreCountry.visitorIndex,
         scores: {
           totalScore: 0,
           presetTypeScore: 0,
@@ -103,6 +105,7 @@ class LoadCountriesTask {
           },
         },
       };
+
       var budgetScore = this.calculateBudgetScore(res.budgetLevel, userData);
       var travelMonthScore = this.calculateTravelMonthScore(res.travelMonths, userData.Months);
       var isAffordable = !userData.isPriceImportant || budgetScore === 100;
@@ -216,6 +219,11 @@ class LoadCountriesTask {
     }
     return maxScore;
   };
+
+  preprocessSeason(isPeakSeason) {
+    return Object.entries(isPeakSeason)
+      .reduce((months, [month, isPeak]) => isPeak ? [...months, month] : months, []);
+  }
   calculateBudgetScore = (countryBudgetLevel, userData) => {
     if (userData.Budget >= countryBudgetLevel) {
       return 100;
