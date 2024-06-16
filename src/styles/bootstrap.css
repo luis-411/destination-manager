@@ -141,6 +141,8 @@
     --bs-btn-hover-color: rgba(0, 0, 0);
     --bs-border-radius: 0.7rem;
     --bs-btn-padding-y: 0.3rem;
+    --bs-btn-active-bg: white;
+    --bs-btn-active-color: rgba(0, 0, 0);
     min-width: 12rem;
 }
 

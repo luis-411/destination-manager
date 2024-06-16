@@ -92,7 +92,7 @@ export const CreateNewVisit = ({ country }) => {
 
   return (
     <div className={'px-4'}>
-      <h4 className={'fa-sm ms-2 mb-4 fw-bold'}>Create new visit to {country.country}</h4>
+      <h4 className={'fa-sm ms-2 mb-4 fw-bold'}>Create new visit to {country.region}</h4>
       <div className={'d-flex flex-column gap-2'}>
         <div className="d-flex gap-2 justify-content-between">
           <div style={{flexBasis: '48%'}}>

@@ -30,7 +30,6 @@ const Map = ({ setActiveResult }) => {
   } = useReferencedCountry();
 
   useEffect(() => {
-    console.log(referencedCountryId);
     if (referencedCountryId) {
       onCountryPopupOpen(referencedCountryId);
       resetReferencedCountry();

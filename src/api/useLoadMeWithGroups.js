@@ -8,7 +8,7 @@ import {useEffect, useState} from "react";
 const useLoadMeWithGroups = () => {
   const url = `${process.env.REACT_APP_BACKEND_URL}/users/me`;
   const token = useToken.getState().token;
-  const user = useAuthContext();
+  const { user } = useAuthContext();
 
   const getParams = () => {
     const params = new URLSearchParams();
