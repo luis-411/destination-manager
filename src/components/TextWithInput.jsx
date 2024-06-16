@@ -4,7 +4,7 @@ import ActionIcons, {Steps} from "./ActionIcons";
 import styles from "./TextWithInput.module.css";
 
 
-const TextWithInput = ({ text, defaultText, onSave, createNewGroup , setCreateNewGroup }) => {
+const TextWithInput = ({ text , defaultText, onSave, createNewGroup , setCreateNewGroup }) => {
   const [state, setState] = useState(createNewGroup ? Steps.SAVE :Steps.UPLOAD);
   const [currentText, setCurrentText] = useState(text ?? '');
 
@@ -17,7 +17,7 @@ const TextWithInput = ({ text, defaultText, onSave, createNewGroup , setCreateNe
     <div className='position-relative'>
       {state === Steps.UPLOAD &&
         (
-          <h5 className='fs-6 fw-light mt-1'>
+          <h5  className={'fs-6 fw-light mt-1'}>
             {currentText ?? defaultText}
           </h5>
         )}

@@ -11,6 +11,7 @@ import useLoadHistory from "../../../api/history/useLoadHistory";
 import useLoadMeWithGroups from "../../../api/useLoadMeWithGroups";
 import useUpdateMeWithGroups from "../../../api/useUpdateMeWithGroups";
 import { useDebounceCallback } from "usehooks-ts";
+import { message } from "antd";
 const PopupGroup = ({ name }) => {
   return (
     <div
@@ -105,7 +106,11 @@ export const AddGroups = ({ country }) => {
                     }))
                 }
               }).then((e) => {
+                message.success("Groups updated successfully");
                 modal.reset()
+              })
+              .catch((error) => {
+                message.error("Groups update failed")
               })
           }}
           style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", color: "black", height: "2.3rem", minWidth: "11.5rem", background: "white", borderRadius: "0.8rem", marginRight: "1rem" }}>

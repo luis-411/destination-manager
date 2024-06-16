@@ -10,6 +10,7 @@ import { useState, useRef, useEffect, useDeferredValue } from "react";
 import TextWithInput from "../../components/TextWithInput";
 import { DeleteOutlined } from "@ant-design/icons";
 import { message } from "antd";
+import { EditOutlined } from "@ant-design/icons";
 const FavouriteRow = ({ score, region, id }) => {
   return (
     <div className={styles.elementRow}>
@@ -27,6 +28,7 @@ const FavouriteRow = ({ score, region, id }) => {
 const GroupRow = ({ id, name, regions, onCreate, setCreateNewGroup, groups, setGroups }) => {
   const { data: dataPut, executePutGroups, loading: putLoading, error: putError } = useUpdateMeWithGroups();
   const { data: meData, fetch, loading: groupsLoading } = useLoadMeWithGroups();
+  console.log(groups)
   const deleteGroup = () => {
     executePutGroups({
       data: {
@@ -74,7 +76,15 @@ const GroupRow = ({ id, name, regions, onCreate, setCreateNewGroup, groups, setG
     <>
       {!onCreate && <div className={styles.elementRow}>
         <Col className='col-8 d-flex flex-column'>
-          <h5 className='fs-6 fw-bold'>{name}</h5>
+          <div style={{display:"flex", alignItems:"center"}}>
+            <h5 style={{ display: "inline" }} className='fs-6 fw-bold'>{name}</h5>
+            <EditOutlined
+              style={{ marginBottom:"6px", marginLeft:"1rem", display: "inline" }}
+              onClick={() => {
+              }}
+            />
+          </div>
+
           <h6 className={`fa-xs lh-1 fw-bold ${styles.groupRegions}`}>
             {regions.map(region => region.u_name).join(', ')}
           </h6>
