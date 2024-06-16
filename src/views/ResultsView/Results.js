@@ -5,7 +5,6 @@ import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import { useAuthContext } from "../../context/AuthContext";
 import ResultItem from "./ResultItem";
 import {capitalize} from "lodash";
-
 export const Results = ({ activeResult}) => {
   const {user} = useAuthContext();
   const results = useTravelRecommenderStore((state) => state.results);
@@ -29,10 +28,12 @@ export const Results = ({ activeResult}) => {
   }, [activeResult]);
 
   return (
-    <div style={{ padding: "10px 0", height: "100%", overflow: "hidden" }}>
-      <p style={{ textAlign: "left" }}>Best destinations for {capitalize(user.username ?? "you")}:</p>
+    <div className={'py-2 h-100 overflow-y-scroll'}>
+      <p className={'m-0'} style={{ textAlign: "left" }}>
+        Best destinations for {capitalize(user.username ?? "you")}
+      </p>
       {results.length > 0 ? (
-        <div style={{ overflow: "auto", height: "90%" }} ref={accordElem}>
+        <div ref={accordElem}>
           <Accordion activeKey={activeIndex}>
             {results?.map((item, index) => (
               <ResultItem

@@ -83,7 +83,6 @@ const TravelRecommender = ({children}) => {
             {...rightColumnSizes}
           >
             <LogButton/>
-             {children}
             <Results activeResult={activeResult} />
           </Col>
         )}

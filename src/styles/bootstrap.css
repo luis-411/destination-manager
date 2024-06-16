@@ -45,7 +45,7 @@
     --bs-accordion-active-color: #FFFFFF;
     --bs-accordion-active-bg: transparent;
     box-shadow: none;
-    border-color: #FFFFFF;
+    border-color: rgba(255, 255, 255, 0.7);
 }
 
 .accordion-button:focus {
@@ -72,8 +72,9 @@
 
 .accordion-body {
     margin: 15px 0;
-    border: 1px solid #FFFFFF;
+    border: 1px solid rgba(255, 255, 255, 0.7);
     border-radius: 20px;
+    background: linear-gradient(to right, #193D4A 0%, #1D5163 100%);
 }
 
 .accordion-header {
