@@ -1,0 +1,8 @@
+a.leaflet-popup-close-button {
+    color: rgba(255, 255, 255, 0.7) !important;
+    transition: all 0.2s ease-in;
+}
+
+a:hover.leaflet-popup-close-button {
+    color: white !important;
+}

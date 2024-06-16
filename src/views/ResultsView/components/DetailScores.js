@@ -5,11 +5,11 @@ import useTravelRecommenderStore from "../../../store/travelRecommenderStore";
 export const DetailScores = ({ scores }) => {
   const { userData } = useTravelRecommenderStore();
   const getUserData = (attrName) => {
-    var key = attrName.charAt(0).toUpperCase() + attrName.slice(1);
+    const key = attrName.charAt(0).toUpperCase() + attrName.slice(1);
     return userData.Attributes[key];
   };
   return (
-    <div style={{ padding: "0px 10px" }}>
+    <div className='d-flex flex-column gap-2'>
       {scores.filter((entry) => getUserData(entry.name).weight !== 0).map((entry, index) => (
         <AttributeScore
           score={entry}
