@@ -14,10 +14,11 @@ const AdditionalInfo = () => {
     >
       <Form className="filter">
         <Form.Check
-          className="filter"
+          className="filter d-flex gap-2"
           type="checkbox"
           id="custom-switch"
           label="Filter out the destinations over the  budget"
+          style={{ fontSize: '0.8rem' }}
           onChange={(e) =>
             setUserData({ ...userData, isPriceImportant: e.target.checked })
           }

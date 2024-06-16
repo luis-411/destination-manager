@@ -1,0 +1,6 @@
+.toggle {
+    width: 20%;
+    margin: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 50rem !important;
+}

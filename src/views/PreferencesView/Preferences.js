@@ -13,28 +13,26 @@ const Preferences = () => {
   const [key, setKey] = useState('advanced');
 
   return (
-    <div style={{ height: "100%", overflowY: "auto", overflowX: "hidden", padding: "1.25rem" }}>
+    <div style={{ height: "100%", overflowY: "auto", overflowX: "hidden", padding: "1rem" }}>
       <div style={{textAlign: "left", paddingTop: "10px"}}>
       <div style={{ fontWeight: "700", fontSize: "1.1em" }}>DestiRec</div>
       <span style={{fontWeight:"300",fontSize:"0.8rem"}}>Travel Destination Recommender System</span>
       </div>
-     
-      <hr />
       <div style={{ padding: "10px 0" }}>
         <Budget />
       </div>
-      <div>
+      <div className='mb-4'>
         <AdditionalInfo />
       </div>
-      <div>
+      <div className='mb-4'>
         <TravelMonths />
       </div>
-      <div style={{ padding: "10px 0" }}>
+      <div className='mb-4'>
         <Tabs
           activeKey={key}
           id="mode"
           onSelect={(k) => { setKey(k); setUserData({ ...userData, PresetType: [] }); }}
-          className="mb-3"
+          className="mb-3 justify-content-around"
         >
           <Tab eventKey="novice" title="Presets (Novice)">
             <PresetTypesContainer />
@@ -43,9 +41,7 @@ const Preferences = () => {
             <CustomizationContainer />
           </Tab>
         </Tabs>
-
       </div>
-      <hr />
       <p style={{ textAlign: "left", fontSize: "0.8em" }}>(c) Asal Nesar Noubari, Cem Nasit Sarica and Wolfgang Wörndl (Technical University of Munich)</p>
     </div>
   );

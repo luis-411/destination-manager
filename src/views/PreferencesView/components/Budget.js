@@ -9,7 +9,6 @@ const Budget = () => {
   const { userData, setUserData } = useTravelRecommenderStore();
   const [value, setValue] = useState(userData.Budget);
 
-
   useEffect(() => {
     debounce(() => setUserData({ ...userData, Budget: value }), 100);
   }, [value]);
@@ -19,13 +18,13 @@ const Budget = () => {
       <p style={{ textAlign: "left" }}>Budget</p>
       <Row>
         <Col>
-          <p style={{ opacity: "0.7", fontSize: "0.8em" }}>Low</p>
+          <p style={{ opacity: "0.7", fontSize: "0.625rem", textAlign: 'start' }}>Low</p>
         </Col>
         <Col>
-          <p style={{ opacity: "0.7", fontSize: "0.8em" }}>Medium</p>
+          <p style={{ opacity: "0.7", fontSize: "0.625rem" }}>Medium</p>
         </Col>
         <Col>
-          <p style={{ opacity: "0.7", fontSize: "0.8em" }}>High</p>
+          <p style={{ opacity: "0.7", fontSize: "0.625rem", textAlign: 'end' }}>High</p>
         </Col>
       </Row>
       <Row>

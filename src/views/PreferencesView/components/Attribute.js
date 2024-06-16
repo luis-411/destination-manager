@@ -1,26 +1,21 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
+import {Col, Row} from "react-bootstrap";
 import "../../../styles/App.css";
 import SlideRange from "./SlideRange";
 import PrioritySwitch from "./PrioritySwitch";
 
 const Attribute = ({ attrName, sliderColor }) => {
   return (
-    <Row
-      style={{
-        display: "flex",
-        alignItems: "center",
-        padding: "5px",
-        height: "100%",
-      }}
-    >
-      <Col xs={4}>{attrName}</Col>
-      <Col xs={7}>
+    <Row>
+      <Col>
+        <PrioritySwitch attrName={attrName} />
+      </Col>
+      <Col xs={4} className='d-flex align-items-center'>
+        <h6 className='fw-normal m-0' style={{ fontSize: '0.875rem' }}>{attrName}</h6>
+      </Col>
+      <Col xs={7} className='d-flex align-items-center'>
         <SlideRange sliderColor={sliderColor} attrName={attrName} />
       </Col>
-      {/* <Col xs={1}>
-        <PrioritySwitch attrName={attrName} />
-      </Col> */}
     </Row>
   );
 };

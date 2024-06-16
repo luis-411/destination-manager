@@ -27,7 +27,10 @@ const SlideRange = ({ attrName,sliderColor }) => {
       <input
         id="slider"
         className={styles.slideRange}
-        style={{'--slider-color': hexToRgbA(sliderColor), '--slider-progress':`${sliderProgress}%`}}
+        style={{
+          '--slider-color': hexToRgbA(sliderColor),
+          '--slider-progress':`${sliderProgress}%`
+        }}
         type="range"
         step={25}
         value={value}

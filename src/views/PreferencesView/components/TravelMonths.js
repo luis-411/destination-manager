@@ -2,6 +2,7 @@ import React, { useMemo, useCallback } from "react";
 import { ButtonGroup, ToggleButton, Button } from "react-bootstrap";
 import "../../../styles/App.css";
 import useTravelRecommenderStore from "../../../store/travelRecommenderStore";
+import styles from "../Preferences.module.css";
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
   "November", "December"];
@@ -28,17 +29,18 @@ const TravelMonths = () => {
             key={`${i * 4 + j} - ${userData.Months[i * 4 + j]}`}
             id={`radio-${i * 4 + j}`}
             type="checkbox"
-            style={{ width: "20%", margin:"0.5rem" , border: "1.5px solid #6c757d", borderRadius: "50rem" }}
+            className={styles.toggle}
             variant="outline-primary"
             checked={userData.Months[i * 4 + j] === 100}
             onChange={(e) => handleMonthChange(i * 4 + j)}
+            value={months[i * 4 + j]}
           >
-            <span style={{ fontSize: "0.6rem", color: "white" }}>{months[i * 4 + j]}</span>
+            <span style={{ fontSize: "0.7rem", color: "white" }}>{months[i * 4 + j]}</span>
           </ToggleButton>
         );
       }
       buttonGroups.push(
-        <ButtonGroup size="sm" style={{width: "95%" }} key={`${i * 4}`}>
+        <ButtonGroup size="sm" className='w-100 gap-2 mb-2' key={`${i * 4}`}>
           {buttons}
         </ButtonGroup>
       );
@@ -49,20 +51,20 @@ const TravelMonths = () => {
 
   return (
     <div>
-      <hr />
       <p style={{ textAlign: "left", justifyContent: "center", margin: 0 }}>
-        Preferred Travel Months:
+        Preferred Travel Months
       </p>
-      <Button variant="link" size="sm" style={{ marginLeft: "50%" }} onClick={() => {
-        setUserData({
-          ...userData,
-          Months: userData.Months[0] ? Array(12).fill(0) : Array(12).fill(100),
-        });
-      }}>
-        Select/Unselect All
-      </Button>
+      <div className='d-flex justify-content-end'>
+        <Button variant="secondary" size="sm" style={{ fontSize: '0.625rem' }} onClick={() => {
+          setUserData({
+            ...userData,
+            Months: userData.Months[0] ? Array(12).fill(0) : Array(12).fill(100),
+          });
+        }}>
+          Select/Unselect All
+        </Button>
+      </div>
       {buttonGroups}
-      <hr />
     </div>
   );
 };

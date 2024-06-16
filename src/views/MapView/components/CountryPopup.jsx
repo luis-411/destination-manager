@@ -20,9 +20,8 @@ import shortMonthToLongMonth from "../../../helpers/shortMonthToLongMonth";
 const PopupGroup = ({ name }) => {
   return (
     <div
-      style={{ borderColor: '#FFF' }}
       className='d-flex justify-content-between align-items-center
-      gap-2 border border-1 px-3 py-1 rounded-5'
+      gap-2 border border-1 px-3 py-1 rounded-5 border-white'
     >
       <FolderOutlined />
       <h6 className='m-0' style={{ fontSize: '10px' }}>{name}</h6>
@@ -209,13 +208,12 @@ export const CountryPopup = ({ country }) => {
       </h6>
       <Row className='mt-3'>
         {regionStatistics.map((statistic, idx) => statistic.show && (
-          <Col xs={countColumnSpace} className={`d-flex flex-column m-0 ${idx === 0 ? 'p-0' : 'pe-0 ps-4 py-0'}`}>
+          <Col key={idx} xs={countColumnSpace} className={`d-flex flex-column m-0 ${idx === 0 ? 'p-0' : 'pe-0 ps-4 py-0'}`}>
             <h6 className={'w-100 fa-xs'}>{statistic.label}</h6>
             <h5 className='text-truncate' style={{ fontSize: '0.875rem' }}>{statistic.text}</h5>
           </Col>
         ))}
       </Row>
-
       <Col style={{fontSize: '10px' }} className='mb-1'>
         Characteristics
       </Col>

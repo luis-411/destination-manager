@@ -11,6 +11,7 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import LogButton from "./LogButton";
 import PersonalInformation from "../Personalnformation/PersonalInformation";
 import AppModal from "../../components/AppModal";
+
 const TravelRecommender = ({children}) => {
   const [activeResult, setActiveResult] = useState(0);
   const [leftColumnOpen, setLeftColumnOpen] = useState(true);
@@ -35,12 +36,10 @@ const TravelRecommender = ({children}) => {
           </div>
         </Col>
         {rightColumnOpen && (
-          <Col style={{ height: "100%", maxHeight: '100vh', overflowY: 'scroll' }}>
-            <div>
+          <Col className='right-column'>
             <LogButton/>
              {children}
             <Results activeResult={activeResult} />
-            </div>
           </Col>
         )}
       </Row>

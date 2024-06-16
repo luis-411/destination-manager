@@ -4,6 +4,7 @@ import "../../styles/App.css";
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import { useAuthContext } from "../../context/AuthContext";
 import ResultItem from "./ResultItem";
+import {capitalize} from "lodash";
 
 export const Results = ({ activeResult}) => {
   const {user} = useAuthContext();
@@ -29,7 +30,7 @@ export const Results = ({ activeResult}) => {
 
   return (
     <div style={{ padding: "10px 0", height: "100%", overflow: "hidden" }}>
-      <p style={{ textAlign: "left" }}>Best destinations for {user?user.username: "you"}:</p>
+      <p style={{ textAlign: "left" }}>Best destinations for {capitalize(user.username ?? "you")}:</p>
       {results.length > 0 ? (
         <div style={{ overflow: "auto", height: "90%" }} ref={accordElem}>
           <Accordion activeKey={activeIndex}>
