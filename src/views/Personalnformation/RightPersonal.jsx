@@ -11,6 +11,7 @@ import TextWithInput from "../../components/TextWithInput";
 import { DeleteOutlined } from "@ant-design/icons";
 import { message } from "antd";
 import { EditOutlined } from "@ant-design/icons";
+
 const FavouriteRow = ({ score, region, id }) => {
   return (
     <div className={styles.elementRow}>
@@ -25,10 +26,9 @@ const FavouriteRow = ({ score, region, id }) => {
   )
 };
 
-const GroupRow = ({ id, name, regions, onCreate, setCreateNewGroup, groups, setGroups }) => {
+const GroupRow = ({ id, inputRef, name, regions, onCreate, setCreateNewGroup, groups, setGroups }) => {
   const { data: dataPut, executePutGroups, loading: putLoading, error: putError } = useUpdateMeWithGroups();
   const { data: meData, fetch, loading: groupsLoading } = useLoadMeWithGroups();
-  console.log(groups)
   const deleteGroup = () => {
     executePutGroups({
       data: {
@@ -76,10 +76,10 @@ const GroupRow = ({ id, name, regions, onCreate, setCreateNewGroup, groups, setG
     <>
       {!onCreate && <div className={styles.elementRow}>
         <Col className='col-8 d-flex flex-column'>
-          <div style={{display:"flex", alignItems:"center"}}>
+          <div style={{ display: "flex", alignItems: "center" }}>
             <h5 style={{ display: "inline" }} className='fs-6 fw-bold'>{name}</h5>
             <EditOutlined
-              style={{ marginBottom:"6px", marginLeft:"1rem", display: "inline" }}
+              style={{ marginBottom: "6px", marginLeft: "1rem", display: "inline" }}
               onClick={() => {
               }}
             />
@@ -103,6 +103,7 @@ const GroupRow = ({ id, name, regions, onCreate, setCreateNewGroup, groups, setG
           <div style={{ marginTop: "1rem" }}>
             <TextWithInput
               text={""}
+              inputRef={inputRef}
               createNewGroup={onCreate}
               setCreateNewGroup={setCreateNewGroup}
               style={{ marginTop: "1rem" }}
@@ -121,6 +122,7 @@ const RightPersonal = () => {
   const { data: favourites } = useFavouritesPaginationFrontend();
   const { countries } = useTravelRecommenderStore();
   const scrollRef = useRef();
+  const inputRef = useRef();
 
   const regions = countries.reduce((acc, country) => ({
     ...acc,
@@ -135,8 +137,14 @@ const RightPersonal = () => {
   const { data: meData, loading: groupsLoading } = useLoadMeWithGroups();
   const [{ data: statsData, loading: statsLoading }] = useLoadStatistics();
   const [newGroupCreation, setNewGroupCreation] = useState(false);
+
   useEffect(() => {
-    newGroupCreation && scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" })
+    if (newGroupCreation) {
+      scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
+      scrollRef.current?.addEventListener('scrollend', (event) => {
+        inputRef.current.focus();
+      }, { once: true })
+    }
   }, [newGroupCreation])
 
   const [groups, setGroups] = useState([]);
@@ -207,6 +215,7 @@ const RightPersonal = () => {
             ))}
             {newGroupCreation && <div style={{ display: "block" }}>
               <GroupRow
+                inputRef={inputRef}
                 setGroups={setGroups}
                 groups={groups}
                 setCreateNewGroup={setNewGroupCreation}

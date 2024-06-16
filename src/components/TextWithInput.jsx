@@ -4,7 +4,7 @@ import ActionIcons, {Steps} from "./ActionIcons";
 import styles from "./TextWithInput.module.css";
 
 
-const TextWithInput = ({ text , defaultText, onSave, createNewGroup , setCreateNewGroup }) => {
+const TextWithInput = ({inputRef, text , defaultText, onSave, createNewGroup , setCreateNewGroup }) => {
   const [state, setState] = useState(createNewGroup ? Steps.SAVE :Steps.UPLOAD);
   const [currentText, setCurrentText] = useState(text ?? '');
 
@@ -27,6 +27,7 @@ const TextWithInput = ({ text , defaultText, onSave, createNewGroup , setCreateN
             className={`${styles.input}`}
             value={currentText}
             placeholder={currentText}
+            ref={inputRef}
             onChange={(e) => setCurrentText(e.target.value)}
           />
         )}
