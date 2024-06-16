@@ -36,12 +36,12 @@ const LeftPersonal = ({ personalInfo }) => {
         <h4 className='fs-6 fw-bold'>{capitalize(personalInfo.username)}</h4>
         <div>
           <TextWithInput
+           createNewGroup={false}
             text={personalInfo.occupation}
             defaultText={'No occupation'}
             onSave={(occupation) =>
               update({ occupation })}
           />
-          <ActionIcons />
         </div>
       </Row>
       <Row className='pt-2'>

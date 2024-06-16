@@ -16,6 +16,7 @@ import CreateNewVisit from "../../../components/Modals/CreateNewVisit";
 import useLoadHistory from "../../../api/history/useLoadHistory";
 import useLoadMeWithGroups from "../../../api/useLoadMeWithGroups";
 import useUpdateMeWithGroups from "../../../api/useUpdateMeWithGroups";
+import { message } from "antd";
 import shortMonthToLongMonth from "../../../helpers/shortMonthToLongMonth";
 const PopupGroup = ({ name }) => {
   return (
@@ -39,13 +40,6 @@ export const AddGroups = ({ country }) => {
     !loading
       && setDataWithProperties(data.groups.map((group) => ({ ...group, isSelected: group.regions.some((country1) => country1.id === country.id) })))
   }, [loading])
-  // useEffect(() => {
-  //   {
-  //     dataWithProperties &&
-  //       console.log(dataWithProperties);
-  //   }
-
-  // }, [dataWithProperties])
   return (
     <div>
       <h4 className={'fs-5 fw-bold'}>Add Groups</h4>
@@ -117,7 +111,11 @@ export const AddGroups = ({ country }) => {
                     }))
                 }
               }).then((e) => {
+                message.success("Groups updated successfully");
                 modal.reset()
+              })
+              .catch((error) => {
+                message.error("Groups update failed")
               })
           }}
           style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", color: "black", height: "2.3rem", minWidth: "11.5rem", background: "white", borderRadius: "0.8rem", marginRight: "1rem" }}>

@@ -4,20 +4,20 @@ import ActionIcons, {Steps} from "./ActionIcons";
 import styles from "./TextWithInput.module.css";
 
 
-const TextWithInput = ({ text, defaultText, onSave }) => {
-  const [state, setState] = useState(Steps.UPLOAD);
+const TextWithInput = ({inputRef, text , defaultText, onSave, createNewGroup , setCreateNewGroup }) => {
+  const [state, setState] = useState(createNewGroup ? Steps.SAVE :Steps.UPLOAD);
   const [currentText, setCurrentText] = useState(text ?? '');
 
   const onCheck = () => {
-    onSave(currentText);
-    setState(Steps.UPLOAD);
+    onSave(currentText)
+    !createNewGroup && setState(Steps.UPLOAD);
   }
 
   return (
     <div className='position-relative'>
       {state === Steps.UPLOAD &&
         (
-          <h5 className='fs-6 fw-light mt-1'>
+          <h5  className={'fs-6 fw-light mt-1'}>
             {currentText ?? defaultText}
           </h5>
         )}
@@ -27,6 +27,7 @@ const TextWithInput = ({ text, defaultText, onSave }) => {
             className={`${styles.input}`}
             value={currentText}
             placeholder={currentText}
+            ref={inputRef}
             onChange={(e) => setCurrentText(e.target.value)}
           />
         )}
@@ -34,7 +35,7 @@ const TextWithInput = ({ text, defaultText, onSave }) => {
         step={state}
         className={styles.actionStates}
         onEdit={() => setState(Steps.SAVE)}
-        onCancel={() => setState(Steps.UPLOAD)}
+        onCancel={() => createNewGroup ? setCreateNewGroup(false):setState(Steps.UPLOAD)}
         onCheck={onCheck}
       />
     </div>
