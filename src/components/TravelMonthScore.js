@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import { ProgressBar, Row, Col } from "react-bootstrap";
+import React from "react";
+import { ProgressBar } from "react-bootstrap";
 import useTravelRecommenderStore from "../store/travelRecommenderStore";
 
 const scoreToColor = (score) => {
@@ -44,45 +44,36 @@ const indexToMonth = (index) => {
 export const TravelMonthScore = ({ travelMonths, showMatches, visitorIndexes }) => {
   const { userData } = useTravelRecommenderStore();
 
-  const travelMonthMatchCols = useMemo(() => {
-    let cols = [];
-    if (userData?.Months) {
-      for (let i = 0; i < userData.Months.length; i++) {
-        cols.push(
-          <Col key={i} xs={1} style={{padding: 0}}>
-            {userData.Months[i] === 100 ? "+" : ""}
-          </Col>
-        );
-      }
-    }
-    return cols;
-  }, [userData?.Months]);
+  const isSelectedMonth = (index) => showMatches && userData?.Months && userData.Months[index] === 100;
 
-  const progressNode = (index) => (
-    <div>
-      <p className='m-0' style={{fontSize: "10px"}}>{indexToMonth(index)}</p>
-      {visitorIndexes && visitorIndexes[index] &&
-        <p className='m-0' style={{fontSize: "8px"}}>Visits: {visitorIndexes[index]}</p>}
-    </div>
-  )
+  const progressNode = (index) => {
+    const indicateMonth = isSelectedMonth(index);
+    return (
+      <div className={indicateMonth ? 'fw-bold' : 'fw-normal'}>
+        <p className='m-0' style={{fontSize: "10px"}}>
+          {indicateMonth && "+"} {indexToMonth(index)}
+        </p>
+        {visitorIndexes && visitorIndexes[index] &&
+          <p className='m-0' style={{fontSize: "8px"}}>Visits: {visitorIndexes[index]}</p>}
+      </div>
+    );
+  };
 
   return (
     <>
       <ProgressBar>
         {travelMonths.map((entry, index) => (
           <ProgressBar
-            style={{ borderColor: scoreToColor(entry) }}
-            now={23}
+            style={{
+              borderColor: scoreToColor(entry),
+              borderWidth: isSelectedMonth(index) ? '2px' : '1px'
+            }}
+            now={22}
             key={index}
             label={progressNode(index)}
           />
         ))}
       </ProgressBar>
-      {userData?.Months && showMatches && (
-        <Row style={{ alignItems: "center", padding: "0px 10px" }}>
-          {travelMonthMatchCols}
-        </Row>
-      )}
     </>
   );
 };

@@ -55,7 +55,9 @@ export const TravelMonthsComponent = ({ countryName, travelMonths }) => {
         The best travel months for {countryName} are listed below.
         Your best matching travel month is {bestTravelMonth.bestMonth} with a score of {bestTravelMonth.maxScore}%. 
       </p>
-      <TravelMonthScore travelMonths={travelMonths} showMatches={true} />
+      <div className={'d-flex justify-content-center'}>
+        <TravelMonthScore travelMonths={travelMonths} showMatches={true} />
+      </div>
     </div>
   );
 };
