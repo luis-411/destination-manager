@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { ProgressBar, Row, Col } from "react-bootstrap";
-import useTravelRecommenderStore from "../../store/travelRecommenderStore";
+import useTravelRecommenderStore from "../store/travelRecommenderStore";
 
 const scoreToColor = (score) => {
   if (score < 15) return "red";

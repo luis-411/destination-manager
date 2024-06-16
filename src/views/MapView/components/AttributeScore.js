@@ -1,7 +1,7 @@
 import React from "react";
 import { Row, Col } from "react-bootstrap";
 import * as myConstant from "../../../data/constantData";
-import { BarChart } from "../../SharedComponents/BarChart";
+import { BarChart } from "../../../components/BarChart";
 import useTravelRecommenderStore from "../../../store/travelRecommenderStore";
 import {capitalize} from "lodash";
 

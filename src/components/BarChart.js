@@ -1,5 +1,5 @@
 import React from "react";
-import "../../styles/App.css";
+import "../styles/App.css";
 import styles from "./BarChart.module.css";
 
 export const BarChart = ({ score, benchmark, color, showBenchmark }) => {

@@ -1,6 +1,6 @@
 import React from "react";
 import { AttributeScore } from "./AttributeScore";
-import { TravelMonthScore } from "../../SharedComponents/TravelMonthScore";
+import { TravelMonthScore } from "../../../components/TravelMonthScore";
 
 export const DetailScores = ({ scores, travelMonths, visitorIndexes }) => {
   return (

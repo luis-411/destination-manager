@@ -1,5 +1,5 @@
 import React, {useMemo} from "react";
-import { TravelMonthScore } from "../../SharedComponents/TravelMonthScore";
+import { TravelMonthScore } from "../../../components/TravelMonthScore";
 import useTravelRecommenderStore from "../../../store/travelRecommenderStore";
 
 const indexToMonth = (index) => {
