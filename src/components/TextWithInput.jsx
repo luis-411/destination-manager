@@ -4,8 +4,8 @@ import ActionIcons, {Steps} from "./ActionIcons";
 import styles from "./TextWithInput.module.css";
 
 
-const TextWithInput = ({ text, defaultText, onSave }) => {
-  const [state, setState] = useState(Steps.UPLOAD);
+const TextWithInput = ({ text, defaultText, onSave, createNewGroup , setCreateNewGroup }) => {
+  const [state, setState] = useState(createNewGroup ? Steps.SAVE :Steps.UPLOAD);
   const [currentText, setCurrentText] = useState(text ?? '');
 
   const onCheck = () => {
@@ -34,7 +34,7 @@ const TextWithInput = ({ text, defaultText, onSave }) => {
         step={state}
         className={styles.actionStates}
         onEdit={() => setState(Steps.SAVE)}
-        onCancel={() => setState(Steps.UPLOAD)}
+        onCancel={() => createNewGroup ? setCreateNewGroup(false):setState(Steps.UPLOAD)}
         onCheck={onCheck}
       />
     </div>

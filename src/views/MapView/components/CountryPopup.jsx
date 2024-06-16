@@ -34,13 +34,6 @@ export const AddGroups = ({ country }) => {
     !loading
       && setDataWithProperties(data.groups.map((group) => ({ ...group, isSelected: group.regions.some((country1) => country1.id === country.id) })))
   }, [loading])
-  // useEffect(() => {
-  //   {
-  //     dataWithProperties &&
-  //       console.log(dataWithProperties);
-  //   }
-
-  // }, [dataWithProperties])
   return (
     <div>
       <h4 className={'fs-5 fw-bold'}>Add Groups</h4>

@@ -1,12 +1,13 @@
-import {Col} from "react-bootstrap";
-import {useFavouritesPaginationFrontend} from "../../hooks/useFavourites";
+import { Col } from "react-bootstrap";
+import { useFavouritesPaginationFrontend } from "../../hooks/useFavourites";
 import styles from "./RightPersonal.module.css";
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import useLoadMeWithGroups from "../../api/useLoadMeWithGroups";
 import useLoadStatistics from "../../api/useLoadStatistics";
+import useUpdateMeWithGroups from "../../api/useUpdateMeWithGroups";
 import GoToMapCountryButton from "../../components/GoToMapCountry";
-import { useState, useRef } from "react";
-
+import { useState, useRef, useEffect, useDeferredValue } from "react";
+import TextWithInput from "../../components/TextWithInput";
 const FavouriteRow = ({ score, region, id }) => {
   return (
     <div className={styles.elementRow}>
@@ -21,45 +22,89 @@ const FavouriteRow = ({ score, region, id }) => {
   )
 };
 
-const GroupRow = ({ name, regions }) => {
+const GroupRow = ({ name, regions, onCreate, setCreateNewGroup, groups, setGroups }) => {
+  const { data: dataPut, executePutGroups, loading: putLoading, error: putError } = useUpdateMeWithGroups();
+  const { data: meData, fetch, loading: groupsLoading } = useLoadMeWithGroups();
   return (
-    <div className={styles.elementRow}>
-      <Col className='col-8 d-flex flex-column'>
-        <h5 className='fs-6 fw-bold'>{name}</h5>
-        <h6 className={`fa-xs lh-1 fw-bold ${styles.groupRegions}`}>
-          {regions.map(region => region.u_name).join(', ')}
-        </h6>
-      </Col>
-      <Col className={'d-flex justify-content-evenly align-items-center'}>
-        <span className='fa-xs'>Show More</span>
-      </Col>
-    </div>
+    <>
+      {!onCreate && <div className={styles.elementRow}>
+        <Col className='col-8 d-flex flex-column'>
+          <h5 className='fs-6 fw-bold'>{name}</h5>
+          <h6 className={`fa-xs lh-1 fw-bold ${styles.groupRegions}`}>
+            {regions.map(region => region.u_name).join(', ')}
+          </h6>
+        </Col>
+        <Col className={'d-flex justify-content-evenly align-items-center'}>
+          <span className='fa-xs'>Show More</span>
+        </Col>
+
+
+      </div>}
+
+      {onCreate &&
+        <div style={{ position: "relative", display: "block" }} className={styles.elementRow}>
+          <div style={{ marginTop: "1rem" }}>
+            <TextWithInput
+              text={""}
+              createNewGroup={onCreate}
+              setCreateNewGroup={setCreateNewGroup}
+              style={{ marginTop: "1rem" }}
+              defaultText={'No group'}
+              onSave={(groupName) => {
+                executePutGroups({
+                  data: {
+                    "groups": [...groups, { name: groupName, regions: [] }]
+                  }
+                }).then((response) => {
+                  if(response.status >= 200 && response.status < 300){
+                  fetch().then(() => {        
+                    setGroups([...groups, { name: groupName, regions: [] }])
+                    setCreateNewGroup(false)
+                  })}
+                })
+                
+
+              }}
+            />
+          </div>
+        </div>
+      }
+    </>
+
   )
 }
 
 const RightPersonal = () => {
-  const {data: favourites} = useFavouritesPaginationFrontend();
+  const { data: favourites } = useFavouritesPaginationFrontend();
   const { countries } = useTravelRecommenderStore();
   const scrollRef = useRef();
+
   const regions = countries.reduce((acc, country) => ({
-      ...acc,
-      [country.properties.result.uname]: {
-        name: country.properties.name,
-        score: country.properties.result.scores.totalScore,
-        id: country.properties.result?.id
-      },
-    }
+    ...acc,
+    [country.properties.result.uname]: {
+      name: country.properties.name,
+      score: country.properties.result.scores.totalScore,
+      id: country.properties.result?.id
+    },
+  }
   ), {});
 
   const { data: meData, loading: groupsLoading } = useLoadMeWithGroups();
   const [{ data: statsData, loading: statsLoading }] = useLoadStatistics();
+  const [newGroupCreation, setNewGroupCreation] = useState(false);
+  useEffect(() => {
+    newGroupCreation && scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" })
+  }, [newGroupCreation])
 
+  const [groups, setGroups] = useState([]);
+  useEffect(() => {
+    {!groupsLoading && meData && setGroups(meData?.groups)}
+  } , [groupsLoading])
   if (groupsLoading || statsLoading) {
     return null;
   }
-  const groups = meData?.groups ?? [];
-  const suggestions = statsData.statistics?.recommendations ?? [];
 
+  const suggestions = statsData.statistics?.recommendations ?? [];
   return (
     <div className='p-3 d-flex flex-column gap-4'>
       {suggestions.length > 0 && (
@@ -95,10 +140,14 @@ const RightPersonal = () => {
         </div>
       </Col>
       <Col>
-      <div style={{justifyContent:"space-between",display:"flex"}}>
-      <h5 className='fs-6 fw-bold pb-2'>Groups</h5>
-      <span onClick={() => scrollRef.current.scrollTo({ top: 1000000, behavior: "smooth" })} style={{cursor:"pointer",fontSize:"15px",marginRight:"25px"}}>Add group</span>
-      </div>
+        <div style={{ justifyContent: "space-between", display: "flex" }}>
+          <h5 className='fs-6 fw-bold pb-2'>Groups</h5>
+          <span onClick={() => {
+            setNewGroupCreation(true);
+          }
+          }
+            style={{ cursor: "pointer", fontSize: "15px", marginRight: "25px" }}>Add group</span>
+        </div>
         <div ref={scrollRef} className={styles.favouritesHeight}>
           <div className={'d-flex flex-column gap-3'}>
             {groups.map(group => (
@@ -106,8 +155,16 @@ const RightPersonal = () => {
                 key={group.id}
                 name={group.name}
                 regions={group.regions}
+                onCreate={false}
               />
             ))}
+            {newGroupCreation && <div style={{ display: "block" }}>
+              <GroupRow
+                setGroups={setGroups}
+                groups={groups}
+                setCreateNewGroup={setNewGroupCreation}
+                onCreate={newGroupCreation} />
+            </div>}
           </div>
         </div>
       </Col>
