@@ -13,6 +13,7 @@ const LeftPersonal = ({ personalInfo }) => {
     return null;
   }
   const initials = personalInfo.username.slice(0, 2).toUpperCase();
+  console.log(personalInfo)
   return (
     <div className='p-3'>
       <Row className='position-relative mb-4'>
