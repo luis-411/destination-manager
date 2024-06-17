@@ -5,10 +5,20 @@ import {Col, Row} from "react-bootstrap";
 import GoToMapCountryButton from "../../components/GoToMapCountry";
 import {toImageUrl} from "../../tasks/toImageUrl";
 import AppCarousel from "../../components/AppCarousel";
+import {useIntersectionObserver} from "usehooks-ts";
+import {memo, useEffect} from "react";
 
-const HistoryCard = ({ historyEntity }) => {
-  // const currentImage = historyEntity.images.data?.[0];
+const HistoryCard = ({ historyEntity, isLast = false, loadMoreEntities }) => {
   const { countries } = useTravelRecommenderStore();
+  const { isIntersecting, ref } = useIntersectionObserver({
+    threshold: 0.5,
+  });
+
+  useEffect(() => {
+    if (isIntersecting && isLast) {
+      loadMoreEntities()
+    }
+  }, [isIntersecting]);
 
   const currentRegion = countries?.find(country => country.properties.result.region === historyEntity.region.data?.attributes.Region);
   const regionInfo = {
@@ -19,7 +29,7 @@ const HistoryCard = ({ historyEntity }) => {
     [require('../../images/default-image.jpg')];
 
   return (
-    <Card className={'rounded-4'}>
+    <Card className={'rounded-4'} ref={ref}>
       <div
         className={`px-4 position-absolute z-3 text-white d-flex justify-content-between w-100 ${styles.historyRegion}`}
       >
@@ -64,4 +74,4 @@ const HistoryCard = ({ historyEntity }) => {
   );
 };
 
-export default HistoryCard;
+export default memo(HistoryCard);

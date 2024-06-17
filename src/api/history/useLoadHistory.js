@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import useAxios from "axios-hooks";
 import authenticationHeader from "../authenticationHeader";
 import {useToken} from "../../components/AuthProvider/AuthProvider";
@@ -10,13 +10,13 @@ const useLoadHistory = ({
   userId,
   regionId,
 }) => {
-  const [page, setPage] = useState(initialPage);
   const visitsUrl = `${process.env.REACT_APP_BACKEND_URL}/visits`;
   const token = useToken.getState().token;
 
-  const getParams = (region = regionId) => {
+  const getParams = (obj = undefined) => {
+    const region = obj?.region ?? regionId
     const params = new URLSearchParams();
-    params.append('pagination[page]', String(page));
+    params.append('pagination[page]', String(obj?.page ?? 1));
     params.append('pagination[pageSize]', String(pageSize));
     params.append('populate', 'images,region');
     params.append('filters[user][id][$eq]', userId);
@@ -26,26 +26,40 @@ const useLoadHistory = ({
     return params;
   }
 
-  const loadMore = () => {
-    setPage(page + 1);
-  }
-
   const [{ data, loading, error }, reFetch] = useAxios({
     url: visitsUrl,
-    params: getParams(),
     ...authenticationHeader(token),
+    params: getParams(),
   },
     { useCache: false, autoCancel: false, manual: !userId }
   );
+  const [entities, setEntities] = useState({ data: [], meta: {} });
+
+  useEffect(() => {
+    if (!loading && data) {
+      setEntities({
+        data: [...entities.data, ...data.data],
+        meta: data.meta
+      });
+    }
+  }, [data, loading]);
+
+  const loadMore = () => {
+    const page = (entities.meta?.pagination?.page ?? 0) + 1;
+    if (entities.meta?.pagination && page > entities.meta.pagination?.pageCount) {
+      return;
+    }
+    reFetch({ params: getParams({ page }) });
+  }
 
   const getDataForTheRegion = (region) => {
     reFetch({
-      params: getParams(region)
+      params: getParams({ region })
     });
   }
 
 
-  return { data, loading, error, loadMore, getDataForTheRegion  };
+  return { data: entities, loading, error, loadMore, getDataForTheRegion  };
 };
 
 export default useLoadHistory;

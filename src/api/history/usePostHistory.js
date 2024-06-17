@@ -2,6 +2,7 @@ import useAxios from "axios-hooks";
 import authenticationHeader from "../authenticationHeader";
 import {useToken} from "../../components/AuthProvider/AuthProvider";
 import {useAuthContext} from "../../context/AuthContext";
+import {message} from "antd";
 
 
 const usePostHistory = () => {
@@ -12,10 +13,12 @@ const usePostHistory = () => {
 
   const [{data, loading, error}, execute] = useAxios({
     url: visitsUrl,
-    ...authenticationHeader(token),
+    headers: {
+      ...authenticationHeader(token).headers,
+      'Content-Type': 'multipart/form-data'
+    },
     method: 'POST',
-    'Content-Type': 'multipart/form-data'
-  }, { manual: true });
+  }, { manual: true, autoCancel: false });
 
   /**
    *
@@ -43,8 +46,8 @@ const usePostHistory = () => {
     execute({
       data: formData,
     })
-      .then(r => console.log(r))
-      .catch(e => console.error(e));
+      .then(r => message.success(`New visit with title "${r.data.data.attributes.title}" was added`))
+      .catch(() => message.error('Unexpected error while creating new visit. Please try again.'));
   }
 
 

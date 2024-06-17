@@ -11,7 +11,6 @@ import TextWithInput from "../../components/TextWithInput";
 import { DeleteOutlined } from "@ant-design/icons";
 import { message } from "antd";
 import { EditOutlined } from "@ant-design/icons";
-import {useAuthContext} from "../../context/AuthContext";
 
 const FavouriteRow = ({ score, region, id }) => {
   return (
