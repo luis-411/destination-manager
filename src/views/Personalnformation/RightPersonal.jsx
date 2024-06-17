@@ -197,7 +197,7 @@ const RightPersonal = () => {
           }
             style={{ cursor: "pointer", fontSize: "15px", marginRight: "25px" }}>Add group</span>
         </div>
-        <div ref={scrollRef} className={styles.favouritesHeight}>
+        <div ref={scrollRef} className={styles.groupsHeight}>
           <div className={'d-flex pe-2  flex-column gap-3'}>
             {groups.map(group => (
               <GroupRow

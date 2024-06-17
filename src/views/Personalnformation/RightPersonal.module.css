@@ -16,6 +16,12 @@
     overflow-y: scroll;
 }
 
+.groupsHeight {
+    max-height: 30rem;
+    height: 100%;
+    overflow-y: scroll;
+}
+
 .groupRegions {
     line-height: initial;
     white-space: nowrap;

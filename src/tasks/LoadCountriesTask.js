@@ -159,7 +159,7 @@ class LoadCountriesTask {
       let totalScore = 0;
       if (isAffordable) {
         const allScores = totalAttrScore.score + budgetScore + travelMonthScore;
-        totalScore = +(allScores / (2 + totalAttrScore.weight).toFixed(2));
+        totalScore = Number((allScores / (2 + totalAttrScore.weight)).toFixed(2));
       }
 
       res.scores.totalScore = totalScore;
