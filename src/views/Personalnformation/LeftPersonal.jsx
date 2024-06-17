@@ -5,7 +5,6 @@ import {capitalize} from "lodash";
 import VisitedHistory from "./VisitedHistory";
 import UploadImage from "../../components/UploadImage";
 import useUpdateUser from "../../api/user/useUpdateUser";
-import ActionIcons from "../../components/ActionIcons";
 import TextWithInput from "../../components/TextWithInput";
 import { message } from "antd";
 const LeftPersonal = ({ personalInfo }) => {
@@ -52,9 +51,10 @@ const LeftPersonal = ({ personalInfo }) => {
         <h4 className='fs-6 fw-bold'>{capitalize(personalInfo.username)}</h4>
         <div>
           <TextWithInput
-           createNewGroup={false}
+            createNewGroup={false}
             text={personalInfo.occupation}
             defaultText={'No occupation'}
+            iconClassName={styles.actionStates}
             onSave={(occupation) =>
               update({ occupation })}
           />

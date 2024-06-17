@@ -109,3 +109,10 @@
 .hoverBorderBottom:hover {
     border-bottom: 2px solid white;
 }
+
+.actionStates {
+    position: absolute;
+    right: 2rem;
+    top: 0;
+    cursor: pointer;
+}

@@ -8,7 +8,6 @@ import { RightSidebar } from "../ResultsView/RightSidebar";
 import { Tooltip } from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
-import LogButton from "./LogButton";
 import PersonalInformation from "../Personalnformation/PersonalInformation";
 import AppModal from "../../components/AppModal";
 import {useAuthContext} from "../../context/AuthContext";
@@ -35,7 +34,7 @@ const TravelRecommender = () => {
    */
   const rightColumnSizes = {
     xs: 12,
-    lg: 3,
+    lg: 4,
     xl: 3,
   };
 

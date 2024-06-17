@@ -1,6 +1,7 @@
 import React from "react";
 import { ProgressBar } from "react-bootstrap";
 import useTravelRecommenderStore from "../store/travelRecommenderStore";
+import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
 
 const scoreToColor = (score) => {
   if (score < 15) return "red";
@@ -59,16 +60,20 @@ export const TravelMonthScore = ({ travelMonths, showMatches, visitorIndexes }) 
     );
   };
 
+  const breakpoints = useBreakpoint(true);
+  const isLg = !!breakpoints.lg && !breakpoints.xl;
+  const now = isLg ? 20 : 22;
+
   return (
     <>
-      <ProgressBar>
+      <ProgressBar className={'justify-content-center'}>
         {travelMonths.map((entry, index) => (
           <ProgressBar
             style={{
               borderColor: scoreToColor(entry),
               borderWidth: isSelectedMonth(index) ? '2px' : '1px'
             }}
-            now={22}
+            now={now}
             key={index}
             label={progressNode(index)}
           />

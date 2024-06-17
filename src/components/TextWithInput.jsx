@@ -4,7 +4,15 @@ import ActionIcons, {Steps} from "./ActionIcons";
 import styles from "./TextWithInput.module.css";
 
 
-const TextWithInput = ({inputRef, text , defaultText, onSave, createNewGroup , setCreateNewGroup }) => {
+const TextWithInput = ({
+ inputRef,
+ text,
+ defaultText,
+ onSave,
+ createNewGroup ,
+ setCreateNewGroup,
+ iconClassName
+}) => {
   const [state, setState] = useState(createNewGroup ? Steps.SAVE :Steps.UPLOAD);
   const [currentText, setCurrentText] = useState(text ?? '');
 
@@ -33,9 +41,9 @@ const TextWithInput = ({inputRef, text , defaultText, onSave, createNewGroup , s
         )}
       <ActionIcons
         step={state}
-        className={styles.actionStates}
+        className={iconClassName ?? styles.actionStates}
         onEdit={() => setState(Steps.SAVE)}
-        onCancel={() => createNewGroup ? setCreateNewGroup(false):setState(Steps.UPLOAD)}
+        onCancel={() => createNewGroup ? setCreateNewGroup(false) : setState(Steps.UPLOAD)}
         onCheck={onCheck}
       />
     </div>
