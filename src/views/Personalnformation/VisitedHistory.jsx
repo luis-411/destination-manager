@@ -8,7 +8,7 @@ const VisitedHistory = ({ userId }) => {
   const historyMap = useMemo(() => (
     historyEntities.data.map((historyEntity, key, arr) => (
       <HistoryCard
-        key={historyEntity.id}
+        key={key}
         historyEntity={historyEntity.attributes}
         isLast={key === (arr.length - 1)}
         loadMoreEntities={loadMore}
