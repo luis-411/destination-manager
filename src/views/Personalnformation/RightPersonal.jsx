@@ -162,7 +162,7 @@ const RightPersonal = () => {
         <Col>
           <h5 className='fs-6 fw-bold pb-2'>Personal Recommendations</h5>
           <div className={styles.favouritesHeight}>
-            <div className={'d-flex flex-column gap-3'}>
+            <div className={'d-flex pe-2 flex-column gap-3'}>
               {suggestions.map(suggestion => (
                 <FavouriteRow
                   key={suggestion.id}
@@ -178,7 +178,7 @@ const RightPersonal = () => {
       <Col>
         <h5 className='fs-6 fw-bold pb-2'>Favourite Regions</h5>
         <div className={styles.favouritesHeight}>
-          <div className={'d-flex flex-column gap-3'}>
+          <div className={'d-flex pe-2 flex-column gap-3'}>
             {favourites.data.map(favourite => (
               <FavouriteRow
                 key={favourite.id}
@@ -200,7 +200,7 @@ const RightPersonal = () => {
             style={{ cursor: "pointer", fontSize: "15px", marginRight: "25px" }}>Add group</span>
         </div>
         <div ref={scrollRef} className={styles.favouritesHeight}>
-          <div className={'d-flex flex-column gap-3'}>
+          <div className={'d-flex pe-2  flex-column gap-3'}>
             {groups.map(group => (
               <GroupRow
                 key={group.id}

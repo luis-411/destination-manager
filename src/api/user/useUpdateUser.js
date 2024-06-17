@@ -50,17 +50,19 @@ const useUpdateUser = ({ userId }) => {
   const { removeFile } = useRemoveFile();
 
   const uploadImageToField = async (file, personalInfo, field = 'coverPhoto') => {
-    if (personalInfo[field]) {
-      await removeFile(personalInfo[field].id);
-    }
-    await uploadFile(file).then(response => {
+    try{
+      if (personalInfo[field]) {
+        await removeFile(personalInfo[field].id);
+      }
+      const response = await uploadFile(file);
       const id = response.data[0].id;
-      execute({
-        data: { [field]: id },
-      })
-        .catch(e => console.error(e));
-    });
-  }
+      const result = await execute({ data: { [field]: id } });
+      return result;
+    }
+    catch(e){
+      return new Error("Image upload failed");
+    }
+  };
 
   const update = (personalInfo) => {
     execute({

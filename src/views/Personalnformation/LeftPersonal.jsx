@@ -7,7 +7,7 @@ import UploadImage from "../../components/UploadImage";
 import useUpdateUser from "../../api/user/useUpdateUser";
 import ActionIcons from "../../components/ActionIcons";
 import TextWithInput from "../../components/TextWithInput";
-
+import { message } from "antd";
 const LeftPersonal = ({ personalInfo }) => {
   const { uploadImageToField, update } = useUpdateUser({ userId: personalInfo.id });
   if (!personalInfo) {
@@ -19,7 +19,15 @@ const LeftPersonal = ({ personalInfo }) => {
       <Row className='position-relative mb-4'>
         <UploadImage
           image={personalInfo.coverPhoto}
-          onSave={(file) => uploadImageToField(file, personalInfo)}
+          onSave={(file) => {   
+            try{
+             uploadImageToField(file, personalInfo)
+              message.success("Image successfully uploaded")
+            }
+            catch(e){
+              message.error(e.message || "Image failed to upload");
+            }
+          }}
         />
         <div
           className={styles.avatarWrapper}
@@ -28,7 +36,15 @@ const LeftPersonal = ({ personalInfo }) => {
             size={56}
             image={personalInfo.profilePhoto}
             label={initials}
-            onSave={(file) => uploadImageToField(file, personalInfo, 'profilePhoto')}
+            onSave={(file) => {   
+              try{
+                uploadImageToField(file, personalInfo, 'profilePhoto')
+                message.success("Profile picture successfully uploaded")
+              }
+              catch(e){
+                message.error(e.message || "Profile picture failed to upload");
+              }
+            }}
           />
         </div>
       </Row>
