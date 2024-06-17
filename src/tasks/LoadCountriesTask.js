@@ -156,12 +156,11 @@ class LoadCountriesTask {
       } else {
         totalAttrScore = { score: res.scores.presetTypeScore, weight: userData.PresetType.length };
       }
-      var totalScore = isAffordable
-        ? +((totalAttrScore.score +
-          budgetScore +
-          travelMonthScore) /
-          (2 + totalAttrScore.weight)).toFixed(2)
-        : 0;
+      let totalScore = 0;
+      if (isAffordable) {
+        const allScores = totalAttrScore.score + budgetScore + travelMonthScore;
+        totalScore = +(allScores / (2 + totalAttrScore.weight).toFixed(2));
+      }
 
       res.scores.totalScore = totalScore;
       mapCountry.properties.result = res;
