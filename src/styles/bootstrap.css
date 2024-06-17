@@ -30,6 +30,9 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
 }
+.form-check-input[type=checkbox]{
+    cursor: pointer;
+}
 
 /* accordions */
 .accordion-button {

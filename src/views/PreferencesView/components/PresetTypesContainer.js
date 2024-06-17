@@ -68,7 +68,7 @@ export const PresetTypesContainer = () => {
                 </>
             );
         }
-        return <div style={{ display: "grid", gridAutoFlow: "column", columnGap: "0.5rem", gridTemplateColumns: "1fr 1fr 1fr" }}>{rows}</div>;//                    key={`preset-row-${i * 3}`}>
+        return <div style={{ display: "grid", columnGap: "0.5rem", gridTemplateColumns: "1fr 1fr 1fr" }}>{rows}</div>;//                    key={`preset-row-${i * 3}`}>
 
     }, [userData, setUserData]);
 
