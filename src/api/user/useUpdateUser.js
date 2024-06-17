@@ -52,12 +52,15 @@ const useUpdateUser = ({ userId }) => {
   const uploadImageToField = async (file, personalInfo, field = 'coverPhoto') => {
     try{
       if (personalInfo[field]) {
-        await removeFile(personalInfo[field].id);
+        try {
+          await removeFile(personalInfo[field].id);
+        } catch (e) {
+          console.warn(`Could not remove image with id ${personalInfo[field].id}`)
+        }
       }
       const response = await uploadFile(file);
       const id = response.data[0].id;
-      const result = await execute({ data: { [field]: id } });
-      return result;
+      return await execute({data: {[field]: id}});
     }
     catch(e){
       return new Error("Image upload failed");
