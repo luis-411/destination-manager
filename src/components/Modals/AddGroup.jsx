@@ -24,7 +24,7 @@ export const AddGroups = ({ country }) => {
     <div>
       <h4 className={'fs-5 fw-bold'}>Add Groups</h4>
       {dataWithProperties && !loading && <div>
-        <div style={{ marginTop: "2rem", display: "grid", gap: "1rem", gridTemplateColumns: "0.25fr 0.25fr 0.25fr 0.25fr" }}>
+        <div style={{ marginTop: "2rem", display: "grid", gap: "1rem",overflowY:"auto",height:"12rem", gridTemplateColumns: "0.25fr 0.25fr 0.25fr 0.25fr" }}>
           {dataWithProperties.map((group, index) => {
             return (
               <div
