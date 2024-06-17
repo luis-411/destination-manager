@@ -15,7 +15,7 @@ import { EditOutlined } from "@ant-design/icons";
 const FavouriteRow = ({ score, region, id }) => {
   return (
     <div className={styles.elementRow}>
-      <Col className='col-6 d-flex flex-column'>
+      <Col xs={5} md={4} xl={6} className=' d-flex flex-column'>
         {score && <h6 className='fa-xs lh-1 fw-bold'>Score {Math.floor(score)}/100</h6>}
         <h5 className={`fs-6 fw-bold ${styles.groupRegions}`}>{region}</h5>
       </Col>
@@ -94,8 +94,6 @@ const GroupRow = ({ id, inputRef, name, regions, onCreate, setCreateNewGroup, gr
             <DeleteOutlined />
           </button>
         </Col>
-
-
       </div>}
 
       {onCreate &&
