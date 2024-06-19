@@ -1,6 +1,6 @@
 import mapData from "../data/regions.json";
 import axios from 'axios';
-import {getShortMonths, numberToShortMonth} from "../helpers/months";
+import {getShortMonths} from "../helpers/months";
 
 class LoadCountriesTask {
   allResults = [];
@@ -264,34 +264,6 @@ class LoadCountriesTask {
   preprocessSeason(isPeakSeason) {
     return Object.entries(isPeakSeason)
       .reduce((months, [month, isPeak]) => isPeak ? [...months, month] : months, []);
-  }
-
-
-  /**
-   *
-   * @param {Record<String, boolean>} countryPeakSeasons
-   * @param userData
-   */
-  calculatePeakSeasonScore = (countryPeakSeasons, userData) => {
-    const selectSeasons = (selectPeak = true) => userData.Months
-      .map((val, idx) => ([val, idx]))
-      .filter(([val, _]) => selectPeak ? val === 100 : val === 0)
-      .map(([_, val]) => {
-        return numberToShortMonth(val + 1)
-      });
-
-    let matchingSeasons = [];
-    let selectedLength = 12;
-    if (userData.isPeakSeasonImportant) {
-      // select seasons which are peak
-      matchingSeasons = selectSeasons(true);
-      selectedLength = matchingSeasons.length;
-      matchingSeasons = matchingSeasons.filter(month => countryPeakSeasons.includes(month))
-    }
-
-    const oneMonthScore = 100 / selectedLength;
-    // console.log(100 - oneMonthScore * selectedSeasons.length);
-    return 100 - oneMonthScore * matchingSeasons.length;
   }
 
   calculateTravelVisitorScore = (countryVisitorIndex, userData) => {
