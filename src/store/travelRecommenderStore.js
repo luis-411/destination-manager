@@ -4,9 +4,27 @@ const useTravelRecommenderStore = create((set) => ({
     countries: [],
     userData: {
         isPriceImportant: false,
-        Budget: 60,
+        Budget: 50,
         Months: Array(12).fill(0),
         PresetType: [],
+        isPeakSeasonImportant: false,
+        /**
+         * Decide whether to use visited
+         * index for scoring regions
+         */
+        isVisitorIndexImportant: true,
+        /**
+         * Scaled between 0-100 targeted percentage
+         * of people visiting the country, acts in a
+         * similar way to the `userData.Budget`
+         * @type {{ weight: number, score: number }}
+         */
+        VisitorIndex: {
+            // importance of the visitorIndex in the overall algorithm calculation
+            weight: 1,
+            // how much crowded the place should be according to the user
+            score: 50,
+        },
         Attributes: {
             Nature: {
                 weight: 1,
@@ -48,7 +66,9 @@ const useTravelRecommenderStore = create((set) => ({
     },
     results: [],
     setCountries: (newCountries) => set({ countries: newCountries }),
-    setUserData: (newUserData) => set({ userData: newUserData }),
+    setUserData: (newUserData) => {
+        set({ userData: newUserData })
+    },
     setResults: (newResults) => set({ results: newResults }),
 }));
 
