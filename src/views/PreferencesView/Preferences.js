@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import "../../styles/App.css";
-import Budget from "./components/Budget";
 import { CustomizationContainer } from "./components/CustomizationContainer";
 import { PresetTypesContainer } from "./components/PresetTypesContainer";
 import { Tabs, Tab } from "react-bootstrap";
-import AdditionalInfo from "./components/AdditionalInfo";
 import TravelMonths from "./components/TravelMonths";
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
+import RangedPreference from "../../components/RangedPreference";
 
 const Preferences = () => {
   const { userData, setUserData } = useTravelRecommenderStore();
@@ -18,11 +17,24 @@ const Preferences = () => {
       <div style={{ fontWeight: "700", fontSize: "1.1em" }}>DestiRec</div>
       <span style={{fontWeight:"300",fontSize:"0.8rem"}}>Travel Destination Recommender System</span>
       </div>
-      <div style={{ padding: "10px 0" }}>
-        <Budget />
+      <div className='mb-4'>
+        <RangedPreference
+          userDataKey='Budget'
+          checkKey='isPriceImportant'
+          title='Budget'
+          checkLabel='Filter out the destinations over the  budget'
+          checkTooltipText='If you select the checkbox the over-budget destinations will be
+          filtered out. if it is not selected, price would have an impact on the
+          recommendations just like any other attribute'
+          step={50}
+        />
       </div>
       <div className='mb-4'>
-        <AdditionalInfo />
+        <RangedPreference
+          userDataKey='VisitorIndex.score'
+          title='Region Popularity'
+          stepsText={['High', 'Medium', 'Low']}
+        />
       </div>
       <div className='mb-4'>
         <TravelMonths />

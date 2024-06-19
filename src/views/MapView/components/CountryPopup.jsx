@@ -14,7 +14,7 @@ import { useAppModal } from "../../../components/AppModal";
 import CreateNewVisit from "../../../components/Modals/CreateNewVisit";
 import useLoadHistory from "../../../api/history/useLoadHistory";
 import useLoadMeWithGroups from "../../../api/useLoadMeWithGroups";
-import shortMonthToLongMonth from "../../../helpers/shortMonthToLongMonth";
+import { convertShortMonthToLong } from "../../../helpers/months";
 import AddGroups from "../../../components/Modals/AddGroup";
 
 const PopupGroup = ({ name }) => {
@@ -61,7 +61,7 @@ export const CountryPopup = ({ country }) => {
     if (country.peakSeasons.length === 0) {
       return "None";
     }
-    return country.peakSeasons.map(month => shortMonthToLongMonth(month)).join(separator);
+    return country.peakSeasons.map(month => convertShortMonthToLong(month)).join(separator);
   };
 
   const characteristics = [

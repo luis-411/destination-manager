@@ -3,6 +3,7 @@ import { ButtonGroup, ToggleButton, Button } from "react-bootstrap";
 import "../../../styles/App.css";
 import useTravelRecommenderStore from "../../../store/travelRecommenderStore";
 import styles from "../Preferences.module.css";
+import RangedPreference from "../../../components/RangedPreference";
 
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
   "November", "December"];
@@ -54,7 +55,14 @@ const TravelMonths = () => {
       <p style={{ textAlign: "left", justifyContent: "center", margin: 0 }}>
         Preferred Travel Months
       </p>
-      <div className='d-flex justify-content-end mb-3'>
+      <div className='d-flex justify-content-between mb-3'>
+        <RangedPreference
+          checkKey='isPeakSeasonImportant'
+          checkLabel='Allow peak season impact'
+          checkTooltipText='If selected, peak season months will negatively impacted by
+           the final total score for the region'
+          step={50}
+        />
         <Button variant="secondary" size="sm" style={{ fontSize: '0.625rem' }} onClick={() => {
           setUserData({
             ...userData,
