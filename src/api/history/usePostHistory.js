@@ -2,7 +2,6 @@ import useAxios from "axios-hooks";
 import authenticationHeader from "../authenticationHeader";
 import {useToken} from "../../components/AuthProvider/AuthProvider";
 import {useAuthContext} from "../../context/AuthContext";
-import {message} from "antd";
 
 
 const usePostHistory = () => {
@@ -43,11 +42,9 @@ const usePostHistory = () => {
     data.region = data.region.id;
     formData.append('data', JSON.stringify(data));
 
-    execute({
+    return execute({
       data: formData,
     })
-      .then(r => message.success(`New visit with title "${r.data.data.attributes.title}" was added`))
-      .catch(() => message.error('Unexpected error while creating new visit. Please try again.'));
   }
 
 

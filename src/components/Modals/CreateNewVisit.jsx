@@ -5,9 +5,10 @@ import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 import usePostHistory from "../../api/history/usePostHistory";
 import {useAppModal} from "../AppModal";
+import {message} from "antd";
 
 export const CreateNewVisit = ({ country }) => {
-  const { createNewVisit }  = usePostHistory();
+  const { createNewVisit, error, loading }  = usePostHistory();
   const { reset } = useAppModal();
 
   const [visit, visitActions] = useMap([
@@ -86,8 +87,16 @@ export const CreateNewVisit = ({ country }) => {
   ]);
 
   const onSave = () => {
-    createNewVisit(visit, ['photos']);
-    reset();
+    createNewVisit(visit, ['photos']).then((r) => {
+      if (!error && !loading) {
+        message.success(`New visit with title "${r.data.data.attributes.title}" was added`)
+        reset();
+      } else {
+        message.error('Unexpected error while creating new visit. Please try again.')
+      }
+    }).catch(e => {
+        message.error(`Unexpected error while creating new visit. Please try again.\n Error ${e.message}`)
+    });
   }
 
   return (

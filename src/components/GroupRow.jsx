@@ -122,8 +122,7 @@ const GroupRow = ({
               )}
             </div>
             <div style={{display: "flex", alignItems: "center"}}>
-              {!isEditMode && <h5 style={{display: "inline", fontSize: '0.8rem'}}
-                   className='fw-bold'>{groupDescription || 'No description'}</h5>}
+              {!isEditMode && <h5 style={{display: "inline", fontSize: '0.8rem'}}>{groupDescription || 'No description'}</h5>}
               {isEditMode && (
                 <Form.Control
                   className={`${textInputStyles.input} mt-1 mb-2`}

@@ -120,8 +120,13 @@ const RightPersonal = () => {
                 setGroups={setGroups}
               />
             ))}
-            {newGroupCreation && <div style={{ display: "block" }}>
-              <GroupRow
+            {groups.length === 0 && !newGroupCreation && (
+              <div className='w-full'>
+                <h6>No travel guides yet</h6>
+              </div>
+            )}
+            {newGroupCreation && <div style={{display: "block"}}>
+            <GroupRow
                 inputRef={inputRef}
                 setGroups={setGroups}
                 groups={groups}

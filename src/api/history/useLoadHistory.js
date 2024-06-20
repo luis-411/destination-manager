@@ -38,7 +38,7 @@ const useLoadHistory = ({
   useEffect(() => {
     if (!loading && data) {
       setEntities({
-        data: [...entities.data, ...data.data],
+        data: [...entities.data, ...data.data.filter(el => !entities  || !entities?.data.find(en => en.id === el.id))],
         meta: data.meta
       });
     }
@@ -46,7 +46,7 @@ const useLoadHistory = ({
 
   const loadMore = () => {
     const page = (entities.meta?.pagination?.page ?? 0) + 1;
-    if (entities.meta?.pagination && page > entities.meta.pagination?.pageCount) {
+    if (entities.meta?.pagination && page >= entities.meta.pagination?.pageCount) {
       return;
     }
     reFetch({ params: getParams({ page }) });

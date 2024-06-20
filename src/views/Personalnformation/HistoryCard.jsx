@@ -7,8 +7,15 @@ import {toImageUrl} from "../../tasks/toImageUrl";
 import AppCarousel from "../../components/AppCarousel";
 import {useIntersectionObserver} from "usehooks-ts";
 import {memo, useEffect} from "react";
+import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 
-const HistoryCard = ({ historyEntity, isLast = false, loadMoreEntities }) => {
+const HistoryCard = ({
+ historyEntity,
+ isLast = false,
+ loadMoreEntities,
+ onDelete,
+ id
+}) => {
   const { countries } = useTravelRecommenderStore();
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0.5,
@@ -39,19 +46,28 @@ const HistoryCard = ({ historyEntity, isLast = false, loadMoreEntities }) => {
       <AppCarousel images={currentImages} />
       <Card.Body>
         <Row>
-          <Col className={'mb-2 col-6'}>
-            <h5 className='fa-xs'>Arrival: {new Date(+historyEntity.arrived * 1000).toLocaleDateString()}</h5>
+          <Col className={'col-6'}>
+            <h5 style={{ fontSize: '0.8rem' }}>Arrival: {new Date(+historyEntity.arrived * 1000).toLocaleDateString()}</h5>
           </Col>
-          <Col className={'mb-2 col-6'}>
-            <h5 className='fa-xs text-lg-end'>Review: {historyEntity.review}</h5>
+          <Col className={'col-6'}>
+            <h5 style={{ fontSize: '0.8rem' }} className='text-lg-end m-0'>Review: {historyEntity.review}/5</h5>
           </Col>
         </Row>
-        <Row className={'mb-2'}>
-          <Col className={'mb-2 col-6'}>
-            <h5 className='fa-xs'>Departure: {new Date(+historyEntity.departed * 1000).toLocaleDateString()}</h5>
+        <Row >
+          <Col className={'col-6'}>
+            <h5 style={{ fontSize: '0.8rem' }}>Departure: {new Date(+historyEntity.departed * 1000).toLocaleDateString()}</h5>
           </Col>
-          <Col className={'mb-2 col-6'}>
-            <h5 className='fa-xs text-lg-end'>Season: {historyEntity.season ?? 'No season'}</h5>
+          <Col className={'col-6 d-flex justify-content-end'}>
+            <GoToMapCountryButton
+              regionId={currentRegion?.properties?.result.id}
+              showText={false}
+            />
+            <button className="btn text-white">
+              <EditOutlined/>
+            </button>
+            <button className="btn text-white" onClick={() => onDelete(id)}>
+              {<DeleteOutlined/>}
+            </button>
           </Col>
         </Row>
         <Card.Title className='fs-6'>
@@ -60,15 +76,6 @@ const HistoryCard = ({ historyEntity, isLast = false, loadMoreEntities }) => {
         <Card.Text className={`${styles.description} fa-xs mb-1`}>
           {historyEntity.description}
         </Card.Text>
-        <Card.Footer className='border-0 px-0'>
-          <Col
-            className='col-6'
-          >
-           <GoToMapCountryButton
-             regionId={currentRegion?.properties?.result.id}
-           />
-          </Col>
-        </Card.Footer>
       </Card.Body>
     </Card>
   );
