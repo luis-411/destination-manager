@@ -69,8 +69,7 @@ const LoginButton = () => {
                        showProfilePhoto ?
                         <img
                             src={toImageUrl(personalInfo.profilePhoto)}
-                            style={{ borderRadius: "50%", width: '1.85rem', height: '1.85rem'}}
-                            className={styles.avatarImg}
+                            style={{ borderRadius: "50%", width: '1.85rem', height: '1.85rem', objectFit: 'cover'}}
                             alt="avatar"></img>
                         :
                         <UserIcon />}
