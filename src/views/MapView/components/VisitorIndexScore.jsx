@@ -16,7 +16,7 @@ const VisitorIndexScore = ({visitorIndexes, className, peakSeasons }) => {
         {sortedValues.map((entry, index) => {
           const indicateMonth = peakSeasons.includes(sortedVisitorKeys[index]);
           return (
-            <div className='d-flex flex-column gap-1'>
+            <div className='d-flex flex-column gap-1' key={index}>
               <p className='m-0 text-center' style={{fontSize: "10px"}}>
                 {capitalize(sortedVisitorKeys[index])}
               </p>

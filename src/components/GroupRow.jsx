@@ -189,13 +189,24 @@ const GroupRow = ({
             <button
               className='btn ps-0 fw-bold'
               style={{
-              fontSize: '0.875rem',
+                fontSize: '0.875rem',
                 '--bs-btn-active-border-color': 'transparent',
                 '--bs-btn-color': 'rgba(255, 255, 255, 0.7)'
               }}
               onClick={onSave}
             >
               Create new group
+            </button>
+            <button
+              className='btn ps-0 fw-bold'
+              style={{
+                fontSize: '0.875rem',
+                '--bs-btn-active-border-color': 'transparent',
+                '--bs-btn-color': 'rgba(255, 255, 255, 0.7)'
+              }}
+              onClick={() => setCreateNewGroup(false)}
+            >
+              Cancel
             </button>
           </div>
         </div>
