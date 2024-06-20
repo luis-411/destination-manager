@@ -22,3 +22,9 @@ export function numberToShortMonth(number) {
     .format(date))
     .toLowerCase();
 }
+
+
+export function shortMonthToNumber (shortMonth) {
+  const date = new Date(`${capitalize(shortMonth)} 1, 2000`);
+  return date.getMonth() + 1;
+}

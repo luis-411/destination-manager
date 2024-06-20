@@ -22,6 +22,7 @@ export const useReferencedCountry = create((set) => ({
 const Map = ({ setActiveResult }) => {
   const [map, setMap] = useState(null);
   const countries = useTravelRecommenderStore((state) => state.countries);
+  const travelStore = useTravelRecommenderStore();
   const geoJsonLayer = useRef(null);
   const mapLayers = useRef([]);
   const {

@@ -31,10 +31,10 @@ const PopupGroup = ({ name }) => {
 
 
 export const CountryPopup = ({ country }) => {
-  const [selectedGroup, setSelectedGroup] = useState();
+  const [selectedGroups, setSelectedGroups] = useState();
   const iconStyle = { fontSize: '12px' };
   const { user } = useAuthContext();
-  const { data, fetch } = useLoadMeWithGroups();
+  const { data: groups, fetch } = useLoadMeWithGroups();
   const modal = useAppModal();
   const { data: historyData, getDataForTheRegion: getHistoryDataForRegion } = useLoadHistory({
     userId: user?.id,
@@ -67,11 +67,11 @@ export const CountryPopup = ({ country }) => {
   const characteristics = [
     { name: 'Visitor Number', value: getTotalVisitorNumber(country), show: true },
     { name: 'Budget Level', value: budgetLabel, show: true },
-    { name: 'Recommended', value: <LikeOutlined style={iconStyle} />, show: !!user?.id },
+    { name: 'Recommended', value: <LikeOutlined style={iconStyle} />, show: false },
   ];
 
   const regionStatistics = [
-    { label: 'Best seasons',  text: showBestSeasons(country), show: true  },
+    { label: 'Peak seasons',  text: showBestSeasons(country), show: true  },
     { label: 'Score', text: `${country.scores.totalScore}/100`, show: true },
     { label: 'Your visits', text: historyData?.meta?.pagination?.total ?? 0, show: !!user?.id },
   ];
@@ -90,9 +90,15 @@ export const CountryPopup = ({ country }) => {
   }, [modal,country]);
 
   useEffect(() => {
-    data && setSelectedGroup(data.groups.filter(
-      (group) => group.regions.some((country1) => country.id === country1.id)))
-  }, [data]);
+    console.log(country.peakSeasons, country.visitorIndex);
+  }, [country])
+
+  useEffect(() => {
+    groups && setSelectedGroups(groups.groups
+      .filter((group) => group.regions
+        .some((country1) => country.id === country1.id)
+      ))
+  }, [groups]);
 
   return (
     <div style={{ color: "white" }}>
@@ -146,11 +152,11 @@ export const CountryPopup = ({ country }) => {
               <PlusCircleOutlined className={'ms-2'}/>
             </button>
           </Col>
-          <Col className='mobile-scroll d-flex gap-2'>
-            {data && selectedGroup?.map((group, idx) => (
+          <Col className={`mobile-scroll d-flex gap-2 ${selectedGroups?.length === 0 ? 'justify-content-center' : 'justify-content-start' }`}>
+            {groups && selectedGroups?.map((group, idx) => (
               <PopupGroup name={group.name} key={idx} />
             ))}
-            {selectedGroup?.length === 0 && <h6 className='m-0' style={{ fontSize: '0.75rem' }}>No groups</h6>}
+            {selectedGroups?.length === 0 && <h6 className='m-0' style={{ fontSize: '0.75rem' }}>No groups</h6>}
           </Col>
         </>
       )}
@@ -159,8 +165,9 @@ export const CountryPopup = ({ country }) => {
           name: key,
           value: country.qualifications[key],
         }))}
+        peakSeasons={country.peakSeasons}
         travelMonths={country.travelMonths}
-        visitorIndexes={Object.values(country.visitorIndex)}
+        visitorIndexes={country.visitorIndex}
       />
     </div>
   );

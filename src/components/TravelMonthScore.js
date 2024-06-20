@@ -42,21 +42,18 @@ const indexToMonth = (index) => {
   }
 }
 
-export const TravelMonthScore = ({ travelMonths, showMatches, visitorIndexes }) => {
+export const TravelMonthScore = ({ travelMonths, showMatches, className }) => {
   const { userData } = useTravelRecommenderStore();
-
   const isSelectedMonth = (index) => showMatches && userData?.Months && userData.Months[index] === 100;
 
   const progressNode = (index) => {
     const indicateMonth = isSelectedMonth(index);
     return (
-      <div className={indicateMonth ? 'fw-bold' : 'fw-normal'}>
+      <>
         <p className='m-0' style={{fontSize: "10px"}}>
           {indicateMonth && "+"} {indexToMonth(index)}
         </p>
-        {visitorIndexes && visitorIndexes[index] &&
-          <p className='m-0' style={{fontSize: "8px"}}>Visits: {visitorIndexes[index]}</p>}
-      </div>
+      </>
     );
   };
 
@@ -66,18 +63,22 @@ export const TravelMonthScore = ({ travelMonths, showMatches, visitorIndexes }) 
 
   return (
     <>
-      <ProgressBar className={'justify-content-center'}>
-        {travelMonths.map((entry, index) => (
-          <ProgressBar
-            style={{
-              borderColor: scoreToColor(entry),
-              borderWidth: isSelectedMonth(index) ? '2px' : '1px'
-            }}
-            now={now}
-            key={index}
-            label={progressNode(index)}
-          />
-        ))}
+      <ProgressBar className={`justify-content-center ${className}`}>
+        {travelMonths.map((entry, index) => {
+          const indicateMonth = isSelectedMonth(index);
+           return (
+             <ProgressBar
+               className={indicateMonth ? 'fw-bold' : 'fw-normal'}
+               style={{
+                 borderColor: scoreToColor(entry),
+                 borderWidth: isSelectedMonth(index) ? '2px' : '1px'
+               }}
+               now={now}
+               key={index}
+               label={progressNode(index)}
+             />
+           )
+        })}
       </ProgressBar>
     </>
   );

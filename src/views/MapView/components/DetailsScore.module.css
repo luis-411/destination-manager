@@ -1,0 +1,37 @@
+.monthsScroll {
+    display: flex;
+    overflow: scroll !important;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    flex-wrap: nowrap !important;
+    scrollbar-width: none;
+    justify-content: flex-start !important;
+}
+
+.monthsScroll > div {
+    flex: 1 1 0 !important;
+    width: initial !important;
+    padding: 0 1rem;
+    overflow: initial !important;
+}
+
+.visitorScroll {
+    display: flex;
+    overflow: scroll !important;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    flex-wrap: nowrap !important;
+    scrollbar-width: none;
+    justify-content: flex-start !important;
+}
+
+.visitorScroll > div {
+    flex: 1 1 0 !important;
+    width: initial !important;
+    overflow: initial !important;
+}
+
+.visitorScroll div[role="progressbar"] {
+    padding: 0 1rem !important;
+    border: none;
+}
