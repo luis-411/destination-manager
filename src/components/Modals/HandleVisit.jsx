@@ -6,19 +6,28 @@ import DatePicker from "react-datepicker";
 import usePostHistory from "../../api/history/usePostHistory";
 import {useAppModal} from "../AppModal";
 import {message} from "antd";
+import useEditHistory from "../../api/history/useEditHistory";
 
-export const CreateNewVisit = ({ country }) => {
-  const { createNewVisit, error, loading }  = usePostHistory();
+/**
+ *
+ * @param country
+ * @param {Object | undefined} visit
+ * @return {Element}
+ * @constructor
+ */
+export const HandleVisit = ({ country, oldVisit, setOldVisit }) => {
+  const { createNewVisit, error: createError, loading: createLoading }  = usePostHistory();
+  const { editVisit, error: editError, loading: editLoading } = useEditHistory();
   const { reset } = useAppModal();
 
   const [visit, visitActions] = useMap([
-    ['title', ''],
-    ['review', 1],
-    ['description', ''],
+    ['title', oldVisit?.title ?? ''],
+    ['review', oldVisit?.review ?? 1],
+    ['description', oldVisit?.description ?? ''],
     ['photos', []],
-    ['region', country],
-    ['arrived', new Date()],
-    ['departed', new Date()],
+    ['region', oldVisit?.country ?? country],
+    ['arrived', +oldVisit?.arrived ?? new Date()],
+    ['departed', +oldVisit?.departed ?? new Date()],
   ]);
 
   const [visitForm] = useMap([
@@ -87,27 +96,43 @@ export const CreateNewVisit = ({ country }) => {
   ]);
 
   const onSave = () => {
+    if (oldVisit) {
+      editVisit(oldVisit.id, visit).then(r => {
+        if (!editError && !editLoading) {
+          message.success(`Visit with title "${r.data.data.attributes.title}" was edited`);
+          setOldVisit?.(Object.fromEntries(visit.entries()));
+          reset();
+        } else {
+          message.error('Unexpected error while editing the visit. Please try again.');
+        }
+      }).catch(e => {
+        message.error(`Unexpected error while editing new visit. Please try again.\n Error ${e.message}`);
+      });
+      return;
+    }
     createNewVisit(visit, ['photos']).then((r) => {
-      if (!error && !loading) {
-        message.success(`New visit with title "${r.data.data.attributes.title}" was added`)
+      if (!createError && !createLoading) {
+        message.success(`New visit with title "${r.data.data.attributes.title}" was added`);
         reset();
       } else {
-        message.error('Unexpected error while creating new visit. Please try again.')
+        message.error('Unexpected error while creating new visit. Please try again.');
       }
     }).catch(e => {
-        message.error(`Unexpected error while creating new visit. Please try again.\n Error ${e.message}`)
+        message.error(`Unexpected error while creating new visit. Please try again.\n Error ${e.message}`);
     });
   }
 
   return (
     <div className={'px-4'}>
-      <h4 className={'fa-sm ms-2 mb-4 fw-bold'}>Create new visit to {country.region}</h4>
+      <h4 className={'fa-sm ms-2 mb-4 fw-bold'}>{oldVisit
+        ? `Update visit for ${country.region}`
+        : `Create new visit to ${country.region}`}</h4>
       <div className={'d-flex flex-column gap-2'}>
         <div className="d-flex gap-2 justify-content-between">
           <div style={{flexBasis: '48%'}}>
             <Form.Label htmlFor="title">{visitForm.get('title').label}</Form.Label>
             <Form.Control
-              value={visit.get('title').value}
+              value={visit.get('title')}
               id={visitForm.get('title').id}
               placeholder={visitForm.get('title').label}
               aria-label={'Trip to'}
@@ -139,7 +164,7 @@ export const CreateNewVisit = ({ country }) => {
             onChange={visitForm.get('description').onChange}
           />
         </div>
-        <div>
+        {!oldVisit && <div>
           <Form.Label htmlFor="photos">{visitForm.get('photos').label}</Form.Label>
           <Form.Control
             id={visitForm.get('photos').id}
@@ -148,7 +173,7 @@ export const CreateNewVisit = ({ country }) => {
             onChange={visitForm.get('photos').onChange}
             accept={"image/*"}
           />
-        </div>
+        </div>}
         <div className={'d-flex flex-column'}>
           <Form.Label htmlFor="arrived">{visitForm.get('arrived').label}</Form.Label>
           <DatePicker
@@ -178,4 +203,4 @@ export const CreateNewVisit = ({ country }) => {
   )
 };
 
-export default CreateNewVisit;
+export default HandleVisit;

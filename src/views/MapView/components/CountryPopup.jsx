@@ -11,7 +11,7 @@ import {
 } from "@ant-design/icons";
 import { useAuthContext } from "../../../context/AuthContext";
 import { useAppModal } from "../../../components/AppModal";
-import CreateNewVisit from "../../../components/Modals/CreateNewVisit";
+import HandleVisit from "../../../components/Modals/HandleVisit";
 import useLoadHistory from "../../../api/history/useLoadHistory";
 import useLoadMeWithGroups from "../../../api/useLoadMeWithGroups";
 import { convertShortMonthToLong } from "../../../helpers/months";
@@ -43,7 +43,7 @@ export const CountryPopup = ({ country }) => {
 
   const onCreateNewRegionVisit = useCallback(() => {
     modal.setIsOpen(true);
-    modal.setComponent(<CreateNewVisit country={country} />);
+    modal.setComponent(<HandleVisit country={country} />);
   }, [country]);
 
   const onAddGroups = () => {

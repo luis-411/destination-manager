@@ -6,8 +6,10 @@ import GoToMapCountryButton from "../../components/GoToMapCountry";
 import {toImageUrl} from "../../tasks/toImageUrl";
 import AppCarousel from "../../components/AppCarousel";
 import {useIntersectionObserver} from "usehooks-ts";
-import {memo, useEffect} from "react";
+import {memo, useEffect, useState} from "react";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
+import {useAppModal} from "../../components/AppModal";
+import HandleVisit from "../../components/Modals/HandleVisit";
 
 const HistoryCard = ({
  historyEntity,
@@ -16,10 +18,31 @@ const HistoryCard = ({
  onDelete,
  id
 }) => {
+  const modal = useAppModal();
   const { countries } = useTravelRecommenderStore();
   const { isIntersecting, ref } = useIntersectionObserver({
     threshold: 0.5,
   });
+  const [entity, setEntity] = useState(historyEntity);
+
+  const onEdit = () => {
+    modal.setComponent(
+      <HandleVisit
+          oldVisit={{...entity, id }}
+          country={{ region: historyEntity.region.data.attributes.Region }}
+          setOldVisit={visit => {
+            Object.keys(visit).forEach(key => {
+              if (key === 'photos' || key === 'region') {
+                return
+              }
+              setEntity(oldVisit =>
+                ({...oldVisit, [key]: visit[key] }))
+            })
+          }}
+      />
+    )
+    modal.setIsOpen(true);
+  }
 
   useEffect(() => {
     if (isIntersecting && isLast) {
@@ -27,12 +50,12 @@ const HistoryCard = ({
     }
   }, [isIntersecting]);
 
-  const currentRegion = countries?.find(country => country.properties.result.region === historyEntity.region.data?.attributes.Region);
+  const currentRegion = countries?.find(country => country.properties.result.region === entity.region.data?.attributes.Region);
   const regionInfo = {
     region: currentRegion?.properties.result.region,
     score: currentRegion?.properties.result.scores.totalScore
   };
-  const currentImages = historyEntity.images.data?.map(image => toImageUrl(image.attributes)) ??
+  const currentImages = entity.images.data?.map(image => toImageUrl(image.attributes)) ??
     [require('../../images/default-image.jpg')];
 
   return (
@@ -47,22 +70,22 @@ const HistoryCard = ({
       <Card.Body>
         <Row>
           <Col className={'col-6'}>
-            <h5 style={{ fontSize: '0.8rem' }}>Arrival: {new Date(+historyEntity.arrived * 1000).toLocaleDateString()}</h5>
+            <h5 style={{ fontSize: '0.8rem' }}>Arrival: {new Date(+entity.arrived * 1000).toLocaleDateString()}</h5>
           </Col>
           <Col className={'col-6'}>
-            <h5 style={{ fontSize: '0.8rem' }} className='text-lg-end m-0'>Review: {historyEntity.review}/5</h5>
+            <h5 style={{ fontSize: '0.8rem' }} className='text-lg-end m-0'>Review: {entity.review}/5</h5>
           </Col>
         </Row>
         <Row >
           <Col className={'col-6'}>
-            <h5 style={{ fontSize: '0.8rem' }}>Departure: {new Date(+historyEntity.departed * 1000).toLocaleDateString()}</h5>
+            <h5 style={{ fontSize: '0.8rem' }}>Departure: {new Date(+entity.departed * 1000).toLocaleDateString()}</h5>
           </Col>
           <Col className={'col-6 d-flex justify-content-end'}>
             <GoToMapCountryButton
               regionId={currentRegion?.properties?.result.id}
               showText={false}
             />
-            <button className="btn text-white">
+            <button className="btn text-white" onClick={() => onEdit(id)}>
               <EditOutlined/>
             </button>
             <button className="btn text-white" onClick={() => onDelete(id)}>
@@ -71,10 +94,10 @@ const HistoryCard = ({
           </Col>
         </Row>
         <Card.Title className='fs-6'>
-          {historyEntity.title}
+          {entity.title}
         </Card.Title>
         <Card.Text className={`${styles.description} fa-xs mb-1`}>
-          {historyEntity.description}
+          {entity.description}
         </Card.Text>
       </Card.Body>
     </Card>
