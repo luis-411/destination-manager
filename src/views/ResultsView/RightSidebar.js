@@ -29,7 +29,7 @@ export const RightSidebar = ({ activeResult}) => {
   }, [activeResult]);
 
   return (
-    <div className={'py-2 pe-2 h-100 overflow-y-scroll'}>
+    <div className='py-2 pe-2 h-100 overflow-y-scroll overflow-x-hidden'>
       <LogButton/>
       <p className={'m-0'} style={{ textAlign: "left" }}>
         Best destinations for {capitalize(user?.username ?? "you")}

@@ -13,17 +13,13 @@ export const usePersonalInfoModal = create((set) => ({
 
 const PersonalInformation = () => {
   const {isOpen, setIsOpen} = usePersonalInfoModal();
-  const [{ data: personalInfo, loading}, fetch] = useLoadMe();
+  const [{ data: personalInfo}, fetch] = useLoadMe();
 
   useEffect(() => {
     if (!personalInfo) {
       fetch()
     }
   }, [personalInfo]);
-
-  if (loading) {
-    return null;
-  }
 
   return (
     <Modal
@@ -33,10 +29,15 @@ const PersonalInformation = () => {
       aria-labelledby='personal-information'
       contentClassName={styles.modalBody}
       centered
+      backdropClassName={styles.modal}
+      className={styles.modalWrapper}
     >
       <Modal.Body className='d-flex justify-content-between'>
         <div className={styles.basisFlex}>
-          <LeftPersonal personalInfo={personalInfo} />
+          <LeftPersonal
+            personalInfo={personalInfo}
+            onLoadPersonal={fetch}
+          />
         </div>
         <div className={styles.basisFlex}>
           <RightPersonal />

@@ -89,7 +89,6 @@ const Map = ({ setActiveResult }) => {
 
   const onCountryPopupOpen = (countryId) => {
     const layer = geoJsonLayer.current.getLayer(mapLayers.current[countryId]);
-    console.log(layer);
     const { lat, lng } = layer.getCenter();
     map.flyTo([lat,lng]);
     map.once('moveend', () => {

@@ -7,7 +7,7 @@ import UploadImage from "../../components/UploadImage";
 import useUpdateUser from "../../api/user/useUpdateUser";
 import TextWithInput from "../../components/TextWithInput";
 import { message } from "antd";
-const LeftPersonal = ({ personalInfo }) => {
+const LeftPersonal = ({ personalInfo, onLoadPersonal }) => {
   const { uploadImageToField, update } = useUpdateUser();
   if (!personalInfo) {
     return null;
@@ -21,6 +21,7 @@ const LeftPersonal = ({ personalInfo }) => {
           onSave={(file) => {   
             try{
              uploadImageToField(file, personalInfo).then(() => {
+               onLoadPersonal();
                message.success("Image successfully uploaded")
              })
             }
@@ -39,6 +40,7 @@ const LeftPersonal = ({ personalInfo }) => {
             onSave={(file) => {   
               try{
                 uploadImageToField(file, personalInfo, 'profilePhoto').then(() => {
+                  onLoadPersonal();
                   message.success("Profile picture successfully uploaded")
                 })
               }

@@ -90,10 +90,6 @@ export const CountryPopup = ({ country }) => {
   }, [modal,country]);
 
   useEffect(() => {
-    console.log(country.peakSeasons, country.visitorIndex);
-  }, [country])
-
-  useEffect(() => {
     groups && setSelectedGroups(groups.groups
       .filter((group) => group.regions
         .some((country1) => country.id === country1.id)

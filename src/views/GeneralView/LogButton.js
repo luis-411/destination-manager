@@ -19,9 +19,15 @@ const LoginButton = () => {
     const { user, setUser } = useAuthContext();
     const navigate = useNavigate();
     const [logName, setLogName] = useState(logStates.NOT_SIGNED_IN);
-    const [{ data: personalInfo }] = useLoadMe();
-    const { setIsOpen: setIsInfoModalOpen } = usePersonalInfoModal();
+    const [{ data: personalInfo }, fetch] = useLoadMe();
+    const { setIsOpen: setIsInfoModalOpen, isOpen: isInfoModalOpen } = usePersonalInfoModal();
     const breakpoints = useBreakpoint(true)
+
+    useEffect(() => {
+        if (!isInfoModalOpen) {
+            fetch()
+        }
+    }, [isInfoModalOpen]);
 
     const handleLogout = () => {
         navigate("/", { replace: true })
@@ -63,7 +69,7 @@ const LoginButton = () => {
                        showProfilePhoto ?
                         <img
                             src={toImageUrl(personalInfo.profilePhoto)}
-                            style={{ borderRadius: "50%", maxWidth: '1.85rem' }}
+                            style={{ borderRadius: "50%", width: '1.85rem', height: '1.85rem'}}
                             className={styles.avatarImg}
                             alt="avatar"></img>
                         :

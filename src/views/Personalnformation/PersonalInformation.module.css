@@ -1,3 +1,11 @@
+.modal {
+    --bs-modal-zindex: 1000;
+}
+
+.modalWrapper {
+    --bs-modal-zindex: 1050;
+}
+
 .modalBody {
     --bg-dark-green: #0B1C22;
     background-color: var(--bg-dark-green);
