@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "../../../App.css";
+import "../../../styles/App.css";
 import { DetailScores } from "./DetailScores";
 import { NoviceScores } from "./NoviceScores";
 import { PieChartComponent } from "./PieChartComponent";
@@ -39,7 +39,7 @@ const ResultInfo = ({ country, label }) => {
   }
 
   return (
-    <div className="dark-theme">
+    <div className="white-theme">
       <PieChartComponent
         scores={scores}
         label={label}
@@ -49,12 +49,10 @@ const ResultInfo = ({ country, label }) => {
       <p style={{ paddingTop: "10px" }}>
         {`Budget Level: ${(country.budgetLevel / 10).toFixed(0)} (${budgetLevelToText(country.budgetLevel)}), your Preference: ${(userData.Budget / 10).toFixed(0)} (${budgetLevelToText(userData.Budget)})`}
       </p>
-      <hr />
       <TravelMonthsComponent countryName={country.region} travelMonths={country.travelMonths} />
-      <hr />
       {userData.PresetType.length === 0 ? (
         <>
-          <p style={{ fontSize: "x-small" }}>
+          <p className={'mt-3'} style={{ fontSize: "x-small" }}>
             Scores of {country.region} based on your preferences: (The bar
             demonstrates the score of the given attribute for {country.region} and
             the black line shows your preference - hover on the bars for more
@@ -69,7 +67,7 @@ const ResultInfo = ({ country, label }) => {
         </>
       ) : (
         <>
-          <p style={{ fontSize: "x-small" }}>
+          <p className={'mt-3'} style={{ fontSize: "x-small" }}>
             Scores of {country.region} based on your preset types: (The bar
             demonstrates the score of the given attribute for {country.region}.)
           </p>
@@ -82,8 +80,7 @@ const ResultInfo = ({ country, label }) => {
         </>
       )}
 
-      <hr />
-      <p>Overall score: {country.scores.totalScore}/100</p>
+      <p className={'mt-3'}>Overall score: {country.scores.totalScore}/100</p>
     </div>
   );
 };

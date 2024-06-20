@@ -1,0 +1,12 @@
+
+.historyRegion {
+    top: 2rem;
+}
+
+.description {
+    line-height: initial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 35ch;
+}

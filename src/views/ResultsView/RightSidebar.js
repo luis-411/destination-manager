@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Accordion from "react-bootstrap/Accordion";
-import "../../App.css";
+import "../../styles/App.css";
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import { useAuthContext } from "../../context/AuthContext";
 import ResultItem from "./ResultItem";
-
-export const Results = ({ activeResult}) => {
+import {capitalize} from "lodash";
+import LogButton from "../GeneralView/LogButton";
+export const RightSidebar = ({ activeResult}) => {
   const {user} = useAuthContext();
   const results = useTravelRecommenderStore((state) => state.results);
   const [activeIndex, setActiveIndex] = useState(-1);
@@ -28,10 +29,13 @@ export const Results = ({ activeResult}) => {
   }, [activeResult]);
 
   return (
-    <div style={{ padding: "10px 0", height: "100%", overflow: "hidden" }}>
-      <p style={{ textAlign: "left" }}>Best destinations for {user?user.username: "you"}:</p>
+    <div className={'py-2 pe-2 h-100 overflow-y-scroll'}>
+      <LogButton/>
+      <p className={'m-0'} style={{ textAlign: "left" }}>
+        Best destinations for {capitalize(user?.username ?? "you")}
+      </p>
       {results.length > 0 ? (
-        <div style={{ overflow: "auto", height: "90%" }} ref={accordElem}>
+        <div ref={accordElem}>
           <Accordion activeKey={activeIndex}>
             {results?.map((item, index) => (
               <ResultItem

@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import "../../../App.css";
+import "../../../styles/App.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAnglesUp, faAngleUp, faAnglesDown } from '@fortawesome/free-solid-svg-icons'
 import useTravelRecommenderStore from "../../../store/travelRecommenderStore";
@@ -34,12 +34,17 @@ const PrioritySwitch = ({ attrName }) => {
 
     return (
         <div
-            className="prio-switch"
+            className="prio-switch d-flex"
             data-tooltip-id="prio-switch-tooltip" data-tooltip-content="Click to change priority. 
         Higher priority means that this attribute has a higher impact on the score. 
         At the lowest setting, this attribute will not be considered in the score."
+            style={{ cursor: "pointer" }}
         >
-            <FontAwesomeIcon style={{ cursor: "pointer" }} icon={switchIcon} onClick={onClick} />
+            <FontAwesomeIcon
+              style={{ height: '0.8rem' }}
+              icon={switchIcon}
+              onClick={onClick}
+            />
         </div>
 
     );

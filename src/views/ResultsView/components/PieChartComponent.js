@@ -4,7 +4,7 @@ import { Row, Col } from "react-bootstrap";
 
 export const PieChartComponent = ({ scores, label, countryName, region }) => {
   return (
-    <Row style={{ textAlign: "left" }}>
+    <Row className='gap-2' style={{ textAlign: "left" }}>
       <Col>
         <Donut scores={scores} label={label} />
       </Col>

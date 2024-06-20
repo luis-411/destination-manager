@@ -9,3 +9,6 @@ export const COLORS = [
   "#b56576",
   "#c08552",
 ];
+
+
+export const GREY_COLOR = '#808080';

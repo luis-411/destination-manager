@@ -1,8 +1,20 @@
+@import "bootstrap.css";
+@import "datepicker.css";
+@import "leaflet.css";
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  --bg-app-dark: #193D4A;
+  --border-color: #336273;
+  --app-text: white;
+}
+
 .App {
   text-align: center;
-  padding: 0px 20px;
   height: 100%;
-  background-color: #193D4B;
+  background-color: var(--bg-app-dark);
   color: white;
   accent-color: #282c34;
 }
@@ -43,33 +55,38 @@ input.stay-days {
   height: 44px;
 }
 
-.dark-theme {
-  color: #000;
+.white-theme {
+  color: #FFFFFF;
+}
+::-webkit-scrollbar {
+  width: 5px;
 }
 
-.nav-link {
-  color: #fff !important;
+
+::-webkit-scrollbar-track {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background: transparent;
 }
 
-.nav-link.active {
-  background-color: #0d6efd !important;
-  border: none !important;
+::-webkit-scrollbar-thumb {
+  background: #ffffff9c;
+  cursor: pointer;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .preset-badge {
-  background-color: #6c757d;
-  width: 100%;
-  color: #fff;
+  border: 1px solid var(--border-color);
   border-radius: 50rem;
+  width: 100%;
   margin-bottom: 20px;
   cursor: pointer;
-  padding: 0.35em 0.15em;
+  padding: 0.5rem 0.15rem;
   font-size: 0.9rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: nowrap;
-  flex-direction: column;
 }
 
 .expand-bar {
@@ -79,6 +96,14 @@ input.stay-days {
   display: flex;
   align-items: center;
   cursor: pointer;
+}
+
+.right-column {
+  overflow-y: hidden;
+  height: 100vh;
+  padding: 0 1rem;
+  min-width: 14rem;
+  background-color: var(--bg-app-dark);
 }
 
 

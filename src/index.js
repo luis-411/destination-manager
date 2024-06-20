@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css";
+import "./styles/index.css";
 import App from "./App.js";
 import reportWebVitals from "./reportWebVitals";
 import AuthProvider from "./components/AuthProvider/AuthProvider.jsx";

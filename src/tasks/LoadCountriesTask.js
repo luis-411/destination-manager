@@ -1,19 +1,22 @@
 import mapData from "../data/regions.json";
 import axios from 'axios';
+import {getShortMonths} from "../helpers/months";
 
 class LoadCountriesTask {
   allResults = [];
   allPrices = [];
   scoreCountries = [];
   mapCountries = mapData.features;
+  #allTotalVisitors = {};
+  #minVisitors = 0;
+  #maxVisitors = 0;
   load = (setFileRetrieved) => {
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/regions?populate=*`)
       .then((response) => {
-        setFileRetrieved(response.data.data?.map((region) => region.attributes));
+        setFileRetrieved(response.data.data?.map((region) => ({...region.attributes, id: region.id})));
       });
   };
   processCountries = (countryScores, userData, setCountries, setResults) => {
-
     for (let i = 0; i < this.mapCountries.length; i++) {
       const mapCountry = this.mapCountries[i];
       const scoreCountry = countryScores.find(
@@ -24,13 +27,27 @@ class LoadCountriesTask {
         this.scoreCountries.push(scoreCountry);
       }
     }
-    this.allPrices.sort((a, b) => a - b);
 
-    for (let scoreCountry of this.scoreCountries) {
+    this.scoreCountries.forEach((country) => {
+      this.#allTotalVisitors[country.id] = Object.values(country.visitorIndex)
+        .reduce((acc, curr) => acc + curr, 0);
+      if (this.#allTotalVisitors[country.id] < this.#minVisitors) {
+        this.#minVisitors = this.#allTotalVisitors[country.id]
+      }
+
+      if (this.#allTotalVisitors[country.id] > this.#maxVisitors) {
+        this.#maxVisitors = this.#allTotalVisitors[country.id]
+      }
+    });
+
+    this.allPrices.sort((a, b) => a - b);
+    for (const scoreCountry of this.scoreCountries) {
       const mapCountry = this.mapCountries.find(
         (c) => c.properties.u_name === scoreCountry.u_name
       );
-      var res = {
+      const peakSeasons = this.preprocessSeason(scoreCountry.peakSeason);
+      const res = {
+        id: scoreCountry.id,
         country: scoreCountry.ParentRegion.data.attributes.Region,
         region: scoreCountry.Region,
         uname: scoreCountry.u_name,
@@ -47,20 +64,16 @@ class LoadCountriesTask {
           entertainment: this.calculateRecursiveScore(scoreCountry, countryScores, "entertainment"),
           shopping: this.calculateRecursiveScore(scoreCountry, countryScores, "shopping"),
         },
-        travelMonths: [
-          this.calculateRecursiveScore(scoreCountry, countryScores, "jan"),
-          this.calculateRecursiveScore(scoreCountry, countryScores, "feb"),
-          this.calculateRecursiveScore(scoreCountry, countryScores, "mar"),
-          this.calculateRecursiveScore(scoreCountry, countryScores, "apr"),
-          this.calculateRecursiveScore(scoreCountry, countryScores, "may"),
-          this.calculateRecursiveScore(scoreCountry, countryScores, "jun"),
-          this.calculateRecursiveScore(scoreCountry, countryScores, "jul"),
-          this.calculateRecursiveScore(scoreCountry, countryScores, "aug"),
-          this.calculateRecursiveScore(scoreCountry, countryScores, "sep"),
-          this.calculateRecursiveScore(scoreCountry, countryScores, "oct"),
-          this.calculateRecursiveScore(scoreCountry, countryScores, "nov"),
-          this.calculateRecursiveScore(scoreCountry, countryScores, "dec"),
-        ],
+        travelMonths: getShortMonths().map((shortMonth, idx) =>
+          this.calculateWithPeakSeason(
+            this.calculateRecursiveScore(scoreCountry, countryScores, shortMonth),
+            peakSeasons.includes(shortMonth) && userData.Months[idx] === 100,
+            userData.isPeakSeasonImportant
+          )
+        ),
+        peakSeasons: peakSeasons,
+        visitorIndex: scoreCountry.visitorIndex,
+        totalVisitorIndex: this.#allTotalVisitors[scoreCountry.id],
         scores: {
           totalScore: 0,
           presetTypeScore: 0,
@@ -104,9 +117,17 @@ class LoadCountriesTask {
           },
         },
       };
-      var budgetScore = this.calculateBudgetScore(res.budgetLevel, userData);
-      var travelMonthScore = this.calculateTravelMonthScore(res.travelMonths, userData.Months);
-      var isAffordable = !userData.isPriceImportant || budgetScore === 100;
+
+      const budgetScore = this.calculateBudgetScore(res.budgetLevel, userData);
+      const visitorScore =  userData.isVisitorIndexImportant
+        ? this.calculateTravelVisitorScore(res.totalVisitorIndex, userData)
+        : 0;
+
+      // const peakSeasonScore = this.calculatePeakSeasonScore(res.peakSeasons, userData);
+
+      const travelMonthScore = this.calculateTravelMonthScore(res.travelMonths, userData.Months);
+      const isAffordable = !userData.isPriceImportant || budgetScore === 100;
+
       mapCountry.properties.country = scoreCountry.ParentRegion.data.attributes.Region;
       mapCountry.properties.name = scoreCountry.Region;
       res.scores.presetTypeScore = this.calculatePresetTypeScore(userData.PresetType, res.qualifications);
@@ -154,13 +175,20 @@ class LoadCountriesTask {
       } else {
         totalAttrScore = { score: res.scores.presetTypeScore, weight: userData.PresetType.length };
       }
+      let totalScore = 0;
+      if (isAffordable) {
+        const visitorWeight = userData.VisitorIndex.weight * userData.isVisitorIndexImportant;
+        // debugger;
+        const budgetWeight = 1;
+        const monthsWeight = 1;
+        const allWeights = budgetWeight + monthsWeight + totalAttrScore.weight + visitorWeight;
+        const allScores = totalAttrScore.score
+          + budgetScore
+          + travelMonthScore
+          + visitorScore;
 
-      var totalScore = isAffordable
-        ? +((totalAttrScore.score +
-          budgetScore +
-          travelMonthScore) /
-          (2 + totalAttrScore.weight)).toFixed(2)
-        : 0;
+        totalScore = Number((allScores / allWeights).toFixed(2));
+      }
 
       res.scores.totalScore = totalScore;
       mapCountry.properties.result = res;
@@ -207,17 +235,48 @@ class LoadCountriesTask {
     }
     return totalScore;
   };
+
+  calculateWithPeakSeason = (score, isPeak, isPeakImportant) => {
+    if (!isPeakImportant) {
+      return score;
+    }
+    return isPeak ? 0 : score;
+  }
+
   calculateTravelMonthScore = (countryTravelMonths, userTravelMonths) => {
-    let maxScore = 0;
+    const scores = []
     for (let i = 0; i < countryTravelMonths.length; i++) {
-      if (userTravelMonths[i] === 0) continue;
-      let monthScore = 100 - Math.abs(userTravelMonths[i] - countryTravelMonths[i]);
-      if (monthScore > maxScore) {
-        maxScore = monthScore;
+      if (userTravelMonths[i] === 0) {
+        scores.push(0);
+      } else {
+        scores.push(100 - Math.abs(userTravelMonths[i] - countryTravelMonths[i]));
       }
     }
-    return maxScore;
+
+    return scores.reduce((acc, curr) => acc + curr, 0) / scores.length;
   };
+
+  /**
+   *
+   * @param isPeakSeason
+   * @return {Array[string]}
+   */
+  preprocessSeason(isPeakSeason) {
+    return Object.entries(isPeakSeason)
+      .reduce((months, [month, isPeak]) => isPeak ? [...months, month] : months, []);
+  }
+
+  calculateTravelVisitorScore = (countryVisitorIndex, userData) => {
+    const min = -this.#maxVisitors;
+    const max = this.#minVisitors;
+    const normalized = ((-countryVisitorIndex - min) * 100) / (max - min);
+    if (userData.VisitorIndex.score <= normalized) {
+      return 100;
+    } else {
+      return 0;
+    }
+  }
+
   calculateBudgetScore = (countryBudgetLevel, userData) => {
     if (userData.Budget >= countryBudgetLevel) {
       return 100;

@@ -1,25 +1,24 @@
 import React from "react";
-import { Row, Col } from "react-bootstrap";
-import "../../../App.css";
+import {Col, Row} from "react-bootstrap";
+import "../../../styles/App.css";
 import SlideRange from "./SlideRange";
 import PrioritySwitch from "./PrioritySwitch";
+import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
 
-const Attribute = ({ attrName }) => {
+const Attribute = ({ attrName, sliderColor }) => {
+  const breakpoints = useBreakpoint();
+  const isXl = !!breakpoints.xl && !breakpoints.xxl;
+
   return (
-    <Row
-      style={{
-        display: "flex",
-        alignItems: "center",
-        padding: "5px",
-        height: "100%",
-      }}
-    >
-      <Col xs={4}>{attrName}</Col>
-      <Col xs={7}>
-        <SlideRange attrName={attrName} />
-      </Col>
-      <Col xs={1}>
+    <Row>
+      <Col>
         <PrioritySwitch attrName={attrName} />
+      </Col>
+      <Col xs={3} md={4} xl={3} className='d-flex align-items-center'>
+        <h6 className='fw-normal m-0' style={{ fontSize: isXl ? '0.6rem' : '0.7rem' }}>{attrName}</h6>
+      </Col>
+      <Col xs={8} md={7} xl={8} className={`d-flex align-items-center ${isXl ? 'ps-1' : ''}`}>
+        <SlideRange sliderColor={sliderColor} attrName={attrName} />
       </Col>
     </Row>
   );

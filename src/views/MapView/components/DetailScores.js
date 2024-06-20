@@ -1,52 +1,38 @@
 import React from "react";
 import { AttributeScore } from "./AttributeScore";
-import { TravelMonthScore } from "../../SharedComponents/TravelMonthScore";
-import { Row, Col } from "react-bootstrap";
+import { TravelMonthScore } from "../../../components/TravelMonthScore";
+import styles from "./DetailsScore.module.css";
+import VisitorIndexScore from "./VisitorIndexScore";
 
-export const DetailScores = ({ scores, travelMonths, budgetLevel }) => {
+export const DetailScores = ({ scores, travelMonths, visitorIndexes, peakSeasons }) => {
   return (
-    <div>
-      <div
-        style={{
-          padding: "10px 10px",
-          width: "250px",
-          backgroundColor: "white",
-          color: "#000",
-        }}
-      >
-        <div style={{ width: "100%" }}>
-          <p style={{ margin: 0 }}>Budget Level: {`${(budgetLevel / 10).toFixed(0)} (${budgetLevel < 40 ? "Low" : budgetLevel < 80 ? "Medium" : "High"})`}</p>
-          <hr style={{ marginBottom: "1.2rem", marginTop: 0 }} />
+    <>
+      <div className='text-white'>
+        <div className='my-3'>
+          <h6 style={{fontSize: '10px'}}>Months Ratings</h6>
+          <TravelMonthScore
+            className={styles.monthsScroll}
+            travelMonths={travelMonths}
+            showMatches={false}
+          />
         </div>
-        <div style={{ marginBottom: "10px" }}>
-          <TravelMonthScore travelMonths={travelMonths} showMatches={false} />
-        </div>
+        {visitorIndexes && (
+          <div className='my-3'>
+            <h6 style={{fontSize: '10px'}}>Visitors per month</h6>
+            <VisitorIndexScore
+              className={styles.visitorScroll}
+              visitorIndexes={visitorIndexes}
+              peakSeasons={peakSeasons}
+            />
+          </div>
+        )}
         <div>
+          <h6 style={{fontSize: '10px'}}>Attribute Scores</h6>
           {scores.map((entry, index) => (
-            <AttributeScore score={entry} index={index} key={index} />
+            <AttributeScore score={entry} index={index} key={index}/>
           ))}
         </div>
       </div>
-      <div style={{ padding: "0px 10px", width: "250px" }}>
-        <Row style={{ alignItems: "center", justifyContent: "end" }}>
-          <Col xs={8}>
-            <Row>
-              <Col xs={4}>
-                <div style={{ padding: "0", fontSize: "x-small" }}>.</div>
-                <div style={{ padding: "0", fontSize: "x-small" }}>0</div>
-              </Col>
-              <Col xs={4} style={{ textAlign: "center" }}>
-                <div style={{ padding: "0", fontSize: "x-small" }}>.</div>
-                <div style={{ padding: "0", fontSize: "x-small" }}>50</div>
-              </Col>
-              <Col xs={4} style={{ textAlign: "end" }}>
-                <div style={{ padding: "0", fontSize: "x-small" }}>.</div>
-                <div style={{ padding: "0", fontSize: "x-small" }}>100</div>
-              </Col>
-            </Row>
-          </Col>
-        </Row>
-      </div>
-    </div>
+    </>
   );
 };

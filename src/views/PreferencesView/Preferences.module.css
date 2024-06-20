@@ -1,0 +1,24 @@
+.toggle {
+    width: 20%;
+    margin: 0;
+    border: 1px solid var(--border-color);
+    border-radius: 50rem !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.toggle span {
+    font-size: 0.7rem;
+    color: white;
+}
+
+@media (min-width: 1024px) and (max-width: 1400px) {
+    .toggle {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    .toggle span {
+        font-size: 0.525rem;
+    }
+}

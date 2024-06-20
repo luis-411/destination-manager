@@ -1,6 +1,6 @@
 import React from "react";
 import { PieChart, Pie, Cell } from "recharts";
-import "../../../App.css";
+import "../../../styles/App.css";
 import * as myConstant from "../../../data/constantData";
 
 const Donut = ({ scores, label }) => {
@@ -15,7 +15,8 @@ const Donut = ({ scores, label }) => {
       y={donutState.outerRadius}
       textAnchor="middle"
       dominantBaseline="middle"
-      style={{ fontWeight: "bold" }}
+      fill="#FFFFFF"
+      style={{ fontWeight: "bold"}}
       fontSize={20}
     >
       {label}

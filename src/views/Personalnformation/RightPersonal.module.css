@@ -1,0 +1,30 @@
+.elementRow {
+    --bs-body-bg: linear-gradient(90deg, rgba(11,28,34,1) -20%, rgba(27,64,77,1) 100%);
+    background: var(--bs-body-bg);
+    padding: 0.6rem 1.45rem;
+    border-radius: 18px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border: 1px solid #336273;
+}
+
+.favouritesHeight {
+    max-height: 15rem;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.groupsHeight {
+    max-height: 30rem;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.groupRegions {
+    line-height: initial;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 20ch;
+}
