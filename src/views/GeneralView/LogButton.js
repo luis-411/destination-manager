@@ -19,7 +19,7 @@ const LoginButton = () => {
     const { user, setUser } = useAuthContext();
     const navigate = useNavigate();
     const [logName, setLogName] = useState(logStates.NOT_SIGNED_IN);
-    const [{ data: personalInfo, loading }] = useLoadMe();
+    const [{ data: personalInfo }] = useLoadMe();
     const { setIsOpen: setIsInfoModalOpen } = usePersonalInfoModal();
     const breakpoints = useBreakpoint(true)
 
@@ -50,15 +50,17 @@ const LoginButton = () => {
     const orderElements = breakpoints.xl
         ? 'flex-row align-items-center py-3'
         : 'flex-column-reverse align-items-start pb-3';
-    console.log(personalInfo)
+
+    const showProfilePhoto = personalInfo?.profilePhoto && logName === logStates.SIGNED_IN;
+
     return (
         <div
             className={`w-100 d-flex justify-content-between ${orderElements} gap-2`}
         >
             <Button className={'d-flex align-items-center gap-3'} handleButton={handleCTAButton}>
-                <div className='rounded-circle' style={{ backgroundColor: personalInfo?.profilePhoto?"transparent":'#D9D9D9', width: '1.5rem' }}>
-                    {personalInfo?.profilePhoto
-                        ?
+                <div className='rounded-circle' style={{ backgroundColor: showProfilePhoto ? "transparent": '#D9D9D9', width: '1.5rem' }}>
+                    {
+                       showProfilePhoto ?
                         <img
                             src={toImageUrl(personalInfo.profilePhoto)}
                             style={{ borderRadius: "50%", maxWidth: '1.85rem' }}
