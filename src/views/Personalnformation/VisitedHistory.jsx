@@ -21,7 +21,7 @@ const VisitedHistory = ({ userId }) => {
       <div className='d-flex justify-content-between mb-2'>
         <h4 className='fs-6 fw-bold'>History</h4>
       </div>
-      <div className={'overflow-y-scroll d-flex flex-column gap-4'} style={{ maxHeight: '360px' }}>
+      <div className={'overflow-y-scroll pe-2 d-flex flex-column gap-4'} style={{ maxHeight: '360px' }}>
         {historyMap}
       </div>
     </>

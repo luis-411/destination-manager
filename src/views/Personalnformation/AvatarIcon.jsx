@@ -9,7 +9,7 @@ const AvatarIcon = ({size, image, label, onSave}) => {
   const ref = useRef(null);
   const hover = useHover(ref);
   const [step, setStep] = useState(Steps.UPLOAD);
-  const [avatar, setAvatar] = useState(image ? toImageUrl(image) : undefined);
+const [avatar, setAvatar] = useState(image ? toImageUrl(image) : undefined);
   const [file, setFile] = useState();
 
   const inputEditFile = useRef(null);
