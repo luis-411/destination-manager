@@ -8,12 +8,11 @@ import useUpdateUser from "../../api/user/useUpdateUser";
 import TextWithInput from "../../components/TextWithInput";
 import { message } from "antd";
 const LeftPersonal = ({ personalInfo }) => {
-  const { uploadImageToField, update } = useUpdateUser({ userId: personalInfo.id });
+  const { uploadImageToField, update } = useUpdateUser();
   if (!personalInfo) {
     return null;
   }
   const initials = personalInfo.username.slice(0, 2).toUpperCase();
-  console.log(personalInfo)
   return (
     <div className='p-3'>
       <Row className='position-relative mb-4'>

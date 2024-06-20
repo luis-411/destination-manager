@@ -25,7 +25,7 @@ const SlideRange = ({ attrName,sliderColor }) => {
   return (
     <form style={{ width: "100%", display: "flex" }}>
       <input
-        id="slider"
+        id={`slider-${attrName}`}
         className={styles.slideRange}
         style={{
           '--slider-color': hexToRgbA(sliderColor),

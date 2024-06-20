@@ -15,7 +15,7 @@ const AdditionalInfo = ({ checkKey, tooltipText, checkLabel }) => {
         <Form.Check
           className="filter d-flex gap-2"
           type="checkbox"
-          id="custom-switch"
+          id={`custom-switch-${checkKey}`}
           value={get(userData, checkKey)}
           label={checkLabel}
           style={{ fontSize: '0.8rem' }}

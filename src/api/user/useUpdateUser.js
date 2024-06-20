@@ -1,6 +1,8 @@
 import useAxios from "axios-hooks";
 import authenticationHeader from "../authenticationHeader";
 import {useToken} from "../../components/AuthProvider/AuthProvider";
+import {useAuthContext} from "../../context/AuthContext";
+import {useEffect, useState} from "react";
 
 
 const useUploadFile = () => {
@@ -38,8 +40,9 @@ const useRemoveFile = () => {
   return { removeFile }
 }
 
-const useUpdateUser = ({ userId }) => {
-  const url = `${process.env.REACT_APP_BACKEND_URL}/users/${userId}`;
+const useUpdateUser = () => {
+  const { user } = useAuthContext();
+  const [url, setUrl] = useState(`${process.env.REACT_APP_BACKEND_URL}/users/${user?.id}`);
   const token = useToken.getState().token;
   const [{ loading, error }, execute] = useAxios({
     url,
@@ -66,6 +69,12 @@ const useUpdateUser = ({ userId }) => {
       return new Error("Image upload failed");
     }
   };
+
+  useEffect(() => {
+    if (user?.id) {
+      setUrl(`${process.env.REACT_APP_BACKEND_URL}/users/${user.id}`);
+    }
+  }, [user]);
 
   const update = (personalInfo) => {
     execute({

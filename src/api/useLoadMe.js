@@ -12,7 +12,7 @@ const useLoadMe = () => {
   return useAxios({
     url: `${process.env.REACT_APP_BACKEND_URL}/users/me?populate=coverPhoto,profilePhoto`,
     ...authenticationHeader(token)
-  }, { manual: !!user?.id });
+  }, { manual: !!user?.id, autoCancel: false });
 };
 
 export default useLoadMe;

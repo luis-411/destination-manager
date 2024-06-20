@@ -4,6 +4,7 @@ import {create} from "zustand";
 import LeftPersonal from "./LeftPersonal";
 import RightPersonal from "./RightPersonal";
 import useLoadMe from "../../api/useLoadMe";
+import {useEffect} from "react";
 
 export const usePersonalInfoModal = create((set) => ({
   isOpen: false,
@@ -12,7 +13,13 @@ export const usePersonalInfoModal = create((set) => ({
 
 const PersonalInformation = () => {
   const {isOpen, setIsOpen} = usePersonalInfoModal();
-  const [{ data: personalInfo, loading}] = useLoadMe();
+  const [{ data: personalInfo, loading}, fetch] = useLoadMe();
+
+  useEffect(() => {
+    if (!personalInfo) {
+      fetch()
+    }
+  }, [personalInfo]);
 
   if (loading) {
     return null;

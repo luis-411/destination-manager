@@ -11,11 +11,11 @@ import GroupRow from "../../components/GroupRow";
 const FavouriteRow = ({ score, region, id }) => {
   return (
     <div className={styles.elementRow}>
-      <Col xs={5} md={4} xl={6} className=' d-flex flex-column'>
+      <Col xs={5} md={4} xl={6} className='d-flex flex-column'>
         {score && <h6 className='fa-xs lh-1 fw-bold'>Score {Math.floor(score)}/100</h6>}
         <h5 className={`fs-6 fw-bold ${styles.groupRegions}`}>{region}</h5>
       </Col>
-      <Col className={'d-flex justify-content-evenly align-items-center'}>
+      <Col className={'d-flex justify-content-end align-items-center'}>
         <GoToMapCountryButton regionId={id} />
       </Col>
     </div>
@@ -59,7 +59,7 @@ const RightPersonal = () => {
     return null;
   }
 
-  const suggestions = statsData.statistics?.recommendations ?? [];
+  const suggestions = statsData?.statistics?.recommendations ?? [];
   return (
     <div className='p-3 d-flex flex-column gap-4'>
       {suggestions.length > 0 && (

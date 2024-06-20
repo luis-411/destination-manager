@@ -21,7 +21,6 @@ const useLoadMeWithGroups = () => {
     manual: !user?.id
   });
 
-  console.log(axiosOptions);
   const [{ data, loading, error },fetch] = useAxios({
     url,
     params: getParams(),
