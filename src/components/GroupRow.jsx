@@ -7,6 +7,7 @@ import {CheckOutlined, CloseOutlined, DeleteOutlined, EditOutlined} from "@ant-d
 import {useState} from "react";
 import textInputStyles from "./TextWithInput.module.css";
 import {set} from "lodash";
+import GoToMapCountryButton from "./GoToMapCountry";
 
 const GroupRow = ({
   id,
@@ -108,7 +109,7 @@ const GroupRow = ({
     <>
       {!onCreate && (
         <div className={styles.elementRow}>
-          <Col className='col-8 d-flex flex-column'>
+          <Col className='col-9 d-flex flex-column'>
             <div style={{display: "flex", alignItems: "center"}}>
               {!isEditMode && <h5 style={{display: "inline"}} className='fw-bold fs-6'>{groupName}</h5>}
               {isEditMode && (
@@ -134,8 +135,10 @@ const GroupRow = ({
               )}
             </div>
             <div className={'d-flex'}>
-              <h6 className={`fa-xs lh-1 fw-bold ${styles.groupRegions}`}>
-                {regions.length > 0 ? regions.map(region => region.Region).join(', ') : 'No regions yet'}
+              <h6 className={`fa-xs lh-1 m-0 fw-bold ${styles.groupRegions}`}>
+                {regions.length > 0 ? regions.map(region => (
+                  <GoToMapCountryButton key={region.id} regionId={region.id} showText={true} text={region.Region} />
+                )) : 'No regions yet'}
               </h6>
             </div>
           </Col>

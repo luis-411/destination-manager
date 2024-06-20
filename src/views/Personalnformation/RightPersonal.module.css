@@ -24,7 +24,8 @@
 .groupRegions {
     line-height: initial;
     white-space: nowrap;
-    overflow: hidden;
+    overflow: scroll;
     text-overflow: ellipsis;
-    max-width: 20ch;
+    scrollbar-width: none;
+    display: flex;
 }

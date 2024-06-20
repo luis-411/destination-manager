@@ -2,7 +2,7 @@ import {GlobalOutlined} from "@ant-design/icons";
 import {useReferencedCountry} from "../views/MapView/Map";
 import {usePersonalInfoModal} from "../views/Personalnformation/PersonalInformation";
 
-const GoToMapCountryButton = ({regionId, showText = true}) => {
+const GoToMapCountryButton = ({regionId, showText = true, text}) => {
   const {
     setCountry: setReferencedCountry
   } = useReferencedCountry();
@@ -17,7 +17,7 @@ const GoToMapCountryButton = ({regionId, showText = true}) => {
   return (
     <button className={'btn d-flex align-items-center gap-2 text-white'} onClick={goToMap}>
       <GlobalOutlined/>
-      {showText && <span className='fa-xs'>Show on map</span>}
+      {showText && <span style={{ fontSize: '0.8rem' }}>{ text ?? 'Show on map' }</span>}
     </button>
   );
 };
