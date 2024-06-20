@@ -25,14 +25,14 @@ const TextWithInput = ({
     <div className='position-relative'>
       {state === Steps.UPLOAD &&
         (
-          <h5  className={'fs-6 fw-light mt-1'}>
+          <h5 className={'fs-6 fw-bold mt-1'}>
             {currentText ?? defaultText}
           </h5>
         )}
       {state === Steps.SAVE &&
         (
           <Form.Control
-            className={`${styles.input}`}
+            className={`${styles.input} mt-1 mb-2`}
             value={currentText}
             placeholder={currentText}
             ref={inputRef}

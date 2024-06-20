@@ -115,7 +115,7 @@ export const CountryPopup = ({ country }) => {
         <FavouriteTag country={country.uname}/>
         {country.region}
       </h6>
-      <Row className='mt-3'>
+      <Row className='mt-3 mb-1'>
       {regionStatistics.map((statistic, idx) => statistic.show && (
           <Col key={idx} xs={countColumnSpace} className={`d-flex flex-column m-0 ${idx === 0 ? 'p-0' : 'pe-0 ps-4 py-0'}`}>
             <h6 className={'w-100 fa-xs'}>{statistic.label}</h6>
@@ -126,7 +126,7 @@ export const CountryPopup = ({ country }) => {
       <Col style={{fontSize: '10px' }} className='mb-1'>
         Characteristics
       </Col>
-      <div className='d-flex justify-content-between align-items-center gap-2'>
+      <div className='d-flex justify-content-between align-items-center gap-2 mb-1'>
         {characteristics.map((characteristic, index) => characteristic.show && (
           <div key={index} className='text-center d-flex flex-column gap-2 flex-grow-1'>
             <div
@@ -143,12 +143,12 @@ export const CountryPopup = ({ country }) => {
       {user?.id && (
         <>
           <Col style={{ fontSize: '10px' }} className='d-flex justify-content-between align-items-center'>
-            <h6 style={{ fontSize: '10px' }}>In groups</h6>
+            <h6 style={{ fontSize: '10px' }}>Belongs to travel guides</h6>
             <button
               onClick={onAddGroups}
               className={'btn btn-secondary py-0 px-0'}
               style={{ fontSize: '10px' }}>
-              Add groups
+              Add guides
               <PlusCircleOutlined className={'ms-2'}/>
             </button>
           </Col>
@@ -156,7 +156,7 @@ export const CountryPopup = ({ country }) => {
             {groups && selectedGroups?.map((group, idx) => (
               <PopupGroup name={group.name} key={idx} />
             ))}
-            {selectedGroups?.length === 0 && <h6 className='m-0' style={{ fontSize: '0.75rem' }}>No groups</h6>}
+            {selectedGroups?.length === 0 && <h6 className='m-0' style={{ fontSize: '0.75rem' }}>Not found in any guides</h6>}
           </Col>
         </>
       )}

@@ -49,16 +49,19 @@ const LeftPersonal = ({ personalInfo }) => {
       </Row>
       <Row className='pt-2'>
         <h4 className='fs-6 fw-bold'>{capitalize(personalInfo.username)}</h4>
-        <div>
-          <TextWithInput
-            createNewGroup={false}
-            text={personalInfo.occupation}
-            defaultText={'No occupation'}
-            iconClassName={styles.actionStates}
-            onSave={(occupation) =>
-              update({ occupation })}
-          />
-        </div>
+        <Row className='align-items-end'>
+          <h6 className={`${styles.fs7} fw-normal col-3`}>Occupation</h6>
+          <div className='col-9'>
+            <TextWithInput
+              createNewGroup={false}
+              text={personalInfo.occupation}
+              defaultText={'No occupation'}
+              iconClassName={styles.actionStates}
+              onSave={(occupation) =>
+                update({occupation})}
+            />
+          </div>
+        </Row>
       </Row>
       <Row className='pt-2'>
         <h4 className='fs-6 fw-bold fw-normal'>Personal Information</h4>
