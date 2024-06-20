@@ -77,7 +77,7 @@ const useUpdateUser = () => {
   }, [user]);
 
   const update = (personalInfo) => {
-    execute({
+    return execute({
       data: personalInfo,
     });
   }

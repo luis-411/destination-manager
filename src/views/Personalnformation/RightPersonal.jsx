@@ -45,16 +45,18 @@ const RightPersonal = () => {
   useEffect(() => {
     if (newGroupCreation) {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
-      scrollRef.current?.addEventListener('scrollend', (event) => {
+      scrollRef.current?.addEventListener('scrollend', () => {
         inputRef.current.focus();
       }, { once: true })
     }
   }, [newGroupCreation])
 
   const [groups, setGroups] = useState([]);
+
   useEffect(() => {
     { !groupsLoading && meData && setGroups(meData?.groups) }
-  }, [groupsLoading])
+  }, [groupsLoading]);
+
   if (groupsLoading || statsLoading) {
     return null;
   }
@@ -109,6 +111,7 @@ const RightPersonal = () => {
               <GroupRow
                 key={idx}
                 id={group.id}
+                arrayPosition={idx}
                 name={group.name}
                 description={group.description}
                 groups={groups}

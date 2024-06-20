@@ -20,8 +20,9 @@ const LeftPersonal = ({ personalInfo }) => {
           image={personalInfo.coverPhoto}
           onSave={(file) => {   
             try{
-             uploadImageToField(file, personalInfo)
-              message.success("Image successfully uploaded")
+             uploadImageToField(file, personalInfo).then(() => {
+               message.success("Image successfully uploaded")
+             })
             }
             catch(e){
               message.error(e.message || "Image failed to upload");
@@ -37,8 +38,9 @@ const LeftPersonal = ({ personalInfo }) => {
             label={initials}
             onSave={(file) => {   
               try{
-                uploadImageToField(file, personalInfo, 'profilePhoto')
-                message.success("Profile picture successfully uploaded")
+                uploadImageToField(file, personalInfo, 'profilePhoto').then(() => {
+                  message.success("Profile picture successfully uploaded")
+                })
               }
               catch(e){
                 message.error(e.message || "Profile picture failed to upload");
@@ -57,8 +59,16 @@ const LeftPersonal = ({ personalInfo }) => {
               text={personalInfo.occupation}
               defaultText={'No occupation'}
               iconClassName={styles.actionStates}
-              onSave={(occupation) =>
-                update({occupation})}
+              onSave={(occupation) => {
+                try {
+                  update({occupation})
+                    .then(() => {
+                      message.success(`Occupation successfully updated to "${personalInfo.occupation}"`);
+                    })
+                } catch (e) {
+                  message.error(e.message || "Failed to update users occupation");
+                }
+              }}
             />
           </div>
         </Row>

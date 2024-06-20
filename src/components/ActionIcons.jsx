@@ -1,4 +1,4 @@
-import { CheckOutlined, CloseOutlined, EditOutlined } from "@ant-design/icons";
+import { EditOutlined } from "@ant-design/icons";
 import styles from "../views/Personalnformation/PersonalInformation.module.css";
 import EditBar from "./EditBar";
 export const Steps = {
