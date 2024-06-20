@@ -9,7 +9,6 @@ const useLoadMeWithGroups = () => {
   const url = `${process.env.REACT_APP_BACKEND_URL}/users/me`;
   const token = useToken.getState().token;
   const { user } = useAuthContext();
-
   const getParams = () => {
     const params = new URLSearchParams();
     params.append('populate[groups][populate][0]', 'regions');
@@ -21,6 +20,8 @@ const useLoadMeWithGroups = () => {
     autoCancel:false,
     manual: !user?.id
   });
+
+  console.log(axiosOptions);
   const [{ data, loading, error },fetch] = useAxios({
     url,
     params: getParams(),
@@ -29,10 +30,10 @@ const useLoadMeWithGroups = () => {
   }, axiosOptions);
 
   useEffect(() => {
-    if (user.id && axiosOptions.manual) {
+    if (user?.id && axiosOptions.manual) {
       fetch();
     }
-  }, [user.id])
+  }, [user])
 
 
   return { data, fetch, loading, error };
