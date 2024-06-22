@@ -15,6 +15,7 @@
 
 .basisFlex {
     flex-basis: 45%;
+    min-width: 45%;
 }
 
 .coverImage {

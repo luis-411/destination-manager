@@ -1,7 +1,7 @@
-import { ReactComponent as XSymbol } from '../../images/x-symbol.svg';
 import {useLocation, useNavigate} from "react-router-dom";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
+import {CloseOutlined} from "@ant-design/icons";
 
 export const AuthPaths = {
   SIGN_IN: '/signin',
@@ -23,16 +23,27 @@ const AuthForm = () => {
 
     return (
         <div style={{ zIndex: "999999", position: "fixed", top: "0", left: "0", width: "100%", height: "100%", backgroundColor: "rgba(0, 0, 0, 0.5)", display: isOpen ? "flex" : "none", justifyContent: "center", alignItems: "center" }}>
-            <div style={{ width: "40%", position: "relative", backgroundColor: "white", padding: "2rem", borderRadius: "1rem", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)" }}>
-                <XSymbol onClick={handleClose} style={{ cursor: "pointer", position: "absolute",right:"2.5rem"}} width={"15px"} height={"15px"} />
-                <div style={{ marginTop: "50px" }}>
-                    {Component}
-                </div>
-                <div style={{ display: "flex", justifyContent: "space-evenly", width: "30rem" }}>
-                </div>
-            </div>
-        </div >
-    );
+          <div style={{
+            width: "40%",
+            position: "relative",
+            padding: "2rem",
+            borderRadius: "1rem",
+          }}>
+            {/*<XSymbol onClick={handleClose} style={{ cursor: "pointer", position: "absolute",right:"2.5rem",}} width={"15px"} height={"15px"} />*/}
+              <button
+                className={'btn text-white py-0 border-0 d-flex justify-content-end w-100'}
+                style={{ position: 'absolute', right: '2rem', top: '3rem', zIndex: 1 }}
+              >
+                <CloseOutlined style={{color: 'black'}} onClick={handleClose} />
+              </button>
+              <div>
+                {Component}
+              </div>
+              <div style={{display: "flex", justifyContent: "space-evenly", width: "30rem"}}>
+              </div>
+          </div>
+        </div>
+);
 }
 
 

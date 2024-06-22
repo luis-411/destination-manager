@@ -90,8 +90,7 @@ export const CountryPopup = ({ country }) => {
   }, [modal,country]);
 
   useEffect(() => {
-    groups && setSelectedGroups(groups.groups
-      .filter((group) => group.regions
+    groups && setSelectedGroups(groups.groups?.filter((group) => group.regions
         .some((country1) => country.id === country1.id)
       ))
   }, [groups]);
@@ -139,12 +138,12 @@ export const CountryPopup = ({ country }) => {
       {user?.id && (
         <>
           <Col style={{ fontSize: '10px' }} className='d-flex justify-content-between align-items-center'>
-            <h6 style={{ fontSize: '10px' }}>Belongs to travel guides</h6>
+            <h6 style={{ fontSize: '10px' }}>Belongs to travel collections</h6>
             <button
               onClick={onAddGroups}
               className={'btn btn-secondary py-0 px-0'}
               style={{ fontSize: '10px' }}>
-              Add guides
+              Add collections
               <PlusCircleOutlined className={'ms-2'}/>
             </button>
           </Col>
@@ -152,7 +151,7 @@ export const CountryPopup = ({ country }) => {
             {groups && selectedGroups?.map((group, idx) => (
               <PopupGroup name={group.name} key={idx} />
             ))}
-            {selectedGroups?.length === 0 && <h6 className='m-0' style={{ fontSize: '0.75rem' }}>Not found in any guides</h6>}
+            {selectedGroups?.length === 0 && <h6 className='m-0' style={{ fontSize: '0.75rem' }}>Not found in any travel collections</h6>}
           </Col>
         </>
       )}

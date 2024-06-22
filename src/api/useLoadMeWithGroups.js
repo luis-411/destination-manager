@@ -11,7 +11,8 @@ const useLoadMeWithGroups = () => {
   const { user } = useAuthContext();
   const getParams = () => {
     const params = new URLSearchParams();
-    params.append('populate[groups][populate][0]', 'regions');
+    params.append('populate', 'statistics.groups');
+    params.append('populate', 'statistics.groups.regions');
     return params;
   }
 
@@ -27,15 +28,22 @@ const useLoadMeWithGroups = () => {
     method: 'GET',
     ...authenticationHeader(token)
   }, axiosOptions);
+  const [groupedData, setGroupedData] = useState({});
 
   useEffect(() => {
     if (user?.id && axiosOptions.manual) {
       fetch();
     }
-  }, [user])
+  }, [user]);
+
+  useEffect(() => {
+    if (data) {
+      setGroupedData(() => ({...data, groups: data?.statistics?.groups ?? []}))
+    }
+  }, [data]);
 
 
-  return { data, fetch, loading, error };
+  return { data: groupedData, fetch, loading, error };
 };
 
 

@@ -74,7 +74,7 @@ import useLoadUser from "../../../api/useLoadUser";
                 </Form.Item>
               </Form>
               <Typography.Paragraph className="form_help_text">
-                New to Social Cards? <Link to="/signup">Sign Up</Link>
+                New to DestiRec? <Link to="/signup">Sign Up</Link>
               </Typography.Paragraph>
             </Card>
           </Col>

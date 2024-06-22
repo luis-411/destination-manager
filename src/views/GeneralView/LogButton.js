@@ -9,7 +9,6 @@ import { usePersonalInfoModal } from "../Personalnformation/PersonalInformation"
 import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
 import useLoadMe from '../../api/useLoadMe';
 import { toImageUrl } from '../../tasks/toImageUrl';
-import styles from "../Personalnformation/PersonalInformation.module.css";
 const logStates = {
     NOT_SIGNED_IN: "Sign in",
     SIGNED_IN: "Personal information"
@@ -24,10 +23,10 @@ const LoginButton = () => {
     const breakpoints = useBreakpoint(true)
 
     useEffect(() => {
-        if (!isInfoModalOpen) {
+        if (!isInfoModalOpen && user) {
             fetch()
         }
-    }, [isInfoModalOpen]);
+    }, [isInfoModalOpen, user]);
 
     const handleLogout = () => {
         navigate("/", { replace: true })

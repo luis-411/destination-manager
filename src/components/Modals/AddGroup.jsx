@@ -24,7 +24,7 @@ export const AddGroups = ({ country }) => {
 
   return (
     <div>
-      <h4 className={'fs-5 fw-bold'}>Add guides</h4>
+      <h4 className={'fs-5 fw-bold'}>Add collection</h4>
       {dataWithProperties && !loading && <div>
         <div style={{ marginTop: "2rem", display: "grid", gap: "1rem",overflowY:"auto",height:"6rem", gridTemplateColumns: "0.25fr 0.25fr 0.25fr 0.25fr" }}>
           {dataWithProperties.map((group, index) => {
@@ -93,15 +93,15 @@ export const AddGroups = ({ country }) => {
                       }))
                 }
               }).then(() => {
-              message.success("New guide updated successfully");
+              message.success("New collection updated successfully");
               modal.reset()
             })
               .catch(() => {
-                message.error("Guides update failed")
+                message.error("Collections update failed")
               })
           }}
           style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", color: "black", height: "2.3rem", minWidth: "11.5rem", background: "white", borderRadius: "0.8rem", marginRight: "1rem" }}>
-          Add new guides
+          Add new collections
         </div>
       </div>
     </div>

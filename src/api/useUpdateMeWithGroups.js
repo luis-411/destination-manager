@@ -2,11 +2,11 @@
 import {useToken} from "../components/AuthProvider/AuthProvider";
 import useAxios from "axios-hooks";
 import authenticationHeader from "./authenticationHeader";
+import {useAuthContext} from "../context/AuthContext";
 
-const useUpdateMeWithGroups = (
-  initialPage = 1,
-) => {
-  const visitsUrl = `${process.env.REACT_APP_BACKEND_URL}/users/1`;//To Be Done, put your own User ID instead of 1
+const useUpdateMeWithGroups = () => {
+  const { user } = useAuthContext();
+  const visitsUrl = `${process.env.REACT_APP_BACKEND_URL}/groups/${user.id}`;
   const token = useToken.getState().token;
 
   const [{ data, loading, error }, executePutGroups] = useAxios({
@@ -17,7 +17,12 @@ const useUpdateMeWithGroups = (
   { manual: true });
 
 
-  return { data,executePutGroups,loading, error };
+  return {
+    data,
+    executePutGroups,
+    loading,
+    error
+  };
 };
 
 export default useUpdateMeWithGroups;

@@ -46,7 +46,6 @@ const AppModal = () => {
           </button>
         </div>
         { component }
-        {/*{ <CreateNewVisit /> }*/}
       </Modal.Body>
     </Modal>
   );

@@ -49,10 +49,10 @@ const GroupRow = ({
       }
     }).then((response) => {
       if (response.status < 400) {
-        message.success("Travel guide was successfully updated")
+        message.success("Travel collection was successfully updated")
         setIsEditMode(false);
       } else {
-        throw new Error('Failed to update the travel guide')
+        throw new Error('Failed to update the travel collection')
       }
     }).catch((error) => {
       message.error(error.message);
@@ -67,9 +67,9 @@ const GroupRow = ({
     }).then((response) => {
       if (response.status < 400) {
         setGroups(groups.filter((group) => group.id !== id))
-        message.success("Travel guide deleted successfully")
+        message.success("Travel collection deleted successfully")
       } else {
-        throw new Error('Failed to delete travel guide')
+        throw new Error('Failed to delete travel collection')
       }
     }).catch((error) => {
       message.error(error.message);
@@ -87,7 +87,7 @@ const GroupRow = ({
       .then((response) => {
         if (response.status < 400) {
           return fetch().catch((error) => {
-            throw new Error('Failed to fetch the travel guide');
+            throw new Error('Failed to fetch the travel collection');
           });
         } else {
           throw new Error(response.data.error.message || 'Failed to executePutGroups');
@@ -96,7 +96,7 @@ const GroupRow = ({
       .then(() => {
         setGroups([...groups, { name: newGroupName, description: newGroupDescription, regions: [] }]);
         setCreateNewGroup(false);
-        message.success("Travel guide created successfully");
+        message.success("Travel collection created successfully");
 
       })
       .catch((error) => {
@@ -117,7 +117,7 @@ const GroupRow = ({
                   className={`${textInputStyles.input} mt-1 mb-2`}
                   value={groupName}
                   style={{ borderColor: 'rgba(255, 255, 255, 0.7)' }}
-                  placeholder={'Edit guide\'s name'}
+                  placeholder={'Edit collection\'s name'}
                   onChange={(e) => setGroupName(e.target.value)}
                 />
               )}
@@ -129,14 +129,14 @@ const GroupRow = ({
                   className={`${textInputStyles.input} mt-1 mb-2`}
                   value={groupDescription}
                   style={{ fontSize: '0.8rem', borderColor: 'rgba(255, 255, 255, 0.7)' }}
-                  placeholder={'Edit guide\'s description'}
+                  placeholder={'Edit collection\'s description'}
                   onChange={(e) => setGroupDescription(e.target.value)}
                 />
               )}
             </div>
             <div className={'d-flex'}>
               <h6 className={`fa-xs lh-1 m-0 fw-bold ${styles.groupRegions}`}>
-                {regions.length > 0 ? regions.map(region => (
+                {regions?.length > 0 ? regions.map(region => (
                   <GoToMapCountryButton key={region.id} regionId={region.id} showText={true} text={region.Region} />
                 )) : 'No regions yet'}
               </h6>
@@ -174,7 +174,7 @@ const GroupRow = ({
               className={`${textInputStyles.input}`}
               value={newGroupName}
               style={{borderColor: 'rgba(255, 255, 255, 0.7)', fontSize: '0.8rem'}}
-              placeholder={'Add guide\'s name'}
+              placeholder={'Add collection\'s name'}
               onChange={(e) => setNewGroupName(e.target.value)}
             />
           </div>
@@ -184,7 +184,7 @@ const GroupRow = ({
               className={`${textInputStyles.input}`}
               value={newGroupDescription}
               style={{borderColor: 'rgba(255, 255, 255, 0.7)', fontSize: '0.8rem'}}
-              placeholder={'Describe travel guide'}
+              placeholder={'Describe travel collection'}
               onChange={(e) => setNewGroupDescriptipn(e.target.value)}
             />
           </div>
@@ -198,7 +198,7 @@ const GroupRow = ({
               }}
               onClick={onSave}
             >
-              Create new group
+              Create new collection
             </button>
             <button
               className='btn ps-0 fw-bold'

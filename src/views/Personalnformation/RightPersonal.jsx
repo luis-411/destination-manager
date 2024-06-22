@@ -38,7 +38,7 @@ const RightPersonal = () => {
   }
   ), {});
 
-  const { data: meData, loading: groupsLoading } = useLoadMeWithGroups();
+  const { data: groupsData, loading: groupsLoading } = useLoadMeWithGroups();
   const [{ data: statsData, loading: statsLoading }] = useLoadStatistics();
   const [newGroupCreation, setNewGroupCreation] = useState(false);
 
@@ -54,8 +54,10 @@ const RightPersonal = () => {
   const [groups, setGroups] = useState([]);
 
   useEffect(() => {
-    { !groupsLoading && meData && setGroups(meData?.groups) }
-  }, [groupsLoading]);
+    if (!groupsLoading && groupsData) {
+      setGroups(groupsData?.groups ?? []);
+    }
+  }, [groupsData]);
 
   if (groupsLoading || statsLoading) {
     return null;
@@ -64,7 +66,7 @@ const RightPersonal = () => {
   const suggestions = statsData?.statistics?.recommendations ?? [];
   return (
     <div className='p-3 d-flex flex-column gap-4'>
-      {suggestions.length > 0 && (
+      {suggestions?.length > 0 && (
         <Col>
           <h5 className='fs-6 fw-bold pb-2'>Personal Recommendations</h5>
           <div className={styles.favouritesHeight}>
@@ -98,12 +100,12 @@ const RightPersonal = () => {
       </Col>
       <Col>
         <div style={{ justifyContent: "space-between", display: "flex" }}>
-          <h5 className='fs-6 fw-bold pb-2'>Travel Guides</h5>
+          <h5 className='fs-6 fw-bold pb-2'>Travel collections</h5>
           <span onClick={() => {
             setNewGroupCreation(true);
           }
           }
-            style={{ cursor: "pointer", fontSize: "15px", marginRight: "25px" }}>Add new guide</span>
+            style={{ cursor: "pointer", fontSize: "15px", marginRight: "25px" }}>Add new collection</span>
         </div>
         <div ref={scrollRef} className={styles.groupsHeight}>
           <div className={'d-flex pe-2  flex-column gap-3'}>
@@ -122,7 +124,7 @@ const RightPersonal = () => {
             ))}
             {groups.length === 0 && !newGroupCreation && (
               <div className='w-full'>
-                <h6>No travel guides yet</h6>
+                <h6>No travel collections yet</h6>
               </div>
             )}
             {newGroupCreation && <div style={{display: "block"}}>
