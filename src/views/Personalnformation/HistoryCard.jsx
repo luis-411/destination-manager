@@ -10,6 +10,7 @@ import {memo, useEffect, useState} from "react";
 import {DeleteOutlined, EditOutlined} from "@ant-design/icons";
 import {useAppModal} from "../../components/AppModal";
 import HandleVisit from "../../components/Modals/HandleVisit";
+import {message} from "antd";
 
 const HistoryCard = ({
  historyEntity,
@@ -26,6 +27,10 @@ const HistoryCard = ({
   const [entity, setEntity] = useState(historyEntity);
 
   const onEdit = () => {
+    if (!historyEntity.region?.data) {
+      message.error('Cannot edit history entity without region');
+      return;
+    }
     modal.setComponent(
       <HandleVisit
           oldVisit={{...entity, id }}

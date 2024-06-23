@@ -12,14 +12,17 @@ export const AddGroups = ({ country }) => {
   const modal = useAppModal();
 
   useEffect(() => {
-    !loading
-    && setDataWithProperties(data.groups
-      .map((group) => ({
-        ...group,
-        isSelected: group.regions
-          .some((country1) => country1.id === country.id)
-      })))
-  }, [loading]);
+    if (!loading && data.groups) {
+      setDataWithProperties(
+        data.groups
+        .map((group) => ({
+          ...group,
+          isSelected: group.regions
+            .some((country1) => country1.id === country.id)
+        }))
+      )
+    }
+  }, [loading, data]);
 
 
   return (
@@ -80,7 +83,7 @@ export const AddGroups = ({ country }) => {
                   "groups": dataWithProperties
                     .map((group) =>
                       ({
-                        name: group.name,
+                        ...group,
                         regions: group.isSelected
                           ?
                           [{ id: country.id }, ...group.regions
@@ -93,11 +96,11 @@ export const AddGroups = ({ country }) => {
                       }))
                 }
               }).then(() => {
-              message.success("New collection updated successfully");
+              message.success(`Collections for ${country.region} got updated successfully`);
               modal.reset()
             })
               .catch(() => {
-                message.error("Collections update failed")
+                message.error("Collections update failed");
               })
           }}
           style={{ cursor: "pointer", display: "flex", justifyContent: "center", alignItems: "center", position: "relative", color: "black", height: "2.3rem", minWidth: "11.5rem", background: "white", borderRadius: "0.8rem", marginRight: "1rem" }}>
