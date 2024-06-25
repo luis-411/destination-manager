@@ -1,5 +1,6 @@
 import { StarFilled, StarOutlined } from '@ant-design/icons';
 import {useFavourites} from "../hooks/useFavourites";
+import {useAuthContext} from "../context/AuthContext";
 
 
 const FavouriteTag = ({ country }) => {
@@ -13,6 +14,14 @@ const FavouriteTag = ({ country }) => {
       await favourites.remove(country);
     }
   }
+
+  const { user } = useAuthContext();
+
+  if (!user?.id) {
+    return;
+  }
+
+
   return (
     <div className='d-inline' id='favourite'>
       {isFavourite && <StarFilled onClick={onClick}/>}
