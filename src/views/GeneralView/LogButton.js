@@ -23,7 +23,7 @@ const LoginButton = () => {
     const breakpoints = useBreakpoint(true)
 
     useEffect(() => {
-        if (!isInfoModalOpen && user) {
+        if (!isInfoModalOpen && user?.id) {
             fetch()
         }
     }, [isInfoModalOpen, user]);

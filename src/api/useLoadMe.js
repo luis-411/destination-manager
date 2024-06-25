@@ -9,10 +9,15 @@ import {useAuthContext} from "../context/AuthContext";
 const useLoadMe = () => {
   const token = useToken.getState().token;
   const {user} = useAuthContext();
-  return useAxios({
+
+  const [axiosHooks, fetch]  = useAxios({
     url: `${process.env.REACT_APP_BACKEND_URL}/users/me?populate=coverPhoto,profilePhoto`,
     ...authenticationHeader(token)
   }, { manual: !!user?.id, autoCancel: false });
+
+  return [axiosHooks, () => fetch({
+    ...authenticationHeader(token)
+  })];
 };
 
 export default useLoadMe;

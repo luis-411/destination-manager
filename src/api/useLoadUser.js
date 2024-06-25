@@ -16,10 +16,12 @@ const useLoadUser = (signUp) => {
   const onLoad = async (values) => {
     setIsLoading(true);
     try {
-      const value = {
-        identifier: values.email,
-        password: values.password,
-      };
+      const value = !signUp
+        ? {
+            identifier: values.email,
+            password: values.password,
+          }
+        : values;
       const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/${path}`, {
         method: "POST",
         headers: {

@@ -5,6 +5,7 @@ import LeftPersonal from "./LeftPersonal";
 import RightPersonal from "./RightPersonal";
 import useLoadMe from "../../api/useLoadMe";
 import {useEffect} from "react";
+import {useAuthContext} from "../../context/AuthContext";
 
 export const usePersonalInfoModal = create((set) => ({
   isOpen: false,
@@ -14,12 +15,13 @@ export const usePersonalInfoModal = create((set) => ({
 const PersonalInformation = () => {
   const {isOpen, setIsOpen} = usePersonalInfoModal();
   const [{ data: personalInfo}, fetch] = useLoadMe();
+  const { user } = useAuthContext();
 
   useEffect(() => {
-    if (!personalInfo) {
+    if (!personalInfo && user?.id) {
       fetch()
     }
-  }, [personalInfo]);
+  }, [personalInfo, user]);
 
   return (
     <Modal
