@@ -115,10 +115,30 @@ export const HandleVisit = ({ country, oldVisit, setOldVisit }) => {
         message.success(`New visit with title "${r.data.data.attributes.title}" was added`);
         reset();
       } else {
-        message.error('Unexpected error while creating new visit. Please try again.');
+        console.log(createError);
+        message.error(
+          createError.response.data.error?.message ?
+            <div>
+              <h5 style={{ fontSize: '0.875rem' }}>{createError.response.data.error.message}</h5>
+              {createError.response.data.error.details.errors.map(error => (
+                <h6 style={{ fontSize: '0.7rem' }}>{error.name}: {error.message}</h6>
+              ))}
+            </div>
+            : `Unexpected error while creating new visit. Please try again.\n Error ${createError.message}`
+        );
       }
     }).catch(e => {
-        message.error(`Unexpected error while creating new visit. Please try again.\n Error ${e.message}`);
+        console.log(e, createError);
+        message.error(
+          createError.response.data.error?.message ?
+            <div className='text-start'>
+              <h5 style={{fontSize: '0.875rem'}}>{createError.response.data.error.message}</h5>
+              {createError.response.data.error.details.errors.map(error => (
+                <h6 style={{fontSize: '0.7rem'}}>{error.name}: {error.message}</h6>
+              ))}
+            </div>
+            : `Unexpected error while creating new visit. Please try again.\n Error ${e.message}`
+        );
     });
   }
 
