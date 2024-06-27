@@ -49,12 +49,16 @@ const useLoadHistory = ({
     if (entities.meta?.pagination && page >= entities.meta.pagination?.pageCount) {
       return;
     }
-    reFetch({ params: getParams({ page }) });
+    reFetch({
+      params: getParams({ page }),
+      ...authenticationHeader(token),
+    });
   }
 
   const getDataForTheRegion = (region) => {
     reFetch({
-      params: getParams({ region })
+      params: getParams({ region }),
+      ...authenticationHeader(token),
     });
   }
 

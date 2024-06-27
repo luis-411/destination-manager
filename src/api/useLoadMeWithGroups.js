@@ -30,9 +30,17 @@ const useLoadMeWithGroups = () => {
   }, axiosOptions);
   const [groupedData, setGroupedData] = useState({});
 
+  const preparedFetch = () => {
+    return fetch({
+      params: getParams(),
+      method: 'GET',
+      ...authenticationHeader(token)
+    });
+  }
+
   useEffect(() => {
     if (user?.id && axiosOptions.manual) {
-      fetch();
+      preparedFetch();
     }
   }, [user]);
 
@@ -43,7 +51,7 @@ const useLoadMeWithGroups = () => {
   }, [data]);
 
 
-  return { data: groupedData, fetch, loading, error };
+  return { data: groupedData, fetch: preparedFetch, loading, error };
 };
 
 

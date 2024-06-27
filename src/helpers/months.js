@@ -8,7 +8,9 @@ export function convertShortMonthToLong(shortMonth) {
 export function getShortMonths() {
   return Array.from({ length: 12 })
     .fill(0)
-    .map((_, idx) => numberToShortMonth(idx + 1))
+    .map((_, idx) => {
+      return numberToShortMonth(idx);
+    })
 }
 
 /**
@@ -17,7 +19,8 @@ export function getShortMonths() {
  * @return {String}
  */
 export function numberToShortMonth(number) {
-  const date = new Date(`${number} 01 2000`);
+  const date = new Date();
+  date.setMonth(number);
   return (new Intl.DateTimeFormat('en-US', { month: 'short' })
     .format(date))
     .toLowerCase();

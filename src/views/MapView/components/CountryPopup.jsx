@@ -34,7 +34,7 @@ export const CountryPopup = ({ country }) => {
   const [selectedGroups, setSelectedGroups] = useState();
   const iconStyle = { fontSize: '12px' };
   const { user } = useAuthContext();
-  const { data: groups, fetch } = useLoadMeWithGroups();
+  const { data: groups, fetch: fetchGroups } = useLoadMeWithGroups();
   const modal = useAppModal();
   const { data: historyData, getDataForTheRegion: getHistoryDataForRegion } = useLoadHistory({
     userId: user?.id,
@@ -85,7 +85,9 @@ export const CountryPopup = ({ country }) => {
 
   useEffect(() => {
     if(!modal.isOpen && user?.id) {
-      fetch()
+      console.log(user.id);
+      debugger;
+      fetchGroups();
     }
   }, [modal,country]);
 

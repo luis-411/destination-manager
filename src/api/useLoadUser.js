@@ -3,6 +3,7 @@ import {message} from "antd";
 import {useNavigate} from "react-router-dom";
 import {useAuthContext} from "../context/AuthContext";
 import {useState} from "react";
+import {useToken} from "../components/AuthProvider/AuthProvider";
 
 
 const useLoadUser = (signUp) => {
@@ -10,7 +11,7 @@ const useLoadUser = (signUp) => {
   const { setUser } = useAuthContext();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const token = useToken();
   const path = signUp ? 'auth/local/register' : 'auth/local';
 
   const onLoad = async (values) => {
@@ -36,6 +37,7 @@ const useLoadUser = (signUp) => {
       } else {
         // set the token
         setToken(data.jwt);
+        token.setToken();
 
         // set the user
         setUser(data.user);

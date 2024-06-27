@@ -5,8 +5,9 @@ import { message } from "antd";
 import { getToken } from "../../helpers";
 import {create} from "zustand";
 
-export const useToken = create(() => ({
+export const useToken = create((set) => ({
   token: getToken(),
+  setToken: () => set({ token: getToken() })
 }));
 
 const AuthProvider = ({ children }) => {
