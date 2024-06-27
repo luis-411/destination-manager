@@ -18,7 +18,7 @@ const App = () => {
     loadCountriesTask.load(setFileRetrieved);
   };
   const calculateScores = () => {
-    if (fileRetrieved.length > 0) {
+    if (fileRetrieved?.length > 0) {
       const loadCountriesTask = new LoadCountriesTask();
       loadCountriesTask.processCountries(
         fileRetrieved,
