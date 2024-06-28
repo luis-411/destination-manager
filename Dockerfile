@@ -13,6 +13,7 @@ RUN npm run build
 
 RUN npm install -g serve
 
+COPY .env .
 #FROM nginx:1.21.5-alpine as release
 #WORKDIR /usr/share/nginx/html/
 #COPY --from=build /app/build .
