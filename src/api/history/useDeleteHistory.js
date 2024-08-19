@@ -2,11 +2,13 @@ import {useToken} from "../../components/AuthProvider/AuthProvider";
 import useAxios from "axios-hooks";
 import authenticationHeader from "../authenticationHeader";
 import {useMemo, useState} from "react";
+import useApiEvent from "../../hooks/useApiEvent";
 
 
 const useDeleteHistory = () => {
   const visitsUrl = `${process.env.REACT_APP_BACKEND_URL}/visits`;
   const token = useToken.getState().token;
+  const apiEvents = useApiEvent();
 
   const [{data, loading, error}, execute] = useAxios({
     url: visitsUrl,
@@ -19,6 +21,7 @@ const useDeleteHistory = () => {
 
   const deleteVisit = (id) => {
     setLastDeleted(() => id);
+    apiEvents.setApiEvent('visits/remove');
     return execute({
       url: `${process.env.REACT_APP_BACKEND_URL}/visits/${id}`,
     })

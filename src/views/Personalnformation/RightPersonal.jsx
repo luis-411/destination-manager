@@ -42,6 +42,7 @@ const RightPersonal = () => {
   const [{ data: statsData, loading: statsLoading }] = useLoadStatistics();
   const [newGroupCreation, setNewGroupCreation] = useState(false);
 
+
   useEffect(() => {
     if (newGroupCreation) {
       scrollRef.current.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -53,6 +54,8 @@ const RightPersonal = () => {
 
   const [groups, setGroups] = useState([]);
 
+  const suggestions = statsData?.statistics?.recommendations ?? [];
+
   useEffect(() => {
     if (!groupsLoading && groupsData) {
       setGroups(groupsData?.groups ?? []);
@@ -62,8 +65,6 @@ const RightPersonal = () => {
   if (groupsLoading || statsLoading) {
     return null;
   }
-
-  const suggestions = statsData?.statistics?.recommendations ?? [];
   return (
     <div className='p-3 d-flex flex-column gap-4'>
       {suggestions?.length > 0 && (
@@ -76,7 +77,7 @@ const RightPersonal = () => {
                   key={suggestion.id}
                   region={regions[suggestion.u_name].name}
                   score={regions[suggestion.u_name].score}
-                  id={regions[suggestion.name].id}
+                  id={regions[suggestion.u_name].id}
                 />
               ))}
             </div>

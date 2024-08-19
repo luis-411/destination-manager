@@ -3,6 +3,7 @@ import authenticationHeader from "../authenticationHeader";
 import {useToken} from "../../components/AuthProvider/AuthProvider";
 import {useAuthContext} from "../../context/AuthContext";
 import {message} from "antd";
+import useApiEvent from "../../hooks/useApiEvent";
 
 
 const usePostHistory = () => {
@@ -10,6 +11,7 @@ const usePostHistory = () => {
   const token = useToken.getState().token;
   const auth = useAuthContext();
 
+  const apiEvents = useApiEvent();
 
   const [{data, loading, error}, execute] = useAxios({
     url: visitsUrl,
@@ -42,6 +44,8 @@ const usePostHistory = () => {
     data.user = auth.user.id;
     data.region = data.region.id;
     formData.append('data', JSON.stringify(data));
+
+    apiEvents.setApiEvent('visits/create')
 
     return execute({
       data: formData,
