@@ -85,8 +85,6 @@ export const CountryPopup = ({ country }) => {
 
   useEffect(() => {
     if(!modal.isOpen && user?.id) {
-      console.log(user.id);
-      debugger;
       fetchGroups();
     }
   }, [modal,country]);

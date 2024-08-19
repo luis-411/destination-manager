@@ -178,7 +178,6 @@ class LoadCountriesTask {
       let totalScore = 0;
       if (isAffordable) {
         const visitorWeight = userData.VisitorIndex.weight * userData.isVisitorIndexImportant;
-        // debugger;
         const budgetWeight = 1;
         const monthsWeight = 1;
         const allWeights = budgetWeight + monthsWeight + totalAttrScore.weight + visitorWeight;
