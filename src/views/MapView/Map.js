@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect, useCallback} from "react";
+import React, {useRef, useState, useEffect, useCallback, useMemo} from "react";
 import {MapContainer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./styles/Map.css";
@@ -6,6 +6,8 @@ import Legend from "./components/Legend";
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import LeafletTooltip from "../../components/LeafletPopup";
 import {create} from "zustand";
+import useLoadHistory from "../../api/history/useLoadHistory";
+import { useAuthContext } from "../../context/AuthContext";
 
 const position = [51.0967884, 5.9671304];
 
@@ -20,6 +22,14 @@ export const useReferencedCountry = create((set) => ({
 }));
 
 const Map = ({ setActiveResult }) => {
+  const { user } = useAuthContext();
+  const { data: historyData, loading } = useLoadHistory({
+    userId: user?.id,
+  });
+  const isLoading = !historyData;
+  const visitedCountryIds = useMemo(() => {
+    return historyData?.data?.map((obj) => obj.attributes.region.data.id) || [];
+  }, [historyData]);
   const [map, setMap] = useState(null);
   const countries = useTravelRecommenderStore((state) => state.countries);
   const travelStore = useTravelRecommenderStore();
@@ -42,6 +52,22 @@ const Map = ({ setActiveResult }) => {
       geoJsonLayer.current.clearLayers().addData(countries);
     }
   });
+
+  useEffect(() => {
+    if (geoJsonLayer.current && visitedCountryIds.length > 0) {
+      geoJsonLayer.current.eachLayer((layer) => {
+        const countryId = layer.feature.properties.result.id;
+        const visited = visitedCountryIds.includes(countryId);
+        if (visited) {
+          layer.setStyle({
+            weight: 5,
+            color: "#868686",
+            fillOpacity: 0.7,
+          });
+        }
+      });
+    }
+  }, [visitedCountryIds, geoJsonLayer]);
 
   const addNumberToTheIndexedCountry = (layer, cIndex) => {
     layer.options.fillColor = getColor(100);
@@ -107,20 +133,21 @@ const Map = ({ setActiveResult }) => {
 
   const highlightFeature = (e) => {
     const layer = e.target;
-
+    const visited = layer.options.weight === 5;
     layer.setStyle({
       weight: 5,
       color: "white",
-      fillOpacity: 0.7,
+      fillOpacity: visited ? 0.8 : 0.7,
     });
   };
 
   const resetHighlight = (e) => {
     const layer = e.target;
+    const visited = layer.options.fillOpacity === 0.8;
     layer.setStyle({
-      fillOpacity: 1,
+      fillOpacity: visited ? 0.7 : 1,
       color: "#868686",
-      weight: 1,
+      weight: visited ? 5 : 1,
     });
   };
 
@@ -171,6 +198,9 @@ const Map = ({ setActiveResult }) => {
       : "#fff";
   };
 
+  if (loading || isLoading) {
+    return <div>Loading user data...</div>;
+  }
   return (
     <div>
       <div>
