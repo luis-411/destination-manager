@@ -53,8 +53,14 @@ const Map = ({ setActiveResult }) => {
     }
   });
 
+  const countryStyle = {
+    fillOpacity: 1,
+    color: "#868685",
+    weight: 1,
+  };
+
   useEffect(() => {
-    if (geoJsonLayer.current && visitedCountryIds.length > 0) {
+    if (user && geoJsonLayer.current && visitedCountryIds.length > 0) {
       geoJsonLayer.current.eachLayer((layer) => {
         const countryId = layer.feature.properties.result.id;
         const visited = visitedCountryIds.includes(countryId);
@@ -64,10 +70,18 @@ const Map = ({ setActiveResult }) => {
             color: "#868686",
             fillOpacity: 0.7,
           });
+        //   layer.bindTooltip(`
+        //     <div>
+        //       <h4>⭐</h4>
+        //     </div>`, {
+        //   permanent: true,
+        //   opacity: 1,
+        //   direction: "center",
+        // });
         }
       });
     }
-  }, [visitedCountryIds, geoJsonLayer]);
+  }, [visitedCountryIds, countryStyle, user]);
 
   const addNumberToTheIndexedCountry = (layer, cIndex) => {
     layer.options.fillColor = getColor(100);
@@ -86,6 +100,14 @@ const Map = ({ setActiveResult }) => {
    * @type {(function($ObjMap, *): void)|*}
    */
   const onEachCountry = useCallback((country, layer) => {
+    // if(historyData?.data?.map((obj) => obj.attributes.region.data.id).includes(country.properties.result.id)){
+    //   console.log("sdf")
+    //   layer.setStyle({
+    //     weight: 5,
+    //     color: "#868686",
+    //     fillOpacity: 0.7,
+    //   });
+    // }
     const cIndex = countries.findIndex(
       (r) => r.properties.u_name === country.properties.u_name
     );
@@ -125,11 +147,6 @@ const Map = ({ setActiveResult }) => {
   };
 
 
-  const countryStyle = {
-    fillOpacity: 1,
-    color: "#868686",
-    weight: 1,
-  };
 
   const highlightFeature = (e) => {
     const layer = e.target;
