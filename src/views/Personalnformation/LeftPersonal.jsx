@@ -7,6 +7,7 @@ import UploadImage from "../../components/UploadImage";
 import useUpdateUser from "../../api/user/useUpdateUser";
 import TextWithInput from "../../components/TextWithInput";
 import { message } from "antd";
+import TravelDays from "./TravelDays";
 const LeftPersonal = ({ personalInfo, onLoadPersonal }) => {
   const { uploadImageToField, update } = useUpdateUser();
   if (!personalInfo) {
@@ -87,6 +88,7 @@ const LeftPersonal = ({ personalInfo, onLoadPersonal }) => {
         </Row>
       </Row>
       <div className='mt-4'>
+        <TravelDays userId={personalInfo.id} />
         <VisitedHistory userId={personalInfo.id} />
       </div>
     </div>
