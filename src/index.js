@@ -4,6 +4,7 @@ import "./styles/index.css";
 import App from "./App.js";
 import reportWebVitals from "./reportWebVitals";
 import AuthProvider from "./components/AuthProvider/AuthProvider.jsx";
+import AuthProviderSupabase from "./components/AuthProvider/AuthProviderSupabase.jsx";
 import { BrowserRouter as Router } from "react-router-dom";
 
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
@@ -13,11 +14,13 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 console.log(window.location.origin);
 root.render(
   <React.StrictMode>
+    <AuthProviderSupabase>
     <AuthProvider>
     <Router>
       <App />
       </Router>
     </AuthProvider>
+    </AuthProviderSupabase>
   </React.StrictMode>
 );
 

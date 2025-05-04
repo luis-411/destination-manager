@@ -1,7 +1,16 @@
 import L from "leaflet";
 import { useEffect } from "react";
 import "../styles/Map.css";
+import { useThemeModal } from "../../ThemeView/ThemePopup";
+
 function Legend({ map }) {
+  const { setIsOpen: setIsThemeModalOpen, isOpen: isThemeModalOpen } = useThemeModal();
+  const openThemeSelector = () => {
+    console.log(isThemeModalOpen)
+    setIsThemeModalOpen(true);
+    console.log(isThemeModalOpen)
+
+  }
   const getColor = (d) => {
     return d > 90
       ? "#109146"
@@ -30,8 +39,17 @@ function Legend({ map }) {
             '<i style="background:' + getColor(grades[i]) + '"></i> ' + texts[i]
           );
         }
+        labels.push(
+          '<button id="theme-selector-btn" class="text-gray-900 bg-transparent border rounded border-gray-300 px-4 mt-1">Edit Theme</button>'
+        );
 
         div.innerHTML = labels.join("<br>");
+        setTimeout(() => {
+          const button = div.querySelector("#theme-selector-btn");
+          if (button) {
+            button.addEventListener("click", openThemeSelector);
+          }
+        }, 0);
         return div;
       };
 

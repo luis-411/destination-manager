@@ -18,7 +18,8 @@ export const AddGroups = ({ country }) => {
         .map((group) => ({
           ...group,
           isSelected: group.regions
-            .some((country1) => country1.id === country.id)
+            .some((country1) => country1.id === country.id),
+          emoji: group.emoji,
         }))
       )
     }
@@ -70,6 +71,7 @@ export const AddGroups = ({ country }) => {
             setDataWithProperties(dataWithProperties
               .map((group) => ({
                 name: group.name,
+                emoji: group.emoji,
                 regions: group.isSelected
                   ?
                   [{ id: country.id }, ...group.regions.map((country1) => ({ id: country1.id }))]
@@ -84,6 +86,7 @@ export const AddGroups = ({ country }) => {
                     .map((group) =>
                       ({
                         ...group,
+                        emoji: group.emoji,
                         regions: group.isSelected
                           ?
                           [{ id: country.id }, ...group.regions

@@ -119,6 +119,7 @@ const RightPersonal = () => {
                 description={group.description}
                 groups={groups}
                 regions={group.regions}
+                emoji={group.emoji}
                 onCreate={false}
                 setGroups={setGroups}
               />

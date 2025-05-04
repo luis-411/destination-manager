@@ -10,6 +10,7 @@ const AppRoutes = () => {
           <Route path="/" element={<TravelRecommender />} />
           <Route path={AuthPaths.SIGN_IN} element={<TravelRecommender />} />
           <Route path={AuthPaths.SIGN_UP} element={<TravelRecommender />} />
+          <Route path="/public-list/:link" element={<TravelRecommender />} />
         </Routes>
       </>
     );

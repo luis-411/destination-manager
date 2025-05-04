@@ -11,12 +11,17 @@ import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import PersonalInformation from "../Personalnformation/PersonalInformation";
 import AppModal from "../../components/AppModal";
 import {useAuthContext} from "../../context/AuthContext";
+import ThemePopup from "../ThemeView/ThemePopup";
+import { useParams } from "react-router-dom";
+import useRightColumnOpen from "./services/useRightColumnOpen";
 
 const TravelRecommender = () => {
   const [activeResult, setActiveResult] = useState(0);
   const [leftColumnOpen, setLeftColumnOpen] = useState(true);
-  const [rightColumnOpen, setRightColumnOpen] = useState(true);
+  const { rightColumnOpen, setRightColumnOpen } = useRightColumnOpen();
+  //const [rightColumnOpen, setRightColumnOpen] = useState(false);
   const { user } = useAuthContext();
+  const { link } = useParams();
 
   /**
    *
@@ -61,7 +66,7 @@ const TravelRecommender = () => {
             style={{ height: "100%" }}
             {...leftColumnSizes}
           >
-            <Preferences />
+            <Preferences link={link} />
           </Col>
         )}
         <Col
@@ -73,7 +78,7 @@ const TravelRecommender = () => {
               <FontAwesomeIcon icon={leftColumnOpen ? faAngleLeft : faAngleRight} />
             </div>
             <Map key={`map-${leftColumnOpen}-${rightColumnOpen}`} setActiveResult={setActiveResult} />
-            <div className="expand-bar" onClick={() => setRightColumnOpen(oldState => !oldState)}>
+            <div className="expand-bar" onClick={() => setRightColumnOpen(!rightColumnOpen)}>
               <FontAwesomeIcon icon={rightColumnOpen ? faAngleRight : faAngleLeft} />
             </div>
           </div>
@@ -90,7 +95,8 @@ const TravelRecommender = () => {
       <Tooltip id="prio-switch-tooltip" style={{ width: "300px", zIndex: 99999 }} />
       <Tooltip id="additional-info-tooltip" style={{ width: "300px", zIndex: 99999 }} place="bottom" />
       <Tooltip id="barchart-tooltip" style={{ width: "300px", zIndex: 99999 }} place="bottom" />
-      {user?.id && <PersonalInformation/>}
+      {/* {user?.id && <PersonalInformation/>} */}
+      <ThemePopup/>
       <AppModal />
     </div>
   );

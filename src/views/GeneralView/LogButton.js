@@ -1,45 +1,46 @@
 import { useEffect, useState } from 'react';
 import Button from './Button';
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from '../../context/AuthContext';
 import { removeToken } from '../../helpers';
 import { message } from 'antd';
 import { ReactComponent as UserIcon } from '../../images/user.svg';
 import { usePersonalInfoModal } from "../Personalnformation/PersonalInformation";
 import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
-import useLoadMe from '../../api/useLoadMe';
+//import useLoadMe from '../../api/useLoadMe';
 import { toImageUrl } from '../../tasks/toImageUrl';
+import { useAuthContextSupabase } from '../../context/AuthContextSupabase';
 const logStates = {
     NOT_SIGNED_IN: "Sign in",
     SIGNED_IN: "Personal information"
 }
 
 const LoginButton = () => {
-    const { user, setUser } = useAuthContext();
+    const { user, setUser, signOut } = useAuthContextSupabase();
     const navigate = useNavigate();
     const [logName, setLogName] = useState(logStates.NOT_SIGNED_IN);
-    const [{ data: personalInfo }, fetch] = useLoadMe();
-    const { setIsOpen: setIsInfoModalOpen, isOpen: isInfoModalOpen } = usePersonalInfoModal();
+    //const [{ data: personalInfo }, fetch] = useLoadMe();
+    //const { setIsOpen: setIsInfoModalOpen, isOpen: isInfoModalOpen } = usePersonalInfoModal();
     const breakpoints = useBreakpoint(true)
 
-    useEffect(() => {
-        if (!isInfoModalOpen && user?.id) {
-            fetch()
-        }
-    }, [isInfoModalOpen, user]);
+    // useEffect(() => {
+    //     if (!isInfoModalOpen && user?.id) {
+    //         fetch()
+    //     }
+    // }, [isInfoModalOpen, user]);
 
     const handleLogout = () => {
         navigate("/", { replace: true })
         setUser(undefined);
-        removeToken();
-        message.success(`Logged out successfully!`);
+        signOut();
+        //removeToken();
+        //message.success(`Logged out successfully!`);
     }
 
     const handleCTAButton = () => {
         if (!user) {
             navigate("/signin", { replace: true });
         } else {
-            setIsInfoModalOpen(true);
+            //setIsInfoModalOpen(true);
         }
     };
 
@@ -56,13 +57,13 @@ const LoginButton = () => {
         ? 'flex-row align-items-center py-3'
         : 'flex-column-reverse align-items-start pb-3';
 
-    const showProfilePhoto = personalInfo?.profilePhoto && logName === logStates.SIGNED_IN;
+    //const showProfilePhoto = personalInfo?.profilePhoto && logName === logStates.SIGNED_IN;
 
     return (
         <div
             className={`w-100 d-flex justify-content-between ${orderElements} gap-2`}
         >
-            <Button className={'d-flex align-items-center gap-3'} handleButton={handleCTAButton}>
+            {/* <Button className={'d-flex align-items-center gap-3'} handleButton={handleCTAButton}>
                 <div className='rounded-circle' style={{ backgroundColor: showProfilePhoto ? "transparent": '#D9D9D9', width: '1.5rem' }}>
                     {
                        showProfilePhoto ?
@@ -72,6 +73,12 @@ const LoginButton = () => {
                             alt="avatar"></img>
                         :
                         <UserIcon />}
+                </div>
+                <span className={'fw-bold'} style={{ userSelect: "none", fontSize: '12px' }}>{logName}</span>
+            </Button> */}
+            <Button className={'d-flex align-items-center gap-3'} handleButton={handleCTAButton}>
+                <div className='rounded-circle' style={{ backgroundColor: '#D9D9D9', width: '1.5rem' }}>
+                    <UserIcon />
                 </div>
                 <span className={'fw-bold'} style={{ userSelect: "none", fontSize: '12px' }}>{logName}</span>
             </Button>

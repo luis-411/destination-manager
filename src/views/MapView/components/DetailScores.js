@@ -9,12 +9,12 @@ export const DetailScores = ({ scores, travelMonths, visitorIndexes, peakSeasons
     <>
       <div className='text-white'>
         <div className='my-3'>
-          <h6 style={{fontSize: '10px'}}>Months Ratings</h6>
+        {travelMonths && (<><h6 style={{fontSize: '10px'}}>Months Ratings</h6>
           <TravelMonthScore
             className={styles.monthsScroll}
             travelMonths={travelMonths}
             showMatches={false}
-          />
+          /></>)}
         </div>
         {visitorIndexes && (
           <div className='my-3'>
@@ -26,12 +26,12 @@ export const DetailScores = ({ scores, travelMonths, visitorIndexes, peakSeasons
             />
           </div>
         )}
-        <div>
+        {/* <div>
           <h6 style={{fontSize: '10px'}}>Attribute Scores</h6>
           {scores.map((entry, index) => (
             <AttributeScore score={entry} index={index} key={index}/>
           ))}
-        </div>
+        </div> */}
       </div>
     </>
   );

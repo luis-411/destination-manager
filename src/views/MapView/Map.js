@@ -8,6 +8,9 @@ import LeafletTooltip from "../../components/LeafletPopup";
 import {create} from "zustand";
 import useLoadHistory from "../../api/history/useLoadHistory";
 import { useAuthContext } from "../../context/AuthContext";
+import useLoadMeWithGroups from "../../api/useLoadMeWithGroups";
+//import { useGetColor } from "../../tasks/getColor";
+import useSelectedList from "../../api/useSelectedList";
 
 const position = [51.0967884, 5.9671304];
 
@@ -22,6 +25,7 @@ export const useReferencedCountry = create((set) => ({
 }));
 
 const Map = ({ setActiveResult }) => {
+  //const getColor = useGetColor();
   const { user } = useAuthContext();
   const { data: historyData, loading } = useLoadHistory({
     userId: user?.id,
@@ -39,6 +43,21 @@ const Map = ({ setActiveResult }) => {
     countryId: referencedCountryId,
     resetCountry: resetReferencedCountry
   } = useReferencedCountry();
+
+  const { selectedList } = useSelectedList();
+  const listRegions = selectedList.regions;
+  const [geoJsonKey, setGeoJsonKey] = useState(0); // Key to force GeoJSON re-render
+
+
+  const { data: groupsData, loading: groupsLoading } = useLoadMeWithGroups();
+  const [groups, setGroups] = useState([]);
+  
+
+  useEffect(() => {
+      if (!groupsLoading && groupsData) {
+        setGroups(groupsData?.groups ?? []);
+      }
+    }, [groupsData]);
 
   useEffect(() => {
     if (referencedCountryId) {
@@ -72,7 +91,7 @@ const Map = ({ setActiveResult }) => {
           });
         //   layer.bindTooltip(`
         //     <div>
-        //       <h4>⭐</h4>
+        //       <p>📌</p>
         //     </div>`, {
         //   permanent: true,
         //   opacity: 1,
@@ -81,7 +100,30 @@ const Map = ({ setActiveResult }) => {
         }
       });
     }
-  }, [visitedCountryIds, countryStyle, user]);
+  }, [visitedCountryIds, countryStyle, user, groups]);
+
+  useEffect(() => {
+    if(user && geoJsonLayer.current){
+      geoJsonLayer.current.eachLayer((layer) => {
+        for(const group of groups){
+          if(group.regions.map(r => r.Region).includes(layer.feature.properties.result.region)){
+            // layer.setStyle({
+            //   fillColor: "blue",
+            // });
+            // console.log(group)
+            // layer.bindTooltip(`
+            //   <div>
+            //     <p>${group.emoji}</p>
+            //   </div>`, {
+            //   permanent: true,
+            //   opacity: 1,
+            //   direction: "center",
+            // });
+          }
+        }
+      });
+    }
+  }, [groups, countryStyle]);
 
   const addNumberToTheIndexedCountry = (layer, cIndex) => {
     layer.options.fillColor = getColor(100);
@@ -113,6 +155,9 @@ const Map = ({ setActiveResult }) => {
     );
     const score = country.properties.result.scores.totalScore;
     layer.options.fillColor = getColor(score);
+    if(listRegions && listRegions.map((regions) => regions.value.id).includes(country.properties.result.id)){
+      layer.options.fillColor = "#000000";
+    }
 
     if (cIndex < 10 && score > 0) {
      addNumberToTheIndexedCountry(layer, cIndex);
@@ -132,7 +177,7 @@ const Map = ({ setActiveResult }) => {
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [countries]);
+  }, [countries, listRegions]);
 
 
   const onCountryPopupOpen = (countryId) => {
@@ -214,6 +259,9 @@ const Map = ({ setActiveResult }) => {
       ? "#BF1E24"
       : "#fff";
   };
+  useEffect(() => {
+    setGeoJsonKey((prevKey) => prevKey + 1);
+  }, [listRegions]);
 
   if (loading || isLoading) {
     return <div>Loading user data...</div>;
@@ -230,6 +278,7 @@ const Map = ({ setActiveResult }) => {
           doubleClickZoom={false}
         >
           <GeoJSON
+            key={geoJsonKey}
             ref={geoJsonLayer}
             style={countryStyle}
             data={countries}

@@ -1,0 +1,13 @@
+.list-card:hover {
+  display: none;
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  .groupRegions {
+    line-height: initial;
+    white-space: nowrap;
+    overflow: scroll;
+    text-overflow: ellipsis;
+    scrollbar-width: none;
+    display: flex;
+}

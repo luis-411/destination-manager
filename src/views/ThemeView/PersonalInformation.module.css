@@ -1,0 +1,127 @@
+.modal {
+    --bs-modal-zindex: 1000;
+}
+
+.modalWrapper {
+    --bs-modal-zindex: 1050;
+}
+
+.modalBody {
+    --bg-dark-green: #0B1C22;
+    background-color: var(--bg-dark-green);
+    border-radius: 1.2rem;
+    color: #ffffff;;
+}
+
+.basisFlex {
+    flex-basis: 45%;
+    min-width: 45%;
+}
+
+.coverImage {
+    width: 100%;
+    object-fit: cover;
+    max-height: 12rem;
+    height: 100%;
+    border-radius: 0.8rem;
+    position: relative;
+    cursor: pointer;
+}
+
+.coverImageShadow {
+    cursor: pointer;
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.33);
+    z-index: 1;
+    transition: all 0.3s ease-in;
+    border-radius: 0.8rem;
+}
+
+
+.coverImageShadow:hover {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.avatarIcon {
+    overflow: hidden;
+    background-color: #0d6efd;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    position: relative;
+    cursor: pointer;
+}
+
+.avatarImg {
+    object-fit: contain;
+}
+
+.avatarIcon::before {
+    width: 100%;
+    height: 100%;
+    content: '';
+    position: absolute;
+    transition: all 0.4s ease-in;
+    top: 0;
+    left: 0;
+}
+
+.avatarIcon:hover::before {
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.65);
+}
+
+.avatarEditIcon {
+    position: absolute;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 12px;
+}
+
+.avatarWrapper {
+    position: absolute;
+    bottom: 0;
+    z-index: 10;
+    left: 1.5rem;
+    max-width: 2rem;
+}
+
+
+.fs7 {
+    font-size: 0.85rem;
+}
+
+.editCoverIcon {
+    position: absolute;
+    right: 2rem;
+    bottom: 2.5rem;
+    z-index: 1;
+    cursor: pointer;
+}
+
+
+.hoverBorderBottom {
+    transition: all 0.2s ease-in;
+    border-bottom: 2px solid transparent;
+}
+
+.hoverBorderBottom:hover {
+    border-bottom: 2px solid white;
+}
+
+.actionStates {
+    position: absolute;
+    right: 2rem;
+    top: 0;
+    cursor: pointer;
+}

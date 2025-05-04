@@ -106,6 +106,18 @@ input.stay-days {
   background-color: var(--bg-app-dark);
 }
 
+/* Target the search input field */
+.emoji-picker-react .epr-search {
+  background-color: rgba(27, 64, 77, 1) !important; /* Change the background color */
+  color: white !important; /* Change the text color */
+  border: 1px solid rgba(255, 255, 255, 0.7) !important; /* Add a border */
+}
+
+/* Target the category titles */
+.emoji-picker-react .epr-emoji-category-label {
+  background-color: rgba(27, 64, 77, 1) !important; /* Change the background color */
+  color: white !important; /* Change the text color */
+}
 
 @keyframes App-logo-spin {
   from {
