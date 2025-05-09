@@ -8,16 +8,17 @@ import LogButton from "../GeneralView/LogButton";
 import { useAuthContextSupabase } from "../../context/AuthContextSupabase";
 import useSelectedList from "../../api/useSelectedList";
 import { CountryPopup } from "../MapView/components/CountryPopup";
-import RegionItem from "./RegionItem";
 import RegionCard from "./RegionCard";
+import useRightColumnOpen from "../GeneralView/services/useRightColumnOpen";
 
 export const RightSidebar = ({ activeResult}) => {
   const {user} = useAuthContextSupabase();
   const results = useTravelRecommenderStore((state) => state.results);
   const [activeIndex, setActiveIndex] = useState(-1);
   const accordElem = useRef(null);
-  const { selectedList } = useSelectedList();
+  const { selectedList, setSelectedList } = useSelectedList();
   const listRegions = selectedList.regions;
+  const { setRightColumnOpen } = useRightColumnOpen();
 
   // useEffect(() => {
   //   if (results.length > 0) {
@@ -34,12 +35,17 @@ export const RightSidebar = ({ activeResult}) => {
   //   }
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [activeResult]);
+  const handleClose = () => {
+    setSelectedList([]);
+    setRightColumnOpen(false);
+  };
   return (
     <div className='py-2 pe-2 h-100 overflow-y-scroll overflow-x-hidden'>
       <LogButton/>
       {/* <p className={'m-0'} style={{ textAlign: "left" }}>
         Best destinations for {capitalize(user?.username ?? "you")}
       </p> */}
+      <button onClick={handleClose} className="btn btn-secondary">Close</button>
       <div className="d-flex flex-row align-items-center justify-content-center gap-2" style={{ marginTop: 20 }}>
         <h1 style={{fontSize: "2.5rem", fontWeight: "700", }}>{selectedList.emoji}</h1>
         <h1 style={{ fontWeight: "700", fontSize: "2rem",  }}>{selectedList.title}</h1>

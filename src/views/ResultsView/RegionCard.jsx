@@ -2,6 +2,7 @@ import React from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { DetailScores } from "../MapView/components/DetailScores";
+import GoToMapCountryButton from "../../components/GoToMapCountry";
 
 const RegionCard = ({ region, onViewDetails }) => {
     function getTrueKeys(peakSeason) {
@@ -24,6 +25,7 @@ const RegionCard = ({ region, onViewDetails }) => {
         {/* <Button variant="primary" onClick={() => onViewDetails(region)}>
           View Details
         </Button> */}
+        <GoToMapCountryButton regionId={region.value.id} />
       </Card.Body>
     </Card>
   );

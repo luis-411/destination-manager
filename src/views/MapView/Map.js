@@ -7,10 +7,10 @@ import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import LeafletTooltip from "../../components/LeafletPopup";
 import {create} from "zustand";
 import useLoadHistory from "../../api/history/useLoadHistory";
-import { useAuthContext } from "../../context/AuthContext";
 import useLoadMeWithGroups from "../../api/useLoadMeWithGroups";
-//import { useGetColor } from "../../tasks/getColor";
 import useSelectedList from "../../api/useSelectedList";
+import useVisits from "../../api/useVisits";
+import { useAuthContextSupabase } from "../../context/AuthContextSupabase";
 
 const position = [51.0967884, 5.9671304];
 
@@ -25,15 +25,12 @@ export const useReferencedCountry = create((set) => ({
 }));
 
 const Map = ({ setActiveResult }) => {
-  //const getColor = useGetColor();
-  const { user } = useAuthContext();
+  const { user } = useAuthContextSupabase();
+  const { visits, fetchVisits } = useVisits();
   const { data: historyData, loading } = useLoadHistory({
     userId: user?.id,
   });
   const isLoading = !historyData;
-  const visitedCountryIds = useMemo(() => {
-    return historyData?.data?.map((obj) => obj.attributes.region.data.id) || [];
-  }, [historyData]);
   const [map, setMap] = useState(null);
   const countries = useTravelRecommenderStore((state) => state.countries);
   const travelStore = useTravelRecommenderStore();
@@ -45,19 +42,12 @@ const Map = ({ setActiveResult }) => {
   } = useReferencedCountry();
 
   const { selectedList } = useSelectedList();
+  const listEmoji = selectedList.emoji;
   const listRegions = selectedList.regions;
   const [geoJsonKey, setGeoJsonKey] = useState(0); // Key to force GeoJSON re-render
 
 
   const { data: groupsData, loading: groupsLoading } = useLoadMeWithGroups();
-  const [groups, setGroups] = useState([]);
-  
-
-  useEffect(() => {
-      if (!groupsLoading && groupsData) {
-        setGroups(groupsData?.groups ?? []);
-      }
-    }, [groupsData]);
 
   useEffect(() => {
     if (referencedCountryId) {
@@ -79,89 +69,45 @@ const Map = ({ setActiveResult }) => {
   };
 
   useEffect(() => {
-    if (user && geoJsonLayer.current && visitedCountryIds.length > 0) {
+    fetchVisits();
+  }, [fetchVisits]);
+
+  useEffect(() => {
+
+    if (user && geoJsonLayer.current && visits.length > 0) {
       geoJsonLayer.current.eachLayer((layer) => {
-        const countryId = layer.feature.properties.result.id;
-        const visited = visitedCountryIds.includes(countryId);
+        const countryId = layer.feature.properties.result.id;    
+        const visited = visits.some((visit) => parseInt(visit.region_id) === countryId);
         if (visited) {
           layer.setStyle({
             weight: 5,
             color: "#868686",
             fillOpacity: 0.7,
           });
-        //   layer.bindTooltip(`
-        //     <div>
-        //       <p>📌</p>
-        //     </div>`, {
-        //   permanent: true,
-        //   opacity: 1,
-        //   direction: "center",
-        // });
         }
       });
     }
-  }, [visitedCountryIds, countryStyle, user, groups]);
+  }, [visits, countryStyle]);
 
-  useEffect(() => {
-    if(user && geoJsonLayer.current){
-      geoJsonLayer.current.eachLayer((layer) => {
-        for(const group of groups){
-          if(group.regions.map(r => r.Region).includes(layer.feature.properties.result.region)){
-            // layer.setStyle({
-            //   fillColor: "blue",
-            // });
-            // console.log(group)
-            // layer.bindTooltip(`
-            //   <div>
-            //     <p>${group.emoji}</p>
-            //   </div>`, {
-            //   permanent: true,
-            //   opacity: 1,
-            //   direction: "center",
-            // });
-          }
-        }
-      });
-    }
-  }, [groups, countryStyle]);
-
-  const addNumberToTheIndexedCountry = (layer, cIndex) => {
-    layer.options.fillColor = getColor(100);
-    layer.bindTooltip(`
-        <div>
-          <h4>${cIndex + 1}</h4>
-        </div>`, {
-      permanent: true,
-      opacity: 1,
-      direction: "center",
-    });
-  }
 
   /**
    *
    * @type {(function($ObjMap, *): void)|*}
    */
   const onEachCountry = useCallback((country, layer) => {
-    // if(historyData?.data?.map((obj) => obj.attributes.region.data.id).includes(country.properties.result.id)){
-    //   console.log("sdf")
-    //   layer.setStyle({
-    //     weight: 5,
-    //     color: "#868686",
-    //     fillOpacity: 0.7,
-    //   });
-    // }
-    const cIndex = countries.findIndex(
-      (r) => r.properties.u_name === country.properties.u_name
-    );
-    const score = country.properties.result.scores.totalScore;
-    layer.options.fillColor = getColor(score);
+    layer.options.fillColor = "#7CBA43"//getColor(score);
     if(listRegions && listRegions.map((regions) => regions.value.id).includes(country.properties.result.id)){
-      layer.options.fillColor = "#000000";
+      layer.options.fillColor = "#ff9933";
+      layer.bindTooltip(`
+        <div>
+          <h4>${listEmoji}</h4>
+        </div>`, {
+      permanent: true,
+      opacity: 1,
+      direction: "center",
+    });
     }
 
-    if (cIndex < 10 && score > 0) {
-     addNumberToTheIndexedCountry(layer, cIndex);
-    }
     layer.on({
       mouseover: highlightFeature,
       mouseout: resetHighlight,

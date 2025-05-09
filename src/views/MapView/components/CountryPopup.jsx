@@ -9,13 +9,14 @@ import {
   LikeOutlined,
   FolderOutlined
 } from "@ant-design/icons";
-import { useAuthContext } from "../../../context/AuthContext";
 import { useAppModal } from "../../../components/AppModal";
 import HandleVisit from "../../../components/Modals/HandleVisit";
-import useLoadHistory from "../../../api/history/useLoadHistory";
 import useLoadMeWithGroups from "../../../api/useLoadMeWithGroups";
 import { convertShortMonthToLong } from "../../../helpers/months";
 import AddGroups from "../../../components/Modals/AddGroup";
+import { useAuthContextSupabase } from "../../../context/AuthContextSupabase";
+import useVisits from "../../../api/useVisits";
+import RegionDataView from "./RegionDataView";
 
 const PopupGroup = ({ name }) => {
   return (
@@ -33,13 +34,14 @@ const PopupGroup = ({ name }) => {
 export const CountryPopup = ({ country }) => {
   const [selectedGroups, setSelectedGroups] = useState();
   const iconStyle = { fontSize: '12px' };
-  const { user } = useAuthContext();
-  const { data: groups, fetch: fetchGroups } = useLoadMeWithGroups();
+  const { user } = useAuthContextSupabase();
+  const { visits, fetchVisits } = useVisits();
   const modal = useAppModal();
-  const { data: historyData, getDataForTheRegion: getHistoryDataForRegion } = useLoadHistory({
-    userId: user?.id,
-    regionId: country.country.id,
-  });
+  const { data: groups, fetch: fetchGroups } = useLoadMeWithGroups();
+
+  useEffect(() => {
+    fetchVisits();
+  }, [fetchVisits]);
 
   const onCreateNewRegionVisit = useCallback(() => {
     modal.setIsOpen(true);
@@ -63,6 +65,8 @@ export const CountryPopup = ({ country }) => {
     }
     return country.peakSeasons.map(month => convertShortMonthToLong(month)).join(separator);
   };
+  //TODO update after adding new visits
+  const visitCountForCountry = visits.filter(visit => parseInt(visit.region_id) === country.id).length;
 
   const characteristics = [
     { name: 'Visitor Number', value: getTotalVisitorNumber(country), show: true },
@@ -73,21 +77,9 @@ export const CountryPopup = ({ country }) => {
   const regionStatistics = [
     { label: 'Peak seasons',  text: showBestSeasons(country), show: true  },
     { label: 'Score', text: `${country.scores.totalScore}/100`, show: true },
-    { label: 'Your visits', text: historyData?.meta?.pagination?.total ?? 0, show: !!user?.id },
+    { label: 'Your visits', text: visitCountForCountry, show: !!user?.id },
   ];
   const countColumnSpace = Math.floor(12 / regionStatistics.filter(stats => stats.show).length);
-
-  useEffect(() => {
-    if (user?.id) {
-      getHistoryDataForRegion(country.id);
-    }
-  }, [country]);
-
-  useEffect(() => {
-    if(!modal.isOpen && user?.id) {
-      fetchGroups();
-    }
-  }, [modal,country]);
 
   useEffect(() => {
     groups && setSelectedGroups(groups.groups?.filter((group) => group.regions
@@ -98,9 +90,9 @@ export const CountryPopup = ({ country }) => {
   return (
     <div style={{ color: "white" }}>
       <Col className={'d-flex justify-content-between align-items-center'}>
-        <p className={'m-0'} style={{ fontSize: '10px', paddingLeft: '1.2rem' }}>{country.country}</p>
+        <p className={'m-0'} style={{ fontSize: '10px' }}>{country.country}</p>
         {user?.id && (
-          <button onClick={onCreateNewRegionVisit} className='btn btn-secondary py-0 px-0' style={{fontSize: '10px'}}>
+          <button onClick={onCreateNewRegionVisit} className='btn btn-secondary py-0 px-0' style={{fontSize: '12px'}}>
             <span>Add new visit</span>
             <CompassOutlined className={'ms-2'}/>
           </button>
@@ -118,9 +110,9 @@ export const CountryPopup = ({ country }) => {
           </Col>
         ))}
       </Row>
-      <Col style={{fontSize: '10px' }} className='mb-1'>
-        Characteristics
-      </Col>
+        <Col style={{fontSize: '10px' }} className='mb-1'>
+          Characteristics
+        </Col>
       <div className='d-flex justify-content-between align-items-center gap-2 mb-1'>
         {characteristics.map((characteristic, index) => characteristic.show && (
           <div key={index} className='text-center d-flex flex-column gap-2 flex-grow-1'>
@@ -135,7 +127,7 @@ export const CountryPopup = ({ country }) => {
         ))}
       </div>
 
-      {user?.id && (
+      {/* {user?.id && (
         <>
           <Col style={{ fontSize: '10px' }} className='d-flex justify-content-between align-items-center'>
             <h6 style={{ fontSize: '10px' }}>Belongs to travel collections</h6>
@@ -154,7 +146,10 @@ export const CountryPopup = ({ country }) => {
             {selectedGroups?.length === 0 && <h6 className='m-0' style={{ fontSize: '0.75rem' }}>Not found in any travel collections</h6>}
           </Col>
         </>
-      )}
+      )} */}
+      {user && (
+        <RegionDataView regionId={country.id} regionName={country.region} />
+        )}
       <DetailScores
         scores={Object.keys(country.qualifications)?.map((key) => ({
           name: key,

@@ -52,7 +52,7 @@ const useLists = () => {
   const updateList = async (id, updatedList) => {
     setIsLoading(true);
     try {
-      const { data, error } = await supabase.from("lists").update(updatedList).eq("id", id);
+      const { data, error } = await supabase.from("lists").update(updatedList).eq("id", id).select("*");
       if (error) {
         throw error;
       }

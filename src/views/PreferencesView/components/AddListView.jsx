@@ -11,9 +11,20 @@ const AddListView = ({
   handleTitleChange,
   handleDescriptionChange,
   addListSupabase,
+  handleCancel,
+  titleValue,
+  descriptionValue,
 }) => {
   return (
-    <Card className="p-4 rounded-4">
+    <Card className="p-4 rounded-4"
+    style={{
+      width: "100%",
+      margin: "1rem 0",
+      padding: "1.5rem",
+      border: "1px solid #ddd",
+      transition: "transform 0.2s ease-in-out",
+      position: "relative",
+    }}>
       <div className="mb-3">
         <label
           htmlFor="listTitle"
@@ -23,6 +34,7 @@ const AddListView = ({
           Title
         </label>
         <input
+          value={titleValue}
           type="text"
           className="form-control"
           id="listTitle"
@@ -39,6 +51,7 @@ const AddListView = ({
           Description
         </label>
         <textarea
+          value={descriptionValue}
           className="form-control"
           id="listDescription"
           rows="3"
@@ -65,8 +78,13 @@ const AddListView = ({
         <RegionsSelect regions={listRegions} setRegions={setListRegions} />
       </div>
       <button className="btn btn-primary" onClick={addListSupabase}>
-        Add List
+        {handleCancel ? "Save" : "Add List"}
       </button>
+      {handleCancel && (
+        <button className="btn btn-primary mt-2" onClick={handleCancel}>
+          Cancel
+        </button>
+      )}
     </Card>
   );
 };

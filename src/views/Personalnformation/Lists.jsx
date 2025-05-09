@@ -41,6 +41,7 @@ const Lists = () => {
       ) : (
           lists
             .filter((list) => list.user_id === user.id) // Filter lists by the logged-in user's ID
+            .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
             .map((list) => (
               //<li key={list.id}>{list.title}</li> // Display the title of each list
               <ListCard id={list.id} title={list.title} description={list.description} emoji={list.emoji} regions={list.regions} updateLists={updateLists}/>
