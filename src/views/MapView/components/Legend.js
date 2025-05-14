@@ -2,8 +2,10 @@ import L from "leaflet";
 import { useEffect } from "react";
 import "../styles/Map.css";
 import { useThemeModal } from "../../ThemeView/ThemePopup";
+import useTravelRecommenderStore from "../../../store/travelRecommenderStore";
 
 function Legend({ map }) {
+  const months = useTravelRecommenderStore((state) => state.userData.Months);
   const { setIsOpen: setIsThemeModalOpen, isOpen: isThemeModalOpen } = useThemeModal();
   const openThemeSelector = () => {
     console.log(isThemeModalOpen)
@@ -53,7 +55,9 @@ function Legend({ map }) {
         return div;
       };
 
-      legend.addTo(map);
+      if (months.some(month => month !== 0)) {
+        legend.addTo(map);
+      }
     }
   }, [map]); //here add map
   return null;

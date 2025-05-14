@@ -13,23 +13,69 @@ const RegionDataView = ({ regionId, regionName, onSave }) => {
   const [regionData, setRegionData] = useState(null);
   const commentRef = useRef(null);
 
+  const [emojiRating, setEmojiRating] = useState(null);
+  const [hoveredEmoji, setHoveredEmoji] = useState(null);
+
+  const emojiOptions = ["👍", "😍", "😎", "😐", "👎"];
+
+  const handleEmojiClick = async (emoji) => {
+    if (emoji === emojiRating) {
+      if(regionData){
+        setRegionData({ ...regionData, rating: "" });
+        await updateRegion(regionId, { rating: "" });
+      }
+      else{
+        await addRegion({ 
+            id: regionId, 
+            rating: "", 
+            comment: "",
+            name: regionName,});
+      }
+      setEmojiRating(null); // Reset emoji rating if the same emoji is clicked again
+    }
+    else {
+      if(regionData){
+          setRegionData({ ...regionData, rating: emoji });
+          await updateRegion(regionId, {rating: emoji});
+        }
+        else{
+          await addRegion({ 
+              id: regionId, 
+              rating: emoji, 
+              comment: "",
+              name: regionName,});
+        }
+      setEmojiRating(emoji);
+    }
+  };
+
+  const handleEmojiHover = (emoji) => {
+    setHoveredEmoji(emoji);
+  };
+
+  const handleEmojiHoverOut = () => {
+    setHoveredEmoji(null);
+  };
+
   useEffect(() => {
     const loadRegionData = async () => {
       const fetchedRegionData = await fetchRegionById(regionId);
       if (fetchedRegionData) {
         setRating(fetchedRegionData.rating || "0");
+        setEmojiRating(fetchedRegionData.rating || "");
         setComment(fetchedRegionData.comment || "");
         setRegionData(fetchedRegionData);
       }
       else {
         setComment("");
-        setRating(0);
+        setRating("0");
+        setEmojiRating("");
         setRegionData(null);
       }
     };
 
     loadRegionData();
-  }, [regionId]);
+  }, [regionId, fetchRegionById]);
 
   const handleStarClick = async (index) => {
     if (rating === index.toString()) {
@@ -122,6 +168,26 @@ const RegionDataView = ({ regionId, regionName, onSave }) => {
             />
           );
         })}
+      </div>
+      <Col style={{ textAlign: "left", flexBasis: "10%", fontSize: '10px' }} className='mb-1 mt-2'>
+        Emoji Rating
+      </Col>
+      <div className="d-flex flex-row align-items-center justify-content-center gap-1">
+        {emojiOptions.map((emoji) => (
+          <span
+            key={emoji}
+            style={{
+              fontSize: "24px",
+              cursor: "pointer",
+              opacity: emoji === (hoveredEmoji || emojiRating) ? 1 : 0.5,
+            }}
+            onClick={() => handleEmojiClick(emoji)}
+            onMouseEnter={() => handleEmojiHover(emoji)}
+            onMouseLeave={handleEmojiHoverOut}
+          >
+            {emoji}
+          </span>
+        ))}
       </div>
       <Col style={{ textAlign: "left", fontSize: '10px' }} className='mb-1 mt-2'>
         Comments
