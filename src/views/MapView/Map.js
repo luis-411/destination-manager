@@ -104,19 +104,6 @@ const Map = ({ setActiveResult }) => {
     return Math.round(totalScore / selectedMonths.length); // Average score based on selected months
   }, [months]);
 
-//   useEffect(() => {
-//   if (geoJsonLayer.current) {
-//     geoJsonLayer.current.eachLayer((layer) => {
-//       const country = layer.feature;
-//       const score = calculateScore(country.properties.result.travelMonths);
-//       layer.setStyle({ fillColor: getColor(score) });
-//     });
-//   }
-// }, [months, calculateScore]);
-// useEffect(() => {
-//   setGeoJsonKey((prevKey) => prevKey + 1); // Force GeoJSON re-render
-//   console.log("GeoJSON key updated:", geoJsonKey);
-// }, [months]);
   /**
    *
    * @type {(function($ObjMap, *): void)|*}
@@ -152,8 +139,7 @@ const Map = ({ setActiveResult }) => {
       })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [countries, listRegions]);
-
+  }, [months, countries, listRegions]);
 
   const onCountryPopupOpen = (countryId) => {
     const layer = geoJsonLayer.current.getLayer(mapLayers.current[countryId]);
@@ -236,7 +222,7 @@ const Map = ({ setActiveResult }) => {
   };
   useEffect(() => {
     setGeoJsonKey((prevKey) => prevKey + 1);
-  }, [months]);
+  }, [months, listRegions]);
 
   if (loading || isLoading) {
     return <div>Loading user data...</div>;
