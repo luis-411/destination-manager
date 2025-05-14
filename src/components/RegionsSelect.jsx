@@ -2,7 +2,7 @@ import Select from "react-select";
 import { useEffect, useState } from "react";
 import LoadCountriesTask from "../tasks/LoadCountriesTask";
 
-const RegionsSelect = ({regions, setRegions}) => {
+const RegionsSelect = ({regions, setRegions, isVisit}) => {
     //const [groupRegions, setGroupRegions] = useState([]);
     const [fileRetrieved, setFileRetrieved] = useState([]);
     //const [newGroupRegions, setNewGroupRegions] = useState([]);
@@ -27,12 +27,12 @@ const RegionsSelect = ({regions, setRegions}) => {
     return (
         <div>
             <Select
-                isMulti
+                isMulti={isVisit ? false : true}
                 isSearchable
                 options={availableRegions}
                 value={regions}
                 onChange={(selected) => setRegions(selected)}
-                placeholder="Select regions"
+                placeholder={isVisit ? "Select region" : "Select regions"}
                 styles={{
                     control: (base, state) => ({
                         ...base,

@@ -128,3 +128,16 @@ input.stay-days {
     transform: rotate(360deg);
   }
 }
+
+.add-button {
+  cursor: "pointer";
+  flex: 1;
+  background-color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 10px;
+  border: 1px solid #FFFFFF;
+  padding: 5px 0px;
+}
+.add-button:hover {
+  background-color: #FFFFFF;
+}

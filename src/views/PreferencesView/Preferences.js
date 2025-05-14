@@ -14,13 +14,15 @@ import { useAuthContextSupabase } from "../../context/AuthContextSupabase";
 import Lists from "../Personalnformation/Lists";
 import ListCard from "../Personalnformation/ListCard";
 import AddListView from "./components/AddListView";
+import AddVisitView from "./components/AddVisitView";
 
 const Preferences = ({ link }) => {
   //const { userData, setUserData } = useTravelRecommenderStore();
   const { user } = useAuthContextSupabase();
   const { fetchLists } = useLists();
   const [key, setKey] = useState('advanced');
-  const [show, setShow] = useState(false);
+  const [showAddList, setShowAddList] = useState(false);
+  const [showAddVisit, setShowAddVisit] = useState(false);
   const { addList } = useLists();
   const [listEmoji, setListEmoji] = useState("");
   const [listRegions, setListRegions] = useState([]);
@@ -50,7 +52,7 @@ const Preferences = ({ link }) => {
     setListDescription("");
     setListEmoji("");
     setListRegions([]);
-    setShow(false);
+    setShowAddList(false);
     updateLists();
   }
 
@@ -124,13 +126,27 @@ const Preferences = ({ link }) => {
         </div>
       )}
       {user && !link && (
-        <div className="white-theme my-4" onClick={() => setShow(!show)}>
-        <button className={'btn btn-primary'} style={{cursor: "pointer"}} onClick={() => setShow(!show)}>
-          {show ? "Close" : "Add new List"}
+        <div className="white-theme my-4 d-flex flex-row gap-2">
+        <button className={'add-button'} onClick={() => {setShowAddVisit(!showAddVisit); setShowAddList(false)}}>
+          {showAddVisit ? "Close" : "Add new Visit"}
+        </button>
+        <button className={'add-button'} onClick={() => {setShowAddList(!showAddList); setShowAddVisit(false)}}>
+          {showAddList ? "Close" : "Add new List"}
         </button>
       </div>
       )}
-      {user && show && !link && (
+      {user && showAddVisit && !link && (
+        <AddVisitView
+          listEmoji={listEmoji}
+          setListEmoji={setListEmoji}
+          listRegions={listRegions}
+          setListRegions={setListRegions}
+          handleTitleChange={handleTitleChange}
+          handleDescriptionChange={handleDescriptionChange}
+          addListSupabase={addListSupabase}
+        />
+      )}
+      {user && showAddList && !link && (
         <AddListView
           listEmoji={listEmoji}
           setListEmoji={setListEmoji}
