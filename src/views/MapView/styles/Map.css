@@ -1,4 +1,3 @@
-
 .leaflet-container{
     background-color: rgb(163,206,255);
 }
@@ -42,4 +41,8 @@
   float: left;
   margin-right: 8px;
   opacity: 1;
+}
+
+.custom-map-container .leaflet-control {
+  margin-top: 60px;
 }

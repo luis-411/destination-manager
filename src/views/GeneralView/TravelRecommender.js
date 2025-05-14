@@ -14,6 +14,7 @@ import {useAuthContext} from "../../context/AuthContext";
 import ThemePopup from "../ThemeView/ThemePopup";
 import { useParams } from "react-router-dom";
 import useRightColumnOpen from "./services/useRightColumnOpen";
+import TopBar from "../../components/TopBar";
 
 const TravelRecommender = () => {
   const [activeResult, setActiveResult] = useState(0);
@@ -60,7 +61,13 @@ const TravelRecommender = () => {
 
   return (
     <div className="App">
-      <Row style={{ height: "100%" }}>
+      <TopBar
+        leftColumnOpen={leftColumnOpen}
+        rightColumnOpen={rightColumnOpen}
+        leftColumnSizes={leftColumnSizes}
+        rightColumnSizes={rightColumnSizes}
+      />
+      <Row style={{ height: "100%" }}> {/* Adjust height to account for TopBar */}
         {leftColumnOpen && (
           <Col
             style={{ height: "100%" }}

@@ -76,7 +76,7 @@ export const CountryPopup = ({ country }) => {
 
   const regionStatistics = [
     { label: 'Peak seasons',  text: showBestSeasons(country), show: true  },
-    { label: 'Score', text: `${country.scores.totalScore}/100`, show: true },
+    { label: 'Score', text: `${country.scores.totalScore}/100`, show: false },
     { label: 'Your visits', text: visitCountForCountry, show: !!user?.id },
   ];
   const countColumnSpace = Math.floor(12 / regionStatistics.filter(stats => stats.show).length);

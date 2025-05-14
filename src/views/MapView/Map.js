@@ -40,7 +40,7 @@ const Map = ({ setActiveResult }) => {
     countryId: referencedCountryId,
     resetCountry: resetReferencedCountry
   } = useReferencedCountry();
-
+  const months = useTravelRecommenderStore((state) => state.userData.Months);
   const { selectedList } = useSelectedList();
   const listEmoji = selectedList.emoji;
   const listRegions = selectedList.regions;
@@ -89,13 +89,42 @@ const Map = ({ setActiveResult }) => {
     }
   }, [visits, countryStyle]);
 
+    const calculateScore = useCallback((travelMonths) => {
+    if (months.every((month) => month === 0)) {
+      return 80;// Default score when no months are selected
+    }
 
+    const selectedMonths = months
+      .map((value, index) => (value === 100 ? index : null))
+      .filter((index) => index !== null);
+
+    const totalScore = selectedMonths.reduce((acc, monthIndex) => {
+      return acc + travelMonths[monthIndex];
+    }, 0);
+    return Math.round(totalScore / selectedMonths.length); // Average score based on selected months
+  }, [months]);
+
+//   useEffect(() => {
+//   if (geoJsonLayer.current) {
+//     geoJsonLayer.current.eachLayer((layer) => {
+//       const country = layer.feature;
+//       const score = calculateScore(country.properties.result.travelMonths);
+//       layer.setStyle({ fillColor: getColor(score) });
+//     });
+//   }
+// }, [months, calculateScore]);
+// useEffect(() => {
+//   setGeoJsonKey((prevKey) => prevKey + 1); // Force GeoJSON re-render
+//   console.log("GeoJSON key updated:", geoJsonKey);
+// }, [months]);
   /**
    *
    * @type {(function($ObjMap, *): void)|*}
    */
   const onEachCountry = useCallback((country, layer) => {
-    layer.options.fillColor = "#7CBA43"//getColor(score);
+    //score needs to look at selected months and add up the scores
+    var score = calculateScore(country.properties.result.travelMonths)//country.properties.result.scores.totalScore;
+    layer.options.fillColor = getColor(score); //"#7CBA43"
     if(listRegions && listRegions.map((regions) => regions.value.id).includes(country.properties.result.id)){
       layer.options.fillColor = "#ff9933";
       layer.bindTooltip(`
@@ -207,7 +236,7 @@ const Map = ({ setActiveResult }) => {
   };
   useEffect(() => {
     setGeoJsonKey((prevKey) => prevKey + 1);
-  }, [listRegions]);
+  }, [months]);
 
   if (loading || isLoading) {
     return <div>Loading user data...</div>;
@@ -216,12 +245,13 @@ const Map = ({ setActiveResult }) => {
     <div>
       <div>
         <MapContainer
-          style={{height: "100vh", width: "auto"}}
+          style={{ height: "100vh", width: "auto" }}
           zoom={4}
           id={'map'}
           center={position}
           ref={setMap}
           doubleClickZoom={false}
+          className="custom-map-container"
         >
           <GeoJSON
             key={geoJsonKey}

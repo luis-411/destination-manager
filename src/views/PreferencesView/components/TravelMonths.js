@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from "react";
-import { ButtonGroup, ToggleButton, Button } from "react-bootstrap";
+import { ToggleButton, Button } from "react-bootstrap";
 import "../../../styles/App.css";
 import useTravelRecommenderStore from "../../../store/travelRecommenderStore";
 import styles from "../Preferences.module.css";
@@ -20,42 +20,29 @@ const TravelMonths = () => {
     });
   }, [userData, setUserData]);
 
-  const buttonGroups = useMemo(() => {
-    let buttonGroups = [];
-    for (let i = 0; i < 3; i++) {
-      let buttons = [];
-      for (let j = 0; j < 4; j++) {
-        buttons.push(
-          <ToggleButton
-            key={`${i * 4 + j} - ${userData.Months[i * 4 + j]}`}
-            id={`radio-${i * 4 + j}`}
-            type="checkbox"
-            className={styles.toggle}
-            variant="outline-primary"
-            checked={userData.Months[i * 4 + j] === 100}
-            onChange={(e) => handleMonthChange(i * 4 + j)}
-            value={months[i * 4 + j]}
-          >
-            <span>{months[i * 4 + j]}</span>
-          </ToggleButton>
-        );
-      }
-      buttonGroups.push(
-        <ButtonGroup size="sm" className='w-100 gap-2 mb-2' key={`${i * 4}`}>
-          {buttons}
-        </ButtonGroup>
-      );
-    }
-    return buttonGroups;
+  const monthButtons = useMemo(() => {
+    return months.map((month, index) => (
+      <ToggleButton
+        key={index}
+        id={`radio-${index}`}
+        type="checkbox"
+        className={styles.toggle}
+        variant="outline-primary"
+        checked={userData.Months[index] === 100}
+        onChange={() => handleMonthChange(index)}
+        value={month}
+      >
+        <span>{month}</span>
+      </ToggleButton>
+    ));
   }, [userData.Months, handleMonthChange]);
-
 
   return (
     <div>
-      <p style={{ textAlign: "left", justifyContent: "center", margin: 0 }}>
+      {/* <p style={{ textAlign: "left", justifyContent: "center", margin: 0 }}>
         Preferred Travel Months
-      </p>
-      <div className='d-flex justify-content-between mb-3'>
+      </p> */}
+      {/* <div className='d-flex justify-content-between mb-3'>
         <RangedPreference
           checkKey='isPeakSeasonImportant'
           checkLabel='Allow peak season impact'
@@ -71,8 +58,10 @@ const TravelMonths = () => {
         }}>
           Select/Unselect All
         </Button>
+      </div> */}
+      <div className="gap-2" style={{ overflowX: "auto", maxWidth: "100%", display: "flex", flexDirection: "row", paddingLeft: 10, paddingRight: 10, }}>
+        {monthButtons}
       </div>
-      {buttonGroups}
     </div>
   );
 };
