@@ -7,6 +7,7 @@ export const FeaturesProvider = ({ children }) => {
     rating: "star",
     addVisit: "popup",
     displayVisit: "border",
+    displaySelectedList: "colorAndEmoji",
   });
 
   const updateFeature = (feature, value) => {

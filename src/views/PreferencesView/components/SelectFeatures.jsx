@@ -71,6 +71,21 @@ const SelectFeatures = () => {
               </select>
             </label>
           </div>
+          <div className="select-features-group">
+            <label className="select-features-label">
+              Display Selected List:
+              <select
+                className="select-features-dropdown"
+                name="displaySelectedList"
+                value={features.displaySelectedList}
+                onChange={handleFeatureChange}
+              >
+                <option value="color">Color on selected Countries</option>
+                <option value="emoji">List Emoji on selected Countries</option>
+                <option value="colorAndEmoji">Color and List Emoji on selecetd Countries</option>
+              </select>
+            </label>
+          </div>
           <div style={{ display: "flex", justifyContent: "end" }}>
             <button className="btn btn-secondary" onClick={toggleVisibility}>
             Hide

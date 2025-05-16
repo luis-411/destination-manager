@@ -101,17 +101,6 @@ const Map = ({ setActiveResult }) => {
     //score needs to look at selected months and add up the scores
     var score = calculateScore(country.properties.result.travelMonths)//country.properties.result.scores.totalScore;
     layer.options.fillColor = getColor(score); //"#7CBA43"
-    if(listRegions && listRegions.map((regions) => regions.value.id).includes(country.properties.result.id)){
-      layer.options.fillColor = "#ff9933";
-      layer.bindTooltip(`
-        <div>
-          <h4>${listEmoji}</h4>
-        </div>`, {
-      permanent: true,
-      opacity: 1,
-      direction: "center",
-    });
-    }
 
     layer.on({
       mouseover: highlightFeature,
@@ -138,7 +127,7 @@ const Map = ({ setActiveResult }) => {
               layer.setStyle({
                 weight: 5,
                 color: "#868686",
-                fillOpacity: 0.7,
+                fillOpacity: 0.9,
               });
               break;
             case "pin":
@@ -160,6 +149,22 @@ const Map = ({ setActiveResult }) => {
             default:
               break;
         }
+    }
+    //handle list logic
+    if(listRegions && listRegions.map((regions) => regions.value.id).includes(country.properties.result.id)){
+      if (features.displaySelectedList === "color" || features.displaySelectedList === "colorAndEmoji") {
+        layer.options.fillColor = "#ffff4d";
+      }
+      if(features.displaySelectedList === "emoji" || features.displaySelectedList === "colorAndEmoji"){
+        layer.bindTooltip(`
+          <div>
+            <h4>${listEmoji}</h4>
+          </div>`, {
+        permanent: true,
+        opacity: 1,
+        direction: "center",
+        });
+      }
     }
   }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -184,7 +189,7 @@ const Map = ({ setActiveResult }) => {
     layer.setStyle({
       weight: 5,
       color: "white",
-      fillOpacity: visited ? 0.8 : 0.7,
+      fillOpacity: visited ? 0.8 : 0.9,
     });
   };
 
@@ -192,7 +197,7 @@ const Map = ({ setActiveResult }) => {
     const layer = e.target;
     const visited = layer.options.fillOpacity === 0.8;
     layer.setStyle({
-      fillOpacity: visited ? 0.7 : 1,
+      fillOpacity: visited ? 0.9 : 1,
       color: "#868686",
       weight: visited ? 5 : 1,
     });
