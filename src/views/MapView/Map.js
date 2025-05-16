@@ -11,6 +11,7 @@ import useLoadMeWithGroups from "../../api/useLoadMeWithGroups";
 import useSelectedList from "../../api/useSelectedList";
 import useVisits from "../../api/useVisits";
 import { useAuthContextSupabase } from "../../context/AuthContextSupabase";
+import useFeatures from "../../api/useFeatures";
 
 const position = [51.0967884, 5.9671304];
 
@@ -26,6 +27,7 @@ export const useReferencedCountry = create((set) => ({
 
 const Map = ({ setActiveResult }) => {
   const { user } = useAuthContextSupabase();
+  const { features } = useFeatures();
   const { visits, fetchVisits } = useVisits();
   const { data: historyData, loading } = useLoadHistory({
     userId: user?.id,
@@ -72,22 +74,6 @@ const Map = ({ setActiveResult }) => {
     fetchVisits();
   }, [fetchVisits]);
 
-  useEffect(() => {
-
-    if (user && geoJsonLayer.current && visits.length > 0) {
-      geoJsonLayer.current.eachLayer((layer) => {
-        const countryId = layer.feature.properties.result.id;    
-        const visited = visits.some((visit) => parseInt(visit.region_id) === countryId);
-        if (visited) {
-          layer.setStyle({
-            weight: 5,
-            color: "#868686",
-            fillOpacity: 0.7,
-          });
-        }
-      });
-    }
-  }, [visits, countryStyle]);
 
     const calculateScore = useCallback((travelMonths) => {
     if (months.every((month) => month === 0)) {
@@ -109,6 +95,9 @@ const Map = ({ setActiveResult }) => {
    * @type {(function($ObjMap, *): void)|*}
    */
   const onEachCountry = useCallback((country, layer) => {
+
+
+
     //score needs to look at selected months and add up the scores
     var score = calculateScore(country.properties.result.travelMonths)//country.properties.result.scores.totalScore;
     layer.options.fillColor = getColor(score); //"#7CBA43"
@@ -138,8 +127,43 @@ const Map = ({ setActiveResult }) => {
         mapLayers.current[country.properties.result.id] = layer._leaflet_id;
       })
     }
+    // handle visit logic
+        if (user && geoJsonLayer.current && visits.length > 0) {
+
+        const countryId = layer.feature.properties.result.id;    
+        const visited = visits.some((visit) => parseInt(visit.region_id) === countryId);
+        if (visited) {
+          switch (features.displayVisit) {
+            case "border":
+              layer.setStyle({
+                weight: 5,
+                color: "#868686",
+                fillOpacity: 0.7,
+              });
+              break;
+            case "pin":
+              layer.bindTooltip(`
+                <div>
+                  <h4>📌</h4>
+                </div>`, {
+              permanent: true,
+              opacity: 1,
+              direction: "center",
+              });
+            break;
+            case "color":
+              layer.setStyle({
+                fillColor: "#3399ff",
+                fillOpacity: 1,
+              });
+              break;
+            default:
+              break;
+        }
+    }
+  }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [months, countries, listRegions]);
+  }, [months, countries, listRegions, visits, features]);
 
   const onCountryPopupOpen = (countryId) => {
     const layer = geoJsonLayer.current.getLayer(mapLayers.current[countryId]);
@@ -222,7 +246,7 @@ const Map = ({ setActiveResult }) => {
   };
   useEffect(() => {
     setGeoJsonKey((prevKey) => prevKey + 1);
-  }, [months, listRegions]);
+  }, [months, listRegions, features]);
 
   if (loading || isLoading) {
     return <div>Loading user data...</div>;

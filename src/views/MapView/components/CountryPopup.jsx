@@ -17,6 +17,7 @@ import AddGroups from "../../../components/Modals/AddGroup";
 import { useAuthContextSupabase } from "../../../context/AuthContextSupabase";
 import useVisits from "../../../api/useVisits";
 import RegionDataView from "./RegionDataView";
+import useFeatures from "../../../api/useFeatures";
 
 const PopupGroup = ({ name }) => {
   return (
@@ -35,6 +36,7 @@ export const CountryPopup = ({ country }) => {
   const [selectedGroups, setSelectedGroups] = useState();
   const iconStyle = { fontSize: '12px' };
   const { user } = useAuthContextSupabase();
+  const { features } = useFeatures();
   const { visits, fetchVisits } = useVisits();
   const modal = useAppModal();
   const { data: groups, fetch: fetchGroups } = useLoadMeWithGroups();
@@ -91,7 +93,7 @@ export const CountryPopup = ({ country }) => {
     <div style={{ color: "white" }}>
       <Col className={'d-flex justify-content-between align-items-center'}>
         <p className={'m-0'} style={{ fontSize: '10px' }}>{country.country}</p>
-        {user?.id && (
+        {user?.id && features.addVisit === "popup" && (
           <button onClick={onCreateNewRegionVisit} className='btn btn-secondary py-0 px-0' style={{fontSize: '12px'}}>
             <span>Add new visit</span>
             <CompassOutlined className={'ms-2'}/>

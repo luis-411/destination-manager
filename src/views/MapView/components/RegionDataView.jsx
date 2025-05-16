@@ -3,8 +3,10 @@ import { FaStar } from "react-icons/fa";
 import "../../../styles/App.css";
 import { Col } from "react-bootstrap";
 import useRegions from "../../../api/useRegions";
+import useFeatures from "../../../api/useFeatures";
 
-const RegionDataView = ({ regionId, regionName, onSave }) => {
+const RegionDataView = ({ regionId, regionName }) => {
+  const { features } = useFeatures();
   const { fetchRegionById, updateRegion, addRegion } = useRegions();
   const [rating, setRating] = useState("0");
   const [hover, setHover] = useState(0);
@@ -150,6 +152,8 @@ const RegionDataView = ({ regionId, regionName, onSave }) => {
 
   return (
     <div>
+    {features.rating === "star" && (
+      <>
       <Col style={{ textAlign: "left", flexBasis: "10%", fontSize: '10px' }} className='mb-1'>
         Region Rating
       </Col>
@@ -169,8 +173,11 @@ const RegionDataView = ({ regionId, regionName, onSave }) => {
           );
         })}
       </div>
-      <Col style={{ textAlign: "left", flexBasis: "10%", fontSize: '10px' }} className='mb-1 mt-2'>
-        Emoji Rating
+      </>)}
+      {features.rating === "emoji" && (
+        <>
+        <Col style={{ textAlign: "left", flexBasis: "10%", fontSize: '10px' }} className='mb-1 mt-2'>
+        Region Rating
       </Col>
       <div className="d-flex flex-row align-items-center justify-content-center gap-1">
         {emojiOptions.map((emoji) => (
@@ -189,6 +196,7 @@ const RegionDataView = ({ regionId, regionName, onSave }) => {
           </span>
         ))}
       </div>
+    </>)}
       <Col style={{ textAlign: "left", fontSize: '10px' }} className='mb-1 mt-2'>
         Comments
       </Col>

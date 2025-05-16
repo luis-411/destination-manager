@@ -15,6 +15,8 @@ import ThemePopup from "../ThemeView/ThemePopup";
 import { useParams } from "react-router-dom";
 import useRightColumnOpen from "./services/useRightColumnOpen";
 import TopBar from "../../components/TopBar";
+import { FeaturesProvider } from "../../api/useFeatures";
+import RegionDataView from "../MapView/components/RegionDataView";
 
 const TravelRecommender = () => {
   const [activeResult, setActiveResult] = useState(0);
@@ -60,6 +62,7 @@ const TravelRecommender = () => {
   };
 
   return (
+    <FeaturesProvider>
     <div className="App">
       <TopBar
         leftColumnOpen={leftColumnOpen}
@@ -106,6 +109,7 @@ const TravelRecommender = () => {
       <ThemePopup/>
       <AppModal />
     </div>
+      </FeaturesProvider>
   );
 };
 

@@ -1,26 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/App.css";
-import { CustomizationContainer } from "./components/CustomizationContainer";
-import { PresetTypesContainer } from "./components/PresetTypesContainer";
-import { Tabs, Tab } from "react-bootstrap";
-import TravelMonths from "./components/TravelMonths";
-import useTravelRecommenderStore from "../../store/travelRecommenderStore";
-import RangedPreference from "../../components/RangedPreference";
-import Card from "react-bootstrap/Card";
 import useLists from "../../api/useLists";
-import RegionsSelect from "../../components/RegionsSelect";
-import CustomEmojiPicker from "../../components/CustomEmojiPicker";
 import { useAuthContextSupabase } from "../../context/AuthContextSupabase";
 import Lists from "../Personalnformation/Lists";
 import ListCard from "../Personalnformation/ListCard";
 import AddListView from "./components/AddListView";
 import AddVisitView from "./components/AddVisitView";
+import SelectFeatures from "./components/SelectFeatures";
+import useFeatures from "../../api/useFeatures";
 
 const Preferences = ({ link }) => {
-  //const { userData, setUserData } = useTravelRecommenderStore();
   const { user } = useAuthContextSupabase();
+  const { features } = useFeatures();
   const { fetchLists } = useLists();
-  const [key, setKey] = useState('advanced');
   const [showAddList, setShowAddList] = useState(false);
   const [showAddVisit, setShowAddVisit] = useState(false);
   const { addList } = useLists();
@@ -58,7 +50,7 @@ const Preferences = ({ link }) => {
 
   const updateLists = async () => {
     try {
-      await fetchLists(); // Assuming `getLists` fetches the updated lists
+      await fetchLists();
     } catch (error) {
       console.error("Failed to update lists:", error);
     }
@@ -76,44 +68,7 @@ const Preferences = ({ link }) => {
       <div style={{ fontWeight: "700", fontSize: "1.1em" }}>DestiRec</div>
       <span style={{fontWeight:"300",fontSize:"0.8rem"}}>Travel Destination Management System</span>
       </div>
-      {/* <div className='mb-4'>
-        <RangedPreference
-          userDataKey='Budget'
-          checkKey='isPriceImportant'
-          title='Budget'
-          checkLabel='Filter out the destinations over the  budget'
-          checkTooltipText='If you select the checkbox the over-budget destinations will be
-          filtered out. if it is not selected, price would have an impact on the
-          recommendations just like any other attribute'
-          step={50}
-        />
-      </div>
-      <div className='mb-4'>
-        <RangedPreference
-          userDataKey='VisitorIndex.score'
-          title='Region Popularity'
-          stepsText={['High', 'Medium', 'Low']}
-        />
-      </div> 
-      <div className='mb-4 mt-4'>
-        <TravelMonths />
-      </div>
-      <div className='mb-4'>
-        <Tabs
-          activeKey={key}
-          id="mode"
-          onSelect={(k) => { setKey(k); setUserData({ ...userData, PresetType: [] }); }}
-          className="mb-3"
-          style={{display:"grid",columnGap:"1rem",gridAutoFlow:"column"}}
-        >
-          <Tab eventKey="novice" title="Presets (Novice)">
-            <PresetTypesContainer />
-          </Tab>
-          <Tab eventKey="advanced" title="Advanced Preferences">
-            <CustomizationContainer />
-          </Tab>
-        </Tabs>
-      </div>*/}
+      <SelectFeatures />
       {!user && (
         <div>
           <h4 className="mt-4" style={{ fontWeight: "700",  }}>Login to create lists and save your preferences</h4>
@@ -125,7 +80,7 @@ const Preferences = ({ link }) => {
         <ListCard link={link} />
         </div>
       )}
-      {user && !link && (
+      {user && !link && features.addVisit === "leftPanel" && (
         <div className="white-theme my-4 d-flex flex-row gap-2">
         <button className={'add-button'} onClick={() => {setShowAddVisit(!showAddVisit); setShowAddList(false)}}>
           {showAddVisit ? "Close" : "Add new Visit"}
@@ -134,6 +89,11 @@ const Preferences = ({ link }) => {
           {showAddList ? "Close" : "Add new List"}
         </button>
       </div>
+      )}
+      {user && !link && features.addVisit === "popup" && (
+        <button className={'btn btn-primary mb-4 mt-2'} onClick={() => {setShowAddList(!showAddList); setShowAddVisit(false)}}>
+          {showAddList ? "Close" : "Add new List"}
+        </button>
       )}
       {user && showAddVisit && !link && (
         <AddVisitView
