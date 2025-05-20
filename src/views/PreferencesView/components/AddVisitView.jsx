@@ -87,6 +87,13 @@ const AddVisitView = ({ addVisitSupabase, handleCancel }) => {
         ></textarea>
       </div>
       <div className="mb-3">
+        <label
+          htmlFor="visitRegion"
+          className="form-label"
+          style={{ textAlign: "left", display: "block" }}
+        >
+          Region
+        </label>
         <RegionsSelect setRegions={setRegions} isVisit={true}/>
       </div>
       <div className="mb-3">

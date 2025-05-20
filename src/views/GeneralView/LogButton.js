@@ -9,6 +9,8 @@ import useBreakpoint from "antd/es/grid/hooks/useBreakpoint";
 //import useLoadMe from '../../api/useLoadMe';
 import { toImageUrl } from '../../tasks/toImageUrl';
 import { useAuthContextSupabase } from '../../context/AuthContextSupabase';
+import useSelectedList from '../../api/useSelectedList';
+import useRightColumnOpen from './services/useRightColumnOpen';
 const logStates = {
     NOT_SIGNED_IN: "Sign in",
     SIGNED_IN: "Personal information"
@@ -21,6 +23,8 @@ const LoginButton = () => {
     //const [{ data: personalInfo }, fetch] = useLoadMe();
     //const { setIsOpen: setIsInfoModalOpen, isOpen: isInfoModalOpen } = usePersonalInfoModal();
     const breakpoints = useBreakpoint(true)
+    const { setSelectedList } = useSelectedList();
+    const { setRightColumnOpen } = useRightColumnOpen();
 
     // useEffect(() => {
     //     if (!isInfoModalOpen && user?.id) {
@@ -32,6 +36,8 @@ const LoginButton = () => {
         navigate("/", { replace: true })
         setUser(undefined);
         signOut();
+        setSelectedList([]);
+        setRightColumnOpen(false);
         //removeToken();
         //message.success(`Logged out successfully!`);
     }
@@ -61,7 +67,8 @@ const LoginButton = () => {
 
     return (
         <div
-            className={`w-100 d-flex justify-content-between ${orderElements} gap-2`}
+            //className={`w-100 d-flex justify-content-center ${orderElements} gap-2`}
+            style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 0, margin: 0 }}
         >
             {/* <Button className={'d-flex align-items-center gap-3'} handleButton={handleCTAButton}>
                 <div className='rounded-circle' style={{ backgroundColor: showProfilePhoto ? "transparent": '#D9D9D9', width: '1.5rem' }}>
@@ -76,12 +83,12 @@ const LoginButton = () => {
                 </div>
                 <span className={'fw-bold'} style={{ userSelect: "none", fontSize: '12px' }}>{logName}</span>
             </Button> */}
-            <Button className={'d-flex align-items-center gap-3'} handleButton={handleCTAButton}>
+            {!user && (<Button className={'d-flex align-items-center gap-2'} style={{minWidth: "8rem"}} handleButton={handleCTAButton}>
                 <div className='rounded-circle' style={{ backgroundColor: '#D9D9D9', width: '1.5rem' }}>
                     <UserIcon />
                 </div>
                 <span className={'fw-bold'} style={{ userSelect: "none", fontSize: '12px' }}>{logName}</span>
-            </Button>
+            </Button>)}
             {user && (
                 <button
                     style={{ fontSize: '12px', color: 'white', whiteSpace: 'nowrap' }}

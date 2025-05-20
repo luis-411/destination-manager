@@ -135,7 +135,7 @@ const RegionDataView = ({ regionId, regionName }) => {
       // Update the existing region
       const updatedRegion = { ...regionData, comment: comment, rating: rating };
       setRegionData(updatedRegion);
-      await updateRegion(regionId, {updatedRegion});
+      await updateRegion(regionId, updatedRegion);
     } else {
       // Add a new region
       const newRegion = { 

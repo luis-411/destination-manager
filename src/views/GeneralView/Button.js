@@ -1,4 +1,4 @@
-const Button = ({handleButton, children, className = ''}) => {
+const Button = ({handleButton, children, className = '', style}) => {
     return (
       <div
         onClick={() => handleButton()}
@@ -11,7 +11,8 @@ const Button = ({handleButton, children, className = ''}) => {
           minWidth: "11.5rem",
           background: "white",
           borderRadius: "0.8rem",
-          marginRight: "1rem"
+          marginRight: "1rem",
+          ...style
       }}>
            {children}
       </div>

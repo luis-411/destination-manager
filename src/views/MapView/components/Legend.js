@@ -46,9 +46,9 @@ function Legend({ map }) {
               '<i style="background:' + getColor(grades[i]) + '"></i> ' + texts[i]
             );
           }
-          labels.push(
-            '<button id="theme-selector-btn" class="text-gray-900 bg-transparent border rounded border-gray-300 px-4 mt-1">Edit Theme</button>'
-          );
+          // labels.push(
+          //   '<button id="theme-selector-btn" class="text-gray-900 bg-transparent border rounded border-gray-300 px-4 mt-1">Edit Theme</button>'
+          // );
 
           div.innerHTML = labels.join("<br>");
           setTimeout(() => {

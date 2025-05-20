@@ -31,7 +31,7 @@ const SelectFeatures = () => {
             <label className="select-features-label">
               Rating Style:
               <select
-                className="select-features-dropdown"
+                className="select-features-dropdown mt-2"
                 name="rating"
                 value={features.rating}
                 onChange={handleFeatureChange}
@@ -45,7 +45,7 @@ const SelectFeatures = () => {
             <label className="select-features-label">
               Add Visit Style:
               <select
-                className="select-features-dropdown"
+                className="select-features-dropdown mt-2"
                 name="addVisit"
                 value={features.addVisit}
                 onChange={handleFeatureChange}
@@ -59,7 +59,7 @@ const SelectFeatures = () => {
             <label className="select-features-label">
               Display Visited Countries:
               <select
-                className="select-features-dropdown"
+                className="select-features-dropdown mt-2"
                 name="displayVisit"
                 value={features.displayVisit}
                 onChange={handleFeatureChange}
@@ -75,7 +75,7 @@ const SelectFeatures = () => {
             <label className="select-features-label">
               Display Selected List:
               <select
-                className="select-features-dropdown"
+                className="select-features-dropdown mt-2"
                 name="displaySelectedList"
                 value={features.displaySelectedList}
                 onChange={handleFeatureChange}

@@ -15,7 +15,6 @@ export const FeaturesProvider = ({ children }) => {
       ...prevFeatures,
       [feature]: value,
     }));
-    console.log(`Feature updated: ${feature} = ${value}`);
   };
 
   return (

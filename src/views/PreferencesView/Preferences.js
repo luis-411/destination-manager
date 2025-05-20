@@ -8,6 +8,8 @@ import AddListView from "./components/AddListView";
 import AddVisitView from "./components/AddVisitView";
 import SelectFeatures from "./components/SelectFeatures";
 import useFeatures from "../../api/useFeatures";
+import Visits from "../Personalnformation/Visits";
+import LogButton from "../GeneralView/LogButton";
 
 const Preferences = ({ link }) => {
   const { user } = useAuthContextSupabase();
@@ -20,6 +22,7 @@ const Preferences = ({ link }) => {
   const [listRegions, setListRegions] = useState([]);
   const [listTitle, setListTitle] = useState("");
   const [listDescription, setListDescription] = useState("");
+  const [showLists, setShowLists] = useState(true);
 
   const handleTitleChange = (e) => {
     setListTitle(e.target.value);
@@ -64,14 +67,18 @@ const Preferences = ({ link }) => {
 
   return (
     <div style={{ height: "100%", overflowY: "auto", overflowX: "hidden", padding: "1rem" }}>
-      <div style={{textAlign: "left", paddingTop: "10px"}}>
-      <div style={{ fontWeight: "700", fontSize: "1.1em" }}>DestiRec</div>
-      <span style={{fontWeight:"300",fontSize:"0.8rem"}}>Travel Destination Management System</span>
+      <div style={{ display: "flex", justifyContent: "space-between", paddingLeft: "0px", paddingRight: "0px", alignItems: "center", marginTop: "20px", gap: "10px" }}>
+        <div style={{textAlign: "left", paddingTop: "10px"}}>
+          <div style={{ fontWeight: "700", fontSize: "1.1em" }}>DestiRec</div>
+          <span style={{fontWeight:"300",fontSize:"0.8rem"}}>Travel Destination Management System</span>
+        </div>
+        <LogButton/>
       </div>
       <SelectFeatures />
+      
       {!user && (
         <div>
-          <h4 className="mt-4" style={{ fontWeight: "700",  }}>Login to create lists and save your preferences</h4>
+          <h4 className="mt-4" style={{ fontWeight: "700",  }}>Sign in to create lists and save your preferences</h4>
         </div>
       )}
       {link && (
@@ -117,7 +124,13 @@ const Preferences = ({ link }) => {
           addListSupabase={addListSupabase}
         />
       )}
-      {user && !link && (<Lists />)}
+      {user && (
+        <div onClick={() => {setShowLists(!showLists)}} style={{ cursor: "pointer" }}>
+        <h4 style={{fontWeight: "600"}}>{showLists ?  "Your Lists ↕️" : "Your Visits ↕️"}</h4>
+        </div>
+      )}
+      {user && !link && showLists && (<Lists />)}
+      {user && !link && !showLists && (<Visits />)}
       <p style={{ textAlign: "left", fontSize: "0.8em" }}>(c) Asal Nesar Noubari, Cem Nasit Sarica and Wolfgang Wörndl (Technical University of Munich)</p>
     </div>
   );

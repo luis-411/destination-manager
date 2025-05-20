@@ -153,7 +153,7 @@ const Map = ({ setActiveResult }) => {
     //handle list logic
     if(listRegions && listRegions.map((regions) => regions.value.id).includes(country.properties.result.id)){
       if (features.displaySelectedList === "color" || features.displaySelectedList === "colorAndEmoji") {
-        layer.options.fillColor = "#ffff4d";
+        layer.options.fillColor = "#35628E";
       }
       if(features.displaySelectedList === "emoji" || features.displaySelectedList === "colorAndEmoji"){
         layer.bindTooltip(`
@@ -168,7 +168,7 @@ const Map = ({ setActiveResult }) => {
     }
   }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [months, countries, listRegions, visits, features]);
+  }, [months, countries, listRegions, visits, features, user]);
 
   const onCountryPopupOpen = (countryId) => {
     const layer = geoJsonLayer.current.getLayer(mapLayers.current[countryId]);
@@ -249,9 +249,11 @@ const Map = ({ setActiveResult }) => {
       ? "#BF1E24"
       : "#fff";
   };
+
+  //update the map on changes
   useEffect(() => {
     setGeoJsonKey((prevKey) => prevKey + 1);
-  }, [months, listRegions, features]);
+  }, [months, listRegions, features, user]);
 
   if (loading || isLoading) {
     return <div>Loading user data...</div>;

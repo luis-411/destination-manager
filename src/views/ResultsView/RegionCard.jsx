@@ -25,7 +25,9 @@ const RegionCard = ({ region, onViewDetails }) => {
         {/* <Button variant="primary" onClick={() => onViewDetails(region)}>
           View Details
         </Button> */}
-        <GoToMapCountryButton regionId={region.value.id} />
+        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+          <GoToMapCountryButton regionId={region.value.id} />
+        </div>
       </Card.Body>
     </Card>
   );

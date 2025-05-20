@@ -35,7 +35,6 @@ const Lists = () => {
 
   return (
     <div>
-      <h4 style={{fontWeight: "600"}}>Your Lists</h4>
       {lists.length === 0 ? (
         <p>You have not created any lists yet.</p>
       ) : (
