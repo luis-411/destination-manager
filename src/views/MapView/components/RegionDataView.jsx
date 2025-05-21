@@ -18,6 +18,8 @@ const RegionDataView = ({ regionId, regionName }) => {
   const [emojiRating, setEmojiRating] = useState(null);
   const [hoveredEmoji, setHoveredEmoji] = useState(null);
 
+  const [sliderValue, setSliderValue] = useState("0");
+
   const emojiOptions = ["👍", "😍", "😎", "😐", "👎"];
 
   const handleEmojiClick = async (emoji) => {
@@ -65,6 +67,7 @@ const RegionDataView = ({ regionId, regionName }) => {
       if (fetchedRegionData) {
         setRating(fetchedRegionData.rating || "0");
         setEmojiRating(fetchedRegionData.rating || "");
+        setSliderValue(fetchedRegionData.rating || "0");
         setComment(fetchedRegionData.comment || "");
         setRegionData(fetchedRegionData);
       }
@@ -72,6 +75,7 @@ const RegionDataView = ({ regionId, regionName }) => {
         setComment("");
         setRating("0");
         setEmojiRating("");
+        setSliderValue("0");
         setRegionData(null);
       }
     };
@@ -150,6 +154,26 @@ const RegionDataView = ({ regionId, regionName }) => {
     setShowSaveButton(false);
   };
 
+  const handleSliderChange = (e) => {
+    const value = e.target.value;
+    setSliderValue(value);
+    setRating(value); // keep rating in sync for saving
+  };
+
+  const handleSliderCommit = async () => {
+    if(regionData){
+      setRegionData({ ...regionData, rating: sliderValue });
+      await updateRegion(regionId, { rating: sliderValue });
+    } else {
+      await addRegion({
+        id: regionId,
+        rating: sliderValue,
+        comment: "",
+        name: regionName,
+      });
+    }
+  };
+
   return (
     <div>
     {features.rating === "star" && (
@@ -197,6 +221,26 @@ const RegionDataView = ({ regionId, regionName }) => {
         ))}
       </div>
     </>)}
+    {features.rating === "slider" && (
+      <>
+        <Col style={{ textAlign: "left", flexBasis: "10%", fontSize: '10px' }} className='mb-1 mt-2'>
+          Region Rating
+        </Col>
+        <div className="d-flex flex-row align-items-center justify-content-center gap-2">
+          <input
+            type="range"
+            min="0"
+            max="100"
+            value={sliderValue}
+            onChange={handleSliderChange}
+            onMouseUp={handleSliderCommit}
+            onTouchEnd={handleSliderCommit}
+            style={{ width: "100%", accentColor: "#2e6e85" }}
+          />
+          <span style={{ minWidth: "32px", textAlign: "center", color: "white", fontWeight: "bold" }}>{sliderValue}</span>
+        </div>
+      </>
+    )}
       <Col style={{ textAlign: "left", fontSize: '10px' }} className='mb-1 mt-2'>
         Comments
       </Col>

@@ -38,6 +38,7 @@ const SelectFeatures = () => {
               >
                 <option value="star">Star Rating</option>
                 <option value="emoji">Emoji Rating</option>
+                <option value="slider">Slider Rating</option>
               </select>
             </label>
           </div>
