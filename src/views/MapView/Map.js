@@ -98,8 +98,11 @@ const Map = ({ setActiveResult }) => {
 
 
 
-    //score needs to look at selected months and add up the scores
-    var score = calculateScore(country.properties.result.travelMonths)//country.properties.result.scores.totalScore;
+    //TODO: this should only be done if months are selected
+    var score = 80;
+    if (!months.every((month) => month === 0)) {
+      score = calculateScore(country.properties.result.travelMonths)//country.properties.result.scores.totalScore;
+    }
     layer.options.fillColor = getColor(score); //"#7CBA43"
 
     layer.on({
@@ -165,6 +168,13 @@ const Map = ({ setActiveResult }) => {
         direction: "center",
         });
       }
+      if(features.displaySelectedList === "border") {
+        layer.setStyle({
+          weight: 5,
+          color: "#35628E",
+          fillOpacity: 0.9,
+        });
+      }
     }
   }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -186,9 +196,10 @@ const Map = ({ setActiveResult }) => {
   const highlightFeature = (e) => {
     const layer = e.target;
     const visited = layer.options.weight === 5;
+    const colored = layer.options.color === "#35628E";
     layer.setStyle({
       weight: 5,
-      color: "white",
+      color: colored ? "#ffe" : "white",
       fillOpacity: visited ? 0.8 : 0.9,
     });
   };
@@ -196,9 +207,10 @@ const Map = ({ setActiveResult }) => {
   const resetHighlight = (e) => {
     const layer = e.target;
     const visited = layer.options.fillOpacity === 0.8;
+    const colored = layer.options.color === "#ffe";
     layer.setStyle({
       fillOpacity: visited ? 0.9 : 1,
-      color: "#868686",
+      color: colored ? "#35628E" : "#868686",
       weight: visited ? 5 : 1,
     });
   };

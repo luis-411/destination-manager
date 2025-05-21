@@ -16,7 +16,7 @@ export const DetailScores = ({ scores, travelMonths, visitorIndexes, peakSeasons
             showMatches={false}
           /></>)}
         </div>
-        {visitorIndexes && (
+        {/* {visitorIndexes && (
           <div className='my-3'>
             <h6 style={{fontSize: '10px'}}>Visitors per month</h6>
             <VisitorIndexScore
@@ -25,7 +25,7 @@ export const DetailScores = ({ scores, travelMonths, visitorIndexes, peakSeasons
               peakSeasons={peakSeasons}
             />
           </div>
-        )}
+        )} */}
         {/* <div>
           <h6 style={{fontSize: '10px'}}>Attribute Scores</h6>
           {scores.map((entry, index) => (

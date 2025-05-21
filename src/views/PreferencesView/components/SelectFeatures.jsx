@@ -83,6 +83,7 @@ const SelectFeatures = () => {
                 <option value="color">Color on selected Countries</option>
                 <option value="emoji">List Emoji on selected Countries</option>
                 <option value="colorAndEmoji">Color and List Emoji on selecetd Countries</option>
+                <option value="border">Colored border on selecetd Countries</option>
               </select>
             </label>
           </div>
