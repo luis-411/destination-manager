@@ -3,14 +3,14 @@ import { useMap } from "usehooks-ts";
 import { Form } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import useVisits from "../../api/useVisits";
 import { message } from "antd";
 import { useAuthContextSupabase } from "../../context/AuthContextSupabase";
 import { useAppModal } from "../AppModal";
+import useVisitsStore from "../../api/useVisitStore";
 
 const HandleVisit = ({ country, handleCancel }) => {
   const { reset } = useAppModal();
-  const { addVisit } = useVisits();
+  const addVisit = useVisitsStore((state) => state.addVisit);
   const { user } = useAuthContextSupabase();
   const [visit, visitActions] = useMap([
     ["user_id", user?.id],

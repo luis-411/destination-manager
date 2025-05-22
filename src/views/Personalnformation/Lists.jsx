@@ -1,12 +1,14 @@
 import React, { useContext, useEffect } from 'react';
-import useLists from '../../api/useLists';
 import { AuthContextSupabase } from '../../context/AuthContextSupabase';
 import ListCard from './ListCard';
+import useListsStore from '../../api/useListsStore';
 
 const Lists = () => {
-  const { user } = useContext(AuthContextSupabase); // Get the logged-in user from AuthContext
-  const { lists, isLoading, error, fetchLists } = useLists();
-
+  const { user } = useContext(AuthContextSupabase);
+  const lists = useListsStore((state) => state.lists);
+  const isLoading = useListsStore((state) => state.isLoading);
+  const fetchLists = useListsStore((state) => state.fetchLists);
+  
   useEffect(() => {
     if (user) {
       fetchLists(); // Fetch lists if a user is logged in

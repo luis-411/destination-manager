@@ -3,9 +3,9 @@ import Card from "react-bootstrap/Card";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import RegionsSelect from "../../../components/RegionsSelect";
-import useVisits from "../../../api/useVisits";
 import { useAuthContextSupabase } from "../../../context/AuthContextSupabase";
 import { message } from "antd";
+import useVisitsStore from "../../../api/useVisitStore";
 
 const AddVisitView = ({  
   handleCancel,
@@ -21,7 +21,8 @@ const AddVisitView = ({
   setRegions,
   handleSave
  }) => {
-  const { addVisit } = useVisits();
+  const fetchVisits = useVisitsStore((state) => state.fetchVisits);
+  const addVisit = useVisitsStore((state) => state.addVisit);
   const { user } = useAuthContextSupabase();
   const [titleAdd, setTitleAdd] = useState("");
   const [descriptionAdd, setDescriptionAdd] = useState("");
@@ -35,18 +36,24 @@ const AddVisitView = ({
       description: descriptionAdd,
       arrive: arriveDateAdd,
       depart: departDateAdd,
-      region_name: regionsAdd.label,
-      region_id: regionsAdd.value.id,
+      region_name: regionsAdd?.label,
+      region_id: regionsAdd?.value.id,
       user_id: user?.id,
     };
     try {
         //TODO: reload map to show new visit
-        addVisit(visitData);
-        setTitleAdd("");
-        setDescriptionAdd("");
-        setArriveDateAdd(null);
-        setDepartDateAdd(null);
-        setRegionsAdd(null);
+        if(visitData.arrive && visitData.depart && visitData.region_id) {
+          addVisit(visitData);
+          setTitleAdd("");
+          setDescriptionAdd("");
+          setArriveDateAdd(null);
+          setDepartDateAdd(null);
+          setRegionsAdd(null);
+          fetchVisits();
+        }
+        else {
+          message.error("please enter the missing value(s)")
+        }
     }
     catch (e) {
         message.error(`Unexpected error while creating the visit. Please try again.\n Error ${e.message}`);

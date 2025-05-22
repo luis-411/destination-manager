@@ -31,7 +31,7 @@ const CustomEmojiPicker = ({ emoji, setEmoji }) => {
                     onClick={() => setShowEmojiPicker(!showEmojiPicker)}
                     style={{ fontSize: "1.5rem", backgroundColor: "rgba(27,64,77,1)" }}
                 >
-                    {emoji || "😀"}
+                    {emoji || "🌍"}
                 </button>
                 {showEmojiPicker && (
                     <div ref={emojiPickerRef} style={{ position: "absolute", zIndex: 1000 }}>

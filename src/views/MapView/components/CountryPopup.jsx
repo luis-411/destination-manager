@@ -15,9 +15,9 @@ import useLoadMeWithGroups from "../../../api/useLoadMeWithGroups";
 import { convertShortMonthToLong } from "../../../helpers/months";
 import AddGroups from "../../../components/Modals/AddGroup";
 import { useAuthContextSupabase } from "../../../context/AuthContextSupabase";
-import useVisits from "../../../api/useVisits";
 import RegionDataView from "./RegionDataView";
 import useFeatures from "../../../api/useFeatures";
+import useVisitsStore from "../../../api/useVisitStore";
 
 const PopupGroup = ({ name }) => {
   return (
@@ -37,7 +37,9 @@ export const CountryPopup = ({ country }) => {
   const iconStyle = { fontSize: '12px' };
   const { user } = useAuthContextSupabase();
   const { features } = useFeatures();
-  const { visits, fetchVisits } = useVisits();
+  const visits = useVisitsStore((state) => state.visits);
+  const fetchVisits = useVisitsStore((state) => state.fetchVisits);
+  
   const modal = useAppModal();
   const { data: groups, fetch: fetchGroups } = useLoadMeWithGroups();
 

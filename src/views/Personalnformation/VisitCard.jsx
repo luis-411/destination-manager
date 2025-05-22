@@ -4,8 +4,8 @@ import Button from "react-bootstrap/Button";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { message } from "antd";
 import GoToMapCountryButton from "../../components/GoToMapCountry";
-import useVisits from "../../api/useVisits";
 import AddVisitView from "../PreferencesView/components/AddVisitView";
+import useVisitStore from "../../api/useVisitStore";
 
 const VisitCard = ({
   id : initialId,
@@ -17,7 +17,8 @@ const VisitCard = ({
   departDate : initialDepartDate,
   onDelete
 }) => {
-    const { updateVisit } = useVisits();
+    const updateVisit = useVisitStore((state) => state.updateVisit);
+    
     const [isHovered, setIsHovered] = useState(false);
     const [visitData, setVisitData] = useState({
       id: initialId,

@@ -38,12 +38,16 @@ const RegionsSelect = ({regions, setRegions, isVisit}) => {
                         ...base,
                         borderColor: "rgba(255, 255, 255, 0.7)",
                         fontSize: "0.8rem",
-                        backgroundColor: "transparent",//"#3ab0d7",
+                        backgroundColor: "transparent",
                         floodColor: "white",
                         accentColor: "white",
                         color: "white",
                         overflowY: "auto", // Allow scrolling for selected options
                         cursor: "text",
+                    }),
+                    singleValue: (base) => ({
+                        ...base,
+                        color: "white", // Make selected value text white
                     }),
                     input: (base) => ({
                         ...base,

@@ -1,11 +1,14 @@
 import React, { useContext, useEffect } from "react";
-import useVisits from "../../api/useVisits";
 import { AuthContextSupabase } from "../../context/AuthContextSupabase";
 import VisitCard from "./VisitCard";
+import useVisitsStore from "../../api/useVisitStore";
 
 const Visits = () => {
   const { user } = useContext(AuthContextSupabase);
-  const { visits, isLoading, error, fetchVisits, deleteVisit } = useVisits();
+  const visits = useVisitsStore((state) => state.visits);
+  const deleteVisit = useVisitsStore((state) => state.deleteVisit);
+  const fetchVisits = useVisitsStore((state) => state.fetchVisits);
+  const isLoading = useVisitsStore((state) => state.isLoading);
 
   useEffect(() => {
     if (user) {

@@ -141,3 +141,20 @@ input.stay-days {
 .add-button:hover {
   background-color: #FFFFFF;
 }
+
+/* Remove margin and padding from the DatePicker wrapper */
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Make the input truly full width and remove extra padding */
+.react-datepicker__input-container input.form-control {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding-left: 0.75rem; /* match Bootstrap if needed */
+  padding-right: 0.75rem;
+}

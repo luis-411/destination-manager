@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/App.css";
-import useLists from "../../api/useLists";
 import { useAuthContextSupabase } from "../../context/AuthContextSupabase";
 import Lists from "../Personalnformation/Lists";
 import ListCard from "../Personalnformation/ListCard";
@@ -10,14 +9,19 @@ import SelectFeatures from "./components/SelectFeatures";
 import useFeatures from "../../api/useFeatures";
 import Visits from "../Personalnformation/Visits";
 import LogButton from "../GeneralView/LogButton";
+import { message } from "antd";
+import useListsStore from "../../api/useListsStore";
 
 const Preferences = ({ link }) => {
   const { user } = useAuthContextSupabase();
   const { features } = useFeatures();
-  const { fetchLists } = useLists();
+
+  const fetchLists = useListsStore((state) => state.fetchLists);
+  const addList = useListsStore((state) => state.addList);
+  
+
   const [showAddList, setShowAddList] = useState(false);
   const [showAddVisit, setShowAddVisit] = useState(false);
-  const { addList } = useLists();
   const [listEmoji, setListEmoji] = useState("");
   const [listRegions, setListRegions] = useState([]);
   const [listTitle, setListTitle] = useState("");
@@ -42,13 +46,18 @@ const Preferences = ({ link }) => {
       regions: listRegions,
       user_id: currentUserId,
     };
-    addList(newList)
-    setListTitle("");
-    setListDescription("");
-    setListEmoji("");
-    setListRegions([]);
-    setShowAddList(false);
-    updateLists();
+    if(newList.title) {
+      addList(newList)
+      setListTitle("");
+      setListDescription("");
+      setListEmoji("");
+      setListRegions([]);
+      setShowAddList(false);
+      updateLists();
+    }
+    else {
+      message.error("please add a title");
+    }
   }
 
   const updateLists = async () => {
@@ -104,7 +113,6 @@ const Preferences = ({ link }) => {
       )}
       {user && showAddVisit && !link && (
         <AddVisitView
-          
         />
       )}
       {user && showAddList && !link && (

@@ -9,10 +9,10 @@ import {create} from "zustand";
 import useLoadHistory from "../../api/history/useLoadHistory";
 import useLoadMeWithGroups from "../../api/useLoadMeWithGroups";
 import useSelectedList from "../../api/useSelectedList";
-import useVisits from "../../api/useVisits";
 import { useAuthContextSupabase } from "../../context/AuthContextSupabase";
 import useFeatures from "../../api/useFeatures";
 import useCountries from "../../api/useCountries";
+import useVisitsStore from "../../api/useVisitStore";
 
 const position = [51.0967884, 5.9671304];
 
@@ -29,7 +29,8 @@ export const useReferencedCountry = create((set) => ({
 const Map = ({ setActiveResult }) => {
   const { user } = useAuthContextSupabase();
   const { features } = useFeatures();
-  const { visits, fetchVisits } = useVisits();
+  const visits = useVisitsStore((state) => state.visits);
+  const fetchVisits = useVisitsStore((state) => state.fetchVisits);
   const { data: historyData, loading } = useLoadHistory({
     userId: user?.id,
   });
@@ -271,7 +272,7 @@ const Map = ({ setActiveResult }) => {
   //update the map on changes
   useEffect(() => {
     setGeoJsonKey((prevKey) => prevKey + 1);
-  }, [months, listRegions, features, user, countries]);
+  }, [months, listRegions, features, user, visits]);
 
   if (loading || isLoading) {
     return <div>Loading user data...</div>;

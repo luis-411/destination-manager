@@ -5,7 +5,7 @@ import GoToMapCountryButton from "../../components/GoToMapCountry";
 import styles from "../../views/Personalnformation/ListCard.module.css";
 import useSelectedList from "../../api/useSelectedList";
 import { FaEdit, FaTrash, FaShareAlt } from "react-icons/fa";
-import useLists from "../../api/useLists";
+import useListsStore from "../../api/useListsStore";
 import { message } from "antd";
 import { useAuthContextSupabase } from "../../context/AuthContextSupabase";
 import useRightColumnOpen from "../GeneralView/services/useRightColumnOpen";
@@ -20,7 +20,12 @@ const ListCard = ({
     link,
     updateLists }) => {
     const { user } = useAuthContextSupabase();
-    const { fetchListByLink, deleteList, updateList } = useLists(); // Import updateList
+    const fetchListByLink = useListsStore((state) => state.fetchListByLink);
+    const fetchList = useListsStore((state) => state.fetchList);
+    const deleteList = useListsStore((state) => state.deleteList);
+    const updateList = useListsStore((state) => state.updateList);
+    const generateLink = useListsStore((state) => state.generateLink);
+
     const [listData, setListData] = useState({
       title: initialTitle,
       description: initialDescription,
@@ -29,7 +34,7 @@ const ListCard = ({
       id: initialId,
     });
     const [isHovered, setIsHovered] = useState(false);
-    const [isEditing, setIsEditing] = useState(false); // State to toggle edit mode
+    const [isEditing, setIsEditing] = useState(false);
 
     const handleSave = async () => {
       try {
@@ -40,8 +45,8 @@ const ListCard = ({
           emoji: listData.emoji,
         });
         message.success("List updated successfully!");
-        setIsEditing(false); // Exit edit mode
-        updateLists();
+        setIsEditing(false);
+        await fetchList();
       } catch (error) {
         console.error("Error updating list:", error);
         message.error("Failed to update list.");
@@ -52,7 +57,6 @@ const ListCard = ({
       setIsEditing(false); // Exit edit mode without saving
     };
 
-    const { generateLink } = useLists();
       const handleShare = async (listId) => {
         const link = await generateLink(listId);
         if (link) {
@@ -99,7 +103,7 @@ const ListCard = ({
       if (!confirmDelete) return;
   
       try {
-        await deleteList(listData.id); // Call deleteList with the list ID
+        await deleteList(listData.id);
         updateLists();
       } catch (error) {
         console.error("Error deleting list:", error);
@@ -115,8 +119,8 @@ const ListCard = ({
           setListRegions={(regions) => setListData((prev) => ({ ...prev, regions }))}
           handleTitleChange={(e) => setListData((prev) => ({ ...prev, title: e.target.value }))}
           handleDescriptionChange={(e) => setListData((prev) => ({ ...prev, description: e.target.value }))}
-          addListSupabase={handleSave} // Save button functionality
-          handleCancel={handleCancel} // Cancel button functionality
+          addListSupabase={handleSave}
+          handleCancel={handleCancel}
           titleValue={listData.title}
           descriptionValue={listData.description}
         />
