@@ -9,7 +9,7 @@ import {
     Spin,
     Typography,
   } from "antd";
-import React, { Fragment } from "react";
+import { Fragment } from "react";
 import { Link} from "react-router-dom";
 import useLoadUser from "../../../api/useLoadUser";
   

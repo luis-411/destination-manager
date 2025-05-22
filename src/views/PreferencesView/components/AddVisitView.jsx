@@ -41,7 +41,6 @@ const AddVisitView = ({
       user_id: user?.id,
     };
     try {
-        //TODO: reload map to show new visit
         if(visitData.arrive && visitData.depart && visitData.region_id) {
           addVisit(visitData);
           setTitleAdd("");

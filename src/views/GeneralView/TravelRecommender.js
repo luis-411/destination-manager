@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../styles/App.css";
 import { Row, Col } from "react-bootstrap";
@@ -8,22 +8,17 @@ import { RightSidebar } from "../ResultsView/RightSidebar";
 import { Tooltip } from 'react-tooltip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
-import PersonalInformation from "../Personalnformation/PersonalInformation";
 import AppModal from "../../components/AppModal";
-import {useAuthContext} from "../../context/AuthContext";
 import ThemePopup from "../ThemeView/ThemePopup";
 import { useParams } from "react-router-dom";
 import useRightColumnOpen from "./services/useRightColumnOpen";
 import TopBar from "../../components/TopBar";
 import { FeaturesProvider } from "../../api/useFeatures";
-import RegionDataView from "../MapView/components/RegionDataView";
 
 const TravelRecommender = () => {
   const [activeResult, setActiveResult] = useState(0);
   const [leftColumnOpen, setLeftColumnOpen] = useState(true);
   const { rightColumnOpen, setRightColumnOpen } = useRightColumnOpen();
-  //const [rightColumnOpen, setRightColumnOpen] = useState(false);
-  const { user } = useAuthContext();
   const { link } = useParams();
 
   /**
@@ -70,7 +65,7 @@ const TravelRecommender = () => {
         leftColumnSizes={leftColumnSizes}
         rightColumnSizes={rightColumnSizes}
       />
-      <Row style={{ height: "100%" }}> {/* Adjust height to account for TopBar */}
+      <Row style={{ height: "100%" }}>
         {leftColumnOpen && (
           <Col
             style={{ height: "100%" }}
@@ -105,7 +100,6 @@ const TravelRecommender = () => {
       <Tooltip id="prio-switch-tooltip" style={{ width: "300px", zIndex: 99999 }} />
       <Tooltip id="additional-info-tooltip" style={{ width: "300px", zIndex: 99999 }} place="bottom" />
       <Tooltip id="barchart-tooltip" style={{ width: "300px", zIndex: 99999 }} place="bottom" />
-      {/* {user?.id && <PersonalInformation/>} */}
       <ThemePopup/>
       <AppModal />
     </div>

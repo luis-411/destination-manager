@@ -1,13 +1,10 @@
 import { useEffect } from "react";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import { DetailScores } from "../MapView/components/DetailScores";
 import GoToMapCountryButton from "../../components/GoToMapCountry";
-import useTravelRecommenderStore from "../../store/travelRecommenderStore";
 import useCountries from "../../api/useCountries";
 
 const RegionCard = ({ region, onViewDetails }) => {
-  //const countries = useTravelRecommenderStore((state) => state.countries);
   const {countries, fetchCountries} = useCountries();
 
   useEffect(() =>{
@@ -21,12 +18,7 @@ const RegionCard = ({ region, onViewDetails }) => {
     }
     return [];
   }
-    // function getTrueKeys(peakSeason) {
-    //     if(peakSeason) {
-    //     return Object.keys(peakSeason).filter(month => peakSeason[month]);
-    //     }
-    //     return [];
-    //   }
+
   return (
     <Card className="shadow-sm rounded-4" style={{ width: '18rem', margin: '1rem', backgroundColor: '#f8f9fa', border: '1px solid #ddd' }}>
       <Card.Body>
@@ -35,13 +27,8 @@ const RegionCard = ({ region, onViewDetails }) => {
           {region.value.ParentRegion.data.attributes.Region}
         </Card.Text>
         <DetailScores
-                //peakSeasons={getTrueKeys(region.value.peakSeason)}
-                //visitorIndexes={region.value.visitorIndex}
                 travelMonths={getCountryTravelMonths(region.value.id)}
               />
-        {/* <Button variant="primary" onClick={() => onViewDetails(region)}>
-          View Details
-        </Button> */}
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
           <GoToMapCountryButton regionId={region.value.id} />
         </div>

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { AuthContextSupabase } from "../../context/AuthContextSupabase";
 import VisitCard from "./VisitCard";
 import useVisitsStore from "../../api/useVisitStore";
@@ -24,13 +24,6 @@ const Visits = () => {
     return <div>Loading your visits...</div>;
   }
 
-  // const updateVisits = async () => {
-  //   try {
-  //     await fetchVisits();
-  //   } catch (error) {
-  //     console.error("Error updating visits:", error);
-  //   }
-  // };
 
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this visit?");

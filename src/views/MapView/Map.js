@@ -1,4 +1,4 @@
-import React, {useRef, useState, useEffect, useCallback, useMemo} from "react";
+import {useRef, useState, useEffect, useCallback} from "react";
 import {MapContainer, GeoJSON } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "./styles/Map.css";
@@ -36,9 +36,7 @@ const Map = ({ setActiveResult }) => {
   });
   const isLoading = !historyData;
   const [map, setMap] = useState(null);
-  //const countries = useTravelRecommenderStore((state) => state.countries);
   const {countries, fetchCountries} = useCountries();
-  const travelStore = useTravelRecommenderStore();
   const geoJsonLayer = useRef(null);
   const mapLayers = useRef([]);
   const {
@@ -51,8 +49,6 @@ const Map = ({ setActiveResult }) => {
   const listRegions = selectedList.regions;
   const [geoJsonKey, setGeoJsonKey] = useState(0); // Key to force GeoJSON re-render
 
-
-  const { data: groupsData, loading: groupsLoading } = useLoadMeWithGroups();
 
   useEffect(() => {
     if (referencedCountryId) {
@@ -83,10 +79,6 @@ const Map = ({ setActiveResult }) => {
 
 
     const calculateScore = useCallback((travelMonths) => {
-    if (months.every((month) => month === 0)) {
-      return 80;// Default score when no months are selected
-    }
-
     const selectedMonths = months
       .map((value, index) => (value === 100 ? index : null))
       .filter((index) => index !== null);
@@ -104,13 +96,11 @@ const Map = ({ setActiveResult }) => {
   const onEachCountry = useCallback((country, layer) => {
 
 
-
-    //TODO: this should only be done if months are selected
     var score = 80;
     if (!months.every((month) => month === 0)) {
-      score = calculateScore(country.properties.result.travelMonths)//country.properties.result.scores.totalScore;
+      score = calculateScore(country.properties.result.travelMonths)
     }
-    layer.options.fillColor = getColor(score); //"#7CBA43"
+    layer.options.fillColor = getColor(score);
 
     layer.on({
       mouseover: highlightFeature,
@@ -136,7 +126,7 @@ const Map = ({ setActiveResult }) => {
             case "border":
               layer.setStyle({
                 weight: 5,
-                color: "#868686",
+                color: "#1a1a1a",
                 fillOpacity: 0.9,
               });
               break;
@@ -203,7 +193,7 @@ const Map = ({ setActiveResult }) => {
   const highlightFeature = (e) => {
     const layer = e.target;
     const visited = layer.options.weight === 5;
-    const colored = layer.options.color === "#35628E";
+    const colored = layer.options.color === "#1a1a1a";
     layer.setStyle({
       weight: 5,
       color: colored ? "#ffe" : "white",
@@ -217,7 +207,7 @@ const Map = ({ setActiveResult }) => {
     const colored = layer.options.color === "#ffe";
     layer.setStyle({
       fillOpacity: visited ? 0.9 : 1,
-      color: colored ? "#35628E" : "#868686",
+      color: colored ? "#1a1a1a" : "#868686",
       weight: visited ? 5 : 1,
     });
   };

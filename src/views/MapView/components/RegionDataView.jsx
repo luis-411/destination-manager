@@ -250,7 +250,7 @@ const RegionDataView = ({ regionId, regionName }) => {
         placeholder="Add your comment here..."
         value={comment}
         onChange={handleCommentChange}
-        style={{ backgroundColor: "transparent", color: "white", width: "100%", maxWidth: "500px", height: "100px", padding: "10px", borderRadius: "5px", border: "1px solid #ccc", marginBottom: "1rem" }}
+        style={{ backgroundColor: "transparent", color: "white", width: "100%", maxWidth: "500px", height: "100px", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
       />
       {showSaveButton && (
         <div className="d-flex justify-content-center align-items-center">

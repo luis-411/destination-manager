@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { message } from "antd";
 import GoToMapCountryButton from "../../components/GoToMapCountry";
@@ -51,7 +50,7 @@ const VisitCard = ({
       }
     }
     const handleCancel = () => {
-      setIsEditing(false); // Exit edit mode without saving
+      setIsEditing(false);
     };
   return (
     isEditing ? (

@@ -13,23 +13,12 @@ import { useAppModal } from "../../../components/AppModal";
 import HandleVisit from "../../../components/Modals/HandleVisit";
 import useLoadMeWithGroups from "../../../api/useLoadMeWithGroups";
 import { convertShortMonthToLong } from "../../../helpers/months";
-import AddGroups from "../../../components/Modals/AddGroup";
 import { useAuthContextSupabase } from "../../../context/AuthContextSupabase";
 import RegionDataView from "./RegionDataView";
 import useFeatures from "../../../api/useFeatures";
 import useVisitsStore from "../../../api/useVisitStore";
 
-const PopupGroup = ({ name }) => {
-  return (
-    <div
-      className='d-flex justify-content-between align-items-center
-      gap-2 border border-1 px-3 py-1 rounded-5 border-white'
-    >
-      <FolderOutlined />
-      <h6 className='m-0' style={{ fontSize: '10px' }}>{name}</h6>
-    </div>
-  )
-}
+
 
 
 export const CountryPopup = ({ country }) => {
@@ -52,12 +41,6 @@ export const CountryPopup = ({ country }) => {
     modal.setComponent(<HandleVisit country={country} />);
   }, [country]);
 
-  const onAddGroups = () => {
-    modal.setIsOpen(true);
-    modal.setWidthClassName('modal-70w');
-    modal.setComponent(<AddGroups country={country} />);
-  }
-
   const budgetLabel = country.budgetLevel < 40 ? "Low" : country.budgetLevel < 80 ? "Medium" : "High";
 
   const getTotalVisitorNumber = (country) => Object.values(country.visitorIndex)
@@ -69,7 +52,7 @@ export const CountryPopup = ({ country }) => {
     }
     return country.peakSeasons.map(month => convertShortMonthToLong(month)).join(separator);
   };
-  //TODO update after adding new visits
+
   const visitCountForCountry = visits.filter(visit => parseInt(visit.region_id) === country.id).length;
 
   const characteristics = [
@@ -131,26 +114,6 @@ export const CountryPopup = ({ country }) => {
         ))}
       </div>
 
-      {/* {user?.id && (
-        <>
-          <Col style={{ fontSize: '10px' }} className='d-flex justify-content-between align-items-center'>
-            <h6 style={{ fontSize: '10px' }}>Belongs to travel collections</h6>
-            <button
-              onClick={onAddGroups}
-              className={'btn btn-secondary py-0 px-0'}
-              style={{ fontSize: '10px' }}>
-              Add collections
-              <PlusCircleOutlined className={'ms-2'}/>
-            </button>
-          </Col>
-          <Col className={`mobile-scroll d-flex gap-2 ${selectedGroups?.length === 0 ? 'justify-content-center' : 'justify-content-start' }`}>
-            {groups && selectedGroups?.map((group, idx) => (
-              <PopupGroup name={group.name} key={idx} />
-            ))}
-            {selectedGroups?.length === 0 && <h6 className='m-0' style={{ fontSize: '0.75rem' }}>Not found in any travel collections</h6>}
-          </Col>
-        </>
-      )} */}
       {user && (
         <RegionDataView regionId={country.id} regionName={country.region} />
         )}

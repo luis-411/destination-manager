@@ -7,7 +7,6 @@ const CustomEmojiPicker = ({ emoji, setEmoji }) => {
 
     const onEmojiClick = (emojiObject) => {
         setEmoji(emojiObject.emoji); // Set the selected emoji
-        //setGroupEmoji(emojiObject.emoji); // Store the selected emoji
         setShowEmojiPicker(false); // Close the emoji picker
     };
 

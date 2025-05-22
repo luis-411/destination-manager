@@ -37,7 +37,6 @@ const Preferences = ({ link }) => {
   };
 
   const addListSupabase = async () => {
-    //TODO: Error handling
     const currentUserId = user?.id || "default_user_id";
     const newList = {
       title: listTitle,
