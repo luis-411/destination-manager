@@ -7,33 +7,46 @@ import useVisits from "../../../api/useVisits";
 import { useAuthContextSupabase } from "../../../context/AuthContextSupabase";
 import { message } from "antd";
 
-const AddVisitView = ({ addVisitSupabase, handleCancel }) => {
+const AddVisitView = ({  
+  handleCancel,
+  title,
+  onTitleChange,
+  description,
+  onDescriptionChange,
+  arriveDate,
+  setArriveDate,
+  departDate,
+  setDepartDate,
+  regions,
+  setRegions,
+  handleSave
+ }) => {
   const { addVisit } = useVisits();
   const { user } = useAuthContextSupabase();
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [arriveDate, setArriveDate] = useState(null);
-  const [departDate, setDepartDate] = useState(null);
-  const [regions, setRegions] = useState(null);
+  const [titleAdd, setTitleAdd] = useState("");
+  const [descriptionAdd, setDescriptionAdd] = useState("");
+  const [arriveDateAdd, setArriveDateAdd] = useState(null);
+  const [departDateAdd, setDepartDateAdd] = useState(null);
+  const [regionsAdd, setRegionsAdd] = useState(null);
 
-  const handleSave = () => {
+  const handleAdd = () => {
     const visitData = {
-      title: title,
-      description: description,
-      arrive: arriveDate,
-      depart: departDate,
-      region_name: regions.label,
-      region_id: regions.value.id,
+      title: titleAdd,
+      description: descriptionAdd,
+      arrive: arriveDateAdd,
+      depart: departDateAdd,
+      region_name: regionsAdd.label,
+      region_id: regionsAdd.value.id,
       user_id: user?.id,
     };
     try {
         //TODO: reload map to show new visit
         addVisit(visitData);
-        setTitle("");
-        setDescription("");
-        setArriveDate(null);
-        setDepartDate(null);
-        setRegions(null);
+        setTitleAdd("");
+        setDescriptionAdd("");
+        setArriveDateAdd(null);
+        setDepartDateAdd(null);
+        setRegionsAdd(null);
     }
     catch (e) {
         message.error(`Unexpected error while creating the visit. Please try again.\n Error ${e.message}`);
@@ -61,12 +74,12 @@ const AddVisitView = ({ addVisitSupabase, handleCancel }) => {
           Title
         </label>
         <input
-          value={title}
+          value={handleCancel ? title : titleAdd}
           type="text"
           className="form-control"
           id="visitTitle"
           placeholder="Enter title"
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={handleCancel ? onTitleChange : (e) => setTitleAdd(e.target.value)}
         />
       </div>
       <div className="mb-3">
@@ -78,15 +91,15 @@ const AddVisitView = ({ addVisitSupabase, handleCancel }) => {
           Description
         </label>
         <textarea
-          value={description}
+          value={handleCancel ? description : descriptionAdd}
           className="form-control"
           id="visitDescription"
           rows="3"
           placeholder="Enter description"
-          onChange={(e) => setDescription(e.target.value)}
+          onChange={handleCancel ? onDescriptionChange : (e) => setDescriptionAdd(e.target.value)}
         ></textarea>
       </div>
-      <div className="mb-3">
+      {!handleCancel && (<div className="mb-3">
         <label
           htmlFor="visitRegion"
           className="form-label"
@@ -94,8 +107,8 @@ const AddVisitView = ({ addVisitSupabase, handleCancel }) => {
         >
           Region
         </label>
-        <RegionsSelect setRegions={setRegions} isVisit={true}/>
-      </div>
+        <RegionsSelect setRegions={setRegionsAdd} isVisit={true}/>
+      </div>)}
       <div className="mb-3">
         <label
           htmlFor="arriveDate"
@@ -105,8 +118,8 @@ const AddVisitView = ({ addVisitSupabase, handleCancel }) => {
           Arrive Date
         </label>
         <DatePicker
-          selected={arriveDate}
-          onChange={(date) => setArriveDate(date)}
+          selected={handleCancel ? arriveDate : arriveDateAdd}
+          onChange={handleCancel ? setArriveDate : setArriveDateAdd}
           placeholderText="Select arrive date"
           className="form-control"
           id="arriveDate"
@@ -121,14 +134,14 @@ const AddVisitView = ({ addVisitSupabase, handleCancel }) => {
           Depart Date
         </label>
         <DatePicker
-          selected={departDate}
-          onChange={(date) => setDepartDate(date)}
+          selected={handleCancel ? departDate : departDateAdd}
+          onChange={handleCancel ? setDepartDate : setDepartDateAdd}
           placeholderText="Select depart date"
           className="form-control"
           id="departDate"
         />
       </div>
-      <button className="btn btn-primary" onClick={handleSave}>
+      <button className="btn btn-primary" onClick={handleCancel ? handleSave : handleAdd}>
         {handleCancel ? "Save" : "Add Visit"}
       </button>
       {handleCancel && (

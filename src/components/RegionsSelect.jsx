@@ -31,14 +31,17 @@ const RegionsSelect = ({regions, setRegions, isVisit}) => {
                 isSearchable
                 options={availableRegions}
                 value={regions}
-                onChange={(selected) => setRegions(selected)}
+                onChange={setRegions}
                 placeholder={isVisit ? "Select region" : "Select regions"}
                 styles={{
                     control: (base, state) => ({
                         ...base,
                         borderColor: "rgba(255, 255, 255, 0.7)",
                         fontSize: "0.8rem",
-                        backgroundColor: "transparent",
+                        backgroundColor: "transparent",//"#3ab0d7",
+                        floodColor: "white",
+                        accentColor: "white",
+                        color: "white",
                         overflowY: "auto", // Allow scrolling for selected options
                         cursor: "text",
                     }),

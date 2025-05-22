@@ -12,6 +12,7 @@ import useSelectedList from "../../api/useSelectedList";
 import useVisits from "../../api/useVisits";
 import { useAuthContextSupabase } from "../../context/AuthContextSupabase";
 import useFeatures from "../../api/useFeatures";
+import useCountries from "../../api/useCountries";
 
 const position = [51.0967884, 5.9671304];
 
@@ -34,7 +35,8 @@ const Map = ({ setActiveResult }) => {
   });
   const isLoading = !historyData;
   const [map, setMap] = useState(null);
-  const countries = useTravelRecommenderStore((state) => state.countries);
+  //const countries = useTravelRecommenderStore((state) => state.countries);
+  const {countries, fetchCountries} = useCountries();
   const travelStore = useTravelRecommenderStore();
   const geoJsonLayer = useRef(null);
   const mapLayers = useRef([]);
@@ -69,6 +71,10 @@ const Map = ({ setActiveResult }) => {
     color: "#868685",
     weight: 1,
   };
+
+  useEffect(() =>{
+    fetchCountries();
+  }, [fetchCountries]);
 
   useEffect(() => {
     fetchVisits();
@@ -265,7 +271,7 @@ const Map = ({ setActiveResult }) => {
   //update the map on changes
   useEffect(() => {
     setGeoJsonKey((prevKey) => prevKey + 1);
-  }, [months, listRegions, features, user]);
+  }, [months, listRegions, features, user, countries]);
 
   if (loading || isLoading) {
     return <div>Loading user data...</div>;

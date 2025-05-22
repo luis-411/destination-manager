@@ -104,13 +104,7 @@ const Preferences = ({ link }) => {
       )}
       {user && showAddVisit && !link && (
         <AddVisitView
-          listEmoji={listEmoji}
-          setListEmoji={setListEmoji}
-          listRegions={listRegions}
-          setListRegions={setListRegions}
-          handleTitleChange={handleTitleChange}
-          handleDescriptionChange={handleDescriptionChange}
-          addListSupabase={addListSupabase}
+          
         />
       )}
       {user && showAddList && !link && (
@@ -124,7 +118,7 @@ const Preferences = ({ link }) => {
           addListSupabase={addListSupabase}
         />
       )}
-      {user && (
+      {user && !link && (
         <div onClick={() => {setShowLists(!showLists)}} style={{ cursor: "pointer" }}>
         <h4 style={{fontWeight: "600"}}>{showLists ?  "Your Lists ↕️" : "Your Visits ↕️"}</h4>
         </div>

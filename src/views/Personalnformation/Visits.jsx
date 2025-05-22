@@ -47,7 +47,7 @@ const Visits = () => {
       ) : (
         visits
           .filter((visit) => visit.user_id === user.id)
-          .sort((a, b) => new Date(b.arrive_date) - new Date(a.arrive_date))
+          .sort((a, b) => new Date(b.arrive) - new Date(a.arrive))
           .map((visit) => (
             <VisitCard
               key={visit.id}
@@ -58,7 +58,6 @@ const Visits = () => {
               regionId={visit.region_id}
               arriveDate={visit.arrive}
               departDate={visit.depart}
-              onEdit={() => { /* Implement edit logic if needed */ }}
               onDelete={() => handleDelete(visit.id)}
             />
           ))

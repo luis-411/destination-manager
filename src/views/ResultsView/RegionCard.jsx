@@ -1,12 +1,19 @@
-import React from "react";
+import { useEffect } from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { DetailScores } from "../MapView/components/DetailScores";
 import GoToMapCountryButton from "../../components/GoToMapCountry";
 import useTravelRecommenderStore from "../../store/travelRecommenderStore";
+import useCountries from "../../api/useCountries";
 
 const RegionCard = ({ region, onViewDetails }) => {
-  const countries = useTravelRecommenderStore((state) => state.countries);
+  //const countries = useTravelRecommenderStore((state) => state.countries);
+  const {countries, fetchCountries} = useCountries();
+
+  useEffect(() =>{
+      fetchCountries();
+    }, [fetchCountries]);
+
   function getCountryTravelMonths(countryId) {
     const country = countries.find((country) => country.properties.result.id === countryId);
     if (country) {
