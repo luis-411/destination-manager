@@ -46,7 +46,6 @@ const ListCard = ({
         });
         message.success("List updated successfully!");
         setIsEditing(false);
-        await fetchList();
       } catch (error) {
         console.error("Error updating list:", error);
         message.error("Failed to update list.");

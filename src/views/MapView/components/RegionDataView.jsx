@@ -13,6 +13,7 @@ const RegionDataView = ({ regionId, regionName }) => {
   const [comment, setComment] = useState("");
   const [showSaveButton, setShowSaveButton] = useState(false);
   const [regionData, setRegionData] = useState(null);
+  const [dataId, setDataId] = useState(null);
   const commentRef = useRef(null);
 
   const [emojiRating, setEmojiRating] = useState(null);
@@ -26,11 +27,11 @@ const RegionDataView = ({ regionId, regionName }) => {
     if (emoji === emojiRating) {
       if(regionData){
         setRegionData({ ...regionData, rating: "" });
-        await updateRegion(regionId, { rating: "" });
+        await updateRegion(dataId, { rating: "" });
       }
       else{
         await addRegion({ 
-            id: regionId, 
+            region_id: regionId, 
             rating: "", 
             comment: "",
             name: regionName,});
@@ -40,11 +41,11 @@ const RegionDataView = ({ regionId, regionName }) => {
     else {
       if(regionData){
           setRegionData({ ...regionData, rating: emoji });
-          await updateRegion(regionId, {rating: emoji});
+          await updateRegion(dataId, {rating: emoji});
         }
         else{
           await addRegion({ 
-              id: regionId, 
+              region_id: regionId, 
               rating: emoji, 
               comment: "",
               name: regionName,});
@@ -65,6 +66,7 @@ const RegionDataView = ({ regionId, regionName }) => {
     const loadRegionData = async () => {
       const fetchedRegionData = await fetchRegionById(regionId);
       if (fetchedRegionData) {
+        setDataId(fetchedRegionData.id);
         setRating(fetchedRegionData.rating || "0");
         setEmojiRating(fetchedRegionData.rating || "");
         setSliderValue(fetchedRegionData.rating || "0");
@@ -72,6 +74,7 @@ const RegionDataView = ({ regionId, regionName }) => {
         setRegionData(fetchedRegionData);
       }
       else {
+        setDataId(null);
         setComment("");
         setRating("0");
         setEmojiRating("");
@@ -88,11 +91,11 @@ const RegionDataView = ({ regionId, regionName }) => {
       setRating("0"); // Reset rating if the same star is clicked again
       if(regionData){
         setRegionData({ ...regionData, rating: "0" });
-        await updateRegion(regionId, { rating: "0" });
+        await updateRegion(dataId, { rating: "0" });
       }
       else{
         await addRegion({ 
-            id: regionId, 
+            region_id: regionId, 
             rating: "0", 
             comment: "",
             name: regionName,});
@@ -101,11 +104,11 @@ const RegionDataView = ({ regionId, regionName }) => {
         setRating(index.toString());
         if(regionData){
           setRegionData({ ...regionData, rating: index.toString() });
-          await updateRegion(regionId, {rating: index.toString()});
+          await updateRegion(dataId, {rating: index.toString()});
         }
         else{
           await addRegion({ 
-              id: regionId, 
+              region_id: regionId, 
               rating: index.toString(), 
               comment: "",
               name: regionName,});
@@ -139,11 +142,11 @@ const RegionDataView = ({ regionId, regionName }) => {
       // Update the existing region
       const updatedRegion = { ...regionData, comment: comment, rating: rating };
       setRegionData(updatedRegion);
-      await updateRegion(regionId, updatedRegion);
+      await updateRegion(dataId, updatedRegion);
     } else {
       // Add a new region
       const newRegion = { 
-        id: regionId, 
+        region_id: regionId, 
         rating: rating, 
         comment: comment,
         name: regionName,
@@ -163,10 +166,10 @@ const RegionDataView = ({ regionId, regionName }) => {
   const handleSliderCommit = async () => {
     if(regionData){
       setRegionData({ ...regionData, rating: sliderValue });
-      await updateRegion(regionId, { rating: sliderValue });
+      await updateRegion(dataId, { rating: sliderValue });
     } else {
       await addRegion({
-        id: regionId,
+        region_id: regionId,
         rating: sliderValue,
         comment: "",
         name: regionName,
@@ -253,7 +256,7 @@ const RegionDataView = ({ regionId, regionName }) => {
         style={{ backgroundColor: "transparent", color: "white", width: "100%", maxWidth: "500px", height: "100px", padding: "10px", borderRadius: "5px", border: "1px solid #ccc" }}
       />
       {showSaveButton && (
-        <div className="d-flex justify-content-center align-items-center">
+        <div className="d-flex justify-content-center align-items-center mt-2">
           <button
             className="btn btn-primary"
             onClick={handleSave}

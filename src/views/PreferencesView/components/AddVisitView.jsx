@@ -48,7 +48,6 @@ const AddVisitView = ({
           setArriveDateAdd(null);
           setDepartDateAdd(null);
           setRegionsAdd(null);
-          fetchVisits();
         }
         else {
           message.error("please enter the missing value(s)")

@@ -33,7 +33,7 @@ const useRegions = () => {
   const fetchRegionById = useCallback(async (id) => {
     setIsLoading(true);
     try {
-      const { data, error } = await supabase.from("regions").select("*").eq("id", id).single();
+      const { data, error } = await supabase.from("regions").select("*").eq("region_id", id).single();
       if (error) {
         throw error;
       }
