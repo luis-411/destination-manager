@@ -19,6 +19,12 @@ const AuthProviderSupabase = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const signInAnonymously = async () => {
+    const { user, error } = await supabase.auth.signInAnonymously();
+    if (error) throw error;
+    return user;
+  }
+
   // Fetch the logged-in user from Supabase
   const fetchLoggedInUser = async () => {
     setIsLoading(true);
@@ -55,21 +61,39 @@ const AuthProviderSupabase = ({ children }) => {
 
   // Subscribe to authentication state changes
   useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
-      if (session?.user) {
-        setUserData(session.user);
+  const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+    if (session?.user) {
+      setUserData(session.user);
+    } else {
+      setUserData(null);
+    }
+  });
+
+  // On initial load, check for session and sign in anonymously if needed
+  const initAuth = async () => {
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.auth.getSession();
+      if (error || !data.session) {
+        // No session, sign in anonymously
+        const user = await signInAnonymously();
+        setUserData(user);
       } else {
-        setUserData(null);
+        setUserData(data.session.user);
       }
-    });
+    } catch (error) {
+      console.error(error);
+      message.error("Error during authentication");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  initAuth();
 
-    // Fetch the user on initial load
-    fetchLoggedInUser();
-
-    return () => {
-      authListener?.subscription?.unsubscribe();
-    };
-  }, []);
+  return () => {
+    authListener?.subscription?.unsubscribe();
+  };
+}, []);
 
   return (
     <AuthContextSupabase.Provider value={{ user: userData, setUser: setUserData, isLoading, signOut }}>
