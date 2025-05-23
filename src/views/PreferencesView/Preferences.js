@@ -10,14 +10,14 @@ import useFeatures from "../../api/useFeatures";
 import Visits from "../Personalnformation/Visits";
 import LogButton from "../GeneralView/LogButton";
 import { message } from "antd";
-import useListsStore from "../../api/useListsStore";
+import { useListsStoreBase } from "../../api/useListsStore";
 
 const Preferences = ({ link }) => {
   const { user } = useAuthContextSupabase();
   const { features } = useFeatures();
 
-  const fetchLists = useListsStore((state) => state.fetchLists);
-  const addList = useListsStore((state) => state.addList);
+  const fetchLists = useListsStoreBase((state) => state.fetchLists);
+  const addList = useListsStoreBase((state) => state.addList);
   
 
   const [showAddList, setShowAddList] = useState(false);

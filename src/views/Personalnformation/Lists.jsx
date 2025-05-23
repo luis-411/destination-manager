@@ -1,13 +1,13 @@
 import React, { useContext, useEffect } from 'react';
 import { AuthContextSupabase } from '../../context/AuthContextSupabase';
 import ListCard from './ListCard';
-import useListsStore from '../../api/useListsStore';
+import { useListsStoreBase } from '../../api/useListsStore';
 
 const Lists = () => {
   const { user } = useContext(AuthContextSupabase);
-  const lists = useListsStore((state) => state.lists);
-  const isLoading = useListsStore((state) => state.isLoading);
-  const fetchLists = useListsStore((state) => state.fetchLists);
+  const lists = useListsStoreBase((state) => state.lists);
+  const isLoading = useListsStoreBase((state) => state.isLoading);
+  const fetchLists = useListsStoreBase((state) => state.fetchLists);
   
   useEffect(() => {
     if (user) {

@@ -5,7 +5,7 @@ import GoToMapCountryButton from "../../components/GoToMapCountry";
 import styles from "../../views/Personalnformation/ListCard.module.css";
 import useSelectedList from "../../api/useSelectedList";
 import { FaEdit, FaTrash, FaShareAlt } from "react-icons/fa";
-import useListsStore from "../../api/useListsStore";
+import { useListsStoreBase } from "../../api/useListsStore";
 import { message } from "antd";
 import { useAuthContextSupabase } from "../../context/AuthContextSupabase";
 import useRightColumnOpen from "../GeneralView/services/useRightColumnOpen";
@@ -20,11 +20,11 @@ const ListCard = ({
     link,
     updateLists }) => {
     const { user } = useAuthContextSupabase();
-    const fetchListByLink = useListsStore((state) => state.fetchListByLink);
-    const fetchList = useListsStore((state) => state.fetchList);
-    const deleteList = useListsStore((state) => state.deleteList);
-    const updateList = useListsStore((state) => state.updateList);
-    const generateLink = useListsStore((state) => state.generateLink);
+    const fetchListByLink = useListsStoreBase((state) => state.fetchListByLink);
+    const fetchList = useListsStoreBase((state) => state.fetchList);
+    const deleteList = useListsStoreBase((state) => state.deleteList);
+    const updateList = useListsStoreBase((state) => state.updateList);
+    const generateLink = useListsStoreBase((state) => state.generateLink);
 
     const [listData, setListData] = useState({
       title: initialTitle,

@@ -2,21 +2,29 @@ import { create } from "zustand";
 import { createClient } from "@supabase/supabase-js";
 import { message } from "antd";
 import { v4 as uuidv4 } from "uuid";
+import { useMemo } from "react";
+import { useAuthContextSupabase } from "../context/AuthContextSupabase";
 
 const supabase = createClient(
   process.env.REACT_APP_SUPABASE_URL,
   process.env.REACT_APP_SUPABASE_ANON_KEY
 );
 
-const useListsStore = create((set, get) => ({
+// Remove the top-level useAuthContextSupabase() call
+
+const useListsStoreBase = create((set, get) => ({
   lists: [],
   isLoading: false,
   error: "",
   // Fetch all lists
-  fetchLists: async () => {
+  fetchLists: async (user) => {
+    if (!user?.id) {
+    set({ error: "No user ID provided." });
+    return;
+    }
     set({ isLoading: true, error: "" });
     try {
-      const { data, error } = await supabase.from("lists").select("*");
+      const { data, error } = await supabase.from("lists").select("*").eq("user_id", user?.id);
       if (error) throw error;
       set({ lists: data });
     } catch (error) {
@@ -126,4 +134,18 @@ const useListsStore = create((set, get) => ({
   },
 }));
 
-export default useListsStore;
+
+
+// Custom hook to use the store with user context
+export function useListsStore() {
+  const { user } = useAuthContextSupabase();
+  const store = useListsStoreBase();
+
+  // Wrap actions that require user
+  return useMemo(() => ({
+    ...store,
+    fetchLists: () => store.fetchLists(user),
+  }), [store, user]);
+}
+
+export { useListsStoreBase };
