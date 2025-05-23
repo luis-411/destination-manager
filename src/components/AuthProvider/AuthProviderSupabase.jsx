@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { AuthContextSupabase } from "../../context/AuthContextSupabase";
 import { createClient } from "@supabase/supabase-js";
 import { message } from "antd";
+import useInitializeUserData from "../../api/user/useInitializeUserData";
+import { useAuthContextSupabase } from "../../context/AuthContextSupabase";
 
 const supabase = createClient(
   process.env.REACT_APP_SUPABASE_URL,
@@ -18,6 +20,8 @@ const supabase = createClient(
 const AuthProviderSupabase = ({ children }) => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const { addListsAndVisits } = useInitializeUserData();
+  const { user } = useAuthContextSupabase();
 
   const signInAnonymously = async () => {
     const { user, error } = await supabase.auth.signInAnonymously();
@@ -78,6 +82,7 @@ const AuthProviderSupabase = ({ children }) => {
         // No session, sign in anonymously
         const user = await signInAnonymously();
         setUserData(user);
+        addListsAndVisits();
       } else {
         setUserData(data.session.user);
       }
