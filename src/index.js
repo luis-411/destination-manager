@@ -13,7 +13,7 @@ const clientID = process.env.REACT_APP_AUTH0_CLIENT_ID;
 const root = ReactDOM.createRoot(document.getElementById("root"));
 console.log(window.location.origin);
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <AuthProviderSupabase>
     <AuthProvider>
     <Router>
@@ -21,7 +21,7 @@ root.render(
       </Router>
     </AuthProvider>
     </AuthProviderSupabase>
-  </React.StrictMode>
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

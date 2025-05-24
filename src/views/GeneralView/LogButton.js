@@ -38,6 +38,7 @@ const LoginButton = () => {
         signOut();
         setSelectedList([]);
         setRightColumnOpen(false);
+        localStorage.setItem("hasInitialized", "false");
         //removeToken();
         //message.success(`Logged out successfully!`);
     }

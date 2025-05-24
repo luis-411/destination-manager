@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { AuthContextSupabase } from "../../context/AuthContextSupabase";
 import { createClient } from "@supabase/supabase-js";
 import { message } from "antd";
@@ -24,9 +24,9 @@ const AuthProviderSupabase = ({ children }) => {
   const { user } = useAuthContextSupabase();
 
   const signInAnonymously = async () => {
-    const { user, error } = await supabase.auth.signInAnonymously();
+    const { data, error } = await supabase.auth.signInAnonymously();
     if (error) throw error;
-    return user;
+    return data.user;
   }
 
   // Fetch the logged-in user from Supabase
@@ -82,9 +82,11 @@ const AuthProviderSupabase = ({ children }) => {
         // No session, sign in anonymously
         const user = await signInAnonymously();
         setUserData(user);
-        addListsAndVisits();
+        //await addListsAndVisits(user);
+        //window.location.reload();
       } else {
         setUserData(data.session.user);
+        //await addListsAndVisits(data.session.user);
       }
     } catch (error) {
       console.error(error);
@@ -99,6 +101,22 @@ const AuthProviderSupabase = ({ children }) => {
     authListener?.subscription?.unsubscribe();
   };
 }, []);
+
+  const hasInitialized = useRef(false);
+  useEffect(() => {
+    if (hasInitialized.current) return;
+    if (localStorage.getItem("hasInitialized") === "true") return;
+    async function add() {
+      if (userData && userData.id) {
+        console.log("from auth")
+        console.log(userData)
+        await addListsAndVisits(userData);
+        hasInitialized.current = true;
+        localStorage.setItem("hasInitialized", "true");
+      }
+    }
+    add();
+  }, [userData]);
 
   return (
     <AuthContextSupabase.Provider value={{ user: userData, setUser: setUserData, isLoading, signOut }}>
