@@ -76,17 +76,10 @@ const useInitializeUserData = () => {
 
         if (hasInitialized.current) return;
         hasInitialized.current = true;
-        console.log(lists)
-        console.log(visits)
-        console.log("u1")
-        console.log(user)
         if(lists.length === 0 ) await addList([list1, list2, list3]);
         if(visits.length === 0 ) await addVisit([visit1, visit2, visit3, visit4]);
         if(lists.length === 0 ) await fetchLists(user)
         if(visits.length === 0 ) await fetchVisits();
-        console.log("u2")
-        console.log(lists)
-        console.log(visits)
     }
     return { addListsAndVisits };
 }

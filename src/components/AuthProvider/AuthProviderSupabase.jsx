@@ -108,8 +108,6 @@ const AuthProviderSupabase = ({ children }) => {
     if (localStorage.getItem("hasInitialized") === "true") return;
     async function add() {
       if (userData && userData.id) {
-        console.log("from auth")
-        console.log(userData)
         await addListsAndVisits(userData);
         hasInitialized.current = true;
         localStorage.setItem("hasInitialized", "true");

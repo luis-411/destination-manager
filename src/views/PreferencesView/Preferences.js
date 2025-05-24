@@ -46,13 +46,13 @@ const Preferences = ({ link }) => {
       user_id: currentUserId,
     };
     if(newList.title) {
-      addList(newList)
+      await addList(newList)
       setListTitle("");
       setListDescription("");
       setListEmoji("");
       setListRegions([]);
       setShowAddList(false);
-      updateLists();
+      await updateLists();
     }
     else {
       message.error("please add a title");
@@ -61,7 +61,7 @@ const Preferences = ({ link }) => {
 
   const updateLists = async () => {
     try {
-      await fetchLists();
+      await fetchLists(user);
     } catch (error) {
       console.error("Failed to update lists:", error);
     }

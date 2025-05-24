@@ -149,6 +149,7 @@ const Map = ({ setActiveResult }) => {
             default:
               break;
         }
+      }
     }
     //handle list logic
     if(listRegions && listRegions.map((regions) => regions.value.id).includes(country.properties.result.id)){
@@ -173,7 +174,6 @@ const Map = ({ setActiveResult }) => {
         });
       }
     }
-  }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [months, countries, listRegions, visits, features, user]);
 

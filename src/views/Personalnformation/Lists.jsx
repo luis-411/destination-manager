@@ -11,7 +11,7 @@ const Lists = () => {
   
   useEffect(() => {
     if (user) {
-      fetchLists(); // Fetch lists if a user is logged in
+      fetchLists(user); // Fetch lists if a user is logged in
     }
   }, [user, fetchLists]);
 
@@ -29,7 +29,7 @@ const Lists = () => {
 
   const updateLists = async () => {
     try {
-      await fetchLists(); // Fetch lists again to ensure the latest data
+      await fetchLists(user); // Fetch lists again to ensure the latest data
     } catch (error) {
       console.error("Error updating lists:", error);
     }
