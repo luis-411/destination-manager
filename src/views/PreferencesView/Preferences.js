@@ -46,13 +46,13 @@ const Preferences = ({ link }) => {
       user_id: currentUserId,
     };
     if(newList.title) {
-      addList(newList)
+      await addList(newList)
       setListTitle("");
       setListDescription("");
       setListEmoji("");
       setListRegions([]);
       setShowAddList(false);
-      updateLists();
+      await updateLists();
     }
     else {
       message.error("please add a title");
