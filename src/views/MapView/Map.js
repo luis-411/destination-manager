@@ -150,7 +150,8 @@ const Map = ({ setActiveResult }) => {
               break;
         }
     }
-    //handle list logic
+  }
+  //handle list logic
     if(listRegions && listRegions.map((regions) => regions.value.id).includes(country.properties.result.id)){
       if (features.displaySelectedList === "color" || features.displaySelectedList === "colorAndEmoji") {
         layer.options.fillColor = "#35628E";
@@ -173,7 +174,6 @@ const Map = ({ setActiveResult }) => {
         });
       }
     }
-  }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [months, countries, listRegions, visits, features, user]);
 
