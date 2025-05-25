@@ -1,16 +1,18 @@
-# destination-finder
-Improved DestiRec application to recommend destinations based on the user's preferences and needs, implemented for the Bachelor's Thesis at TUM "Improving a Web-based Destination Recommender System". 
+# destination-manager
+DestiRec is a web-based travel management application that allows creating lists of destinations, comments and ratings on regions, visits to regions and more.
 
-Original application was implemented for Master Thesis at TUM with the title "Dynamic Adaptation of User Preferences and Results in Complex Recommender Systems". 
+The application was implemented for the Bachelor's Thesis at TUM: "Personalization and Visualization in a Web-based Destination Management Application"
+
+Original versions of the application were implemented for Master Thesis at TUM with the title "Dynamic Adaptation of User Preferences and Results in Complex Recommender Systems" and the Bachelor's Thesis at TUM "Improving a Web-based Destination Recommender System". 
 
 ## Demo
-A demo of this interface is available on https://desti-rec.netlify.app/
+A demo of this interface is available on https://destirec-fawn.vercel.app
 ## Getting Started
 
 You need git to clone our repository.
 
 ```
-git clone https://github.com/cemostro/destination-finder.git
+git clone https://github.com/luis-411/destination-finder.git
 cd destination-finder/
 ```
 
