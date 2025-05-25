@@ -56,7 +56,7 @@ export const CountryPopup = ({ country }) => {
   const visitCountForCountry = visits.filter(visit => parseInt(visit.region_id) === country.id).length;
 
   const characteristics = [
-    { name: 'Visitor Number', value: getTotalVisitorNumber(country), show: true },
+    { name: 'Visitor Number', value: getTotalVisitorNumber(country), show: false },
     { name: 'Budget Level', value: budgetLabel, show: true },
     { name: 'Recommended', value: <LikeOutlined style={iconStyle} />, show: false },
   ];

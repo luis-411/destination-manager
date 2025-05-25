@@ -20,7 +20,7 @@ export const RightSidebar = () => {
         <h1 style={{ fontWeight: "700", fontSize: "2rem",  }}>{selectedList.title}</h1>
       </div>
       {listRegions?.length > 0 ? (
-        <div>
+        <div className="d-flex flex-column align-items-center">
           {listRegions?.map((region, index) => (
             <RegionCard key={index} region={region} />
           ))}
