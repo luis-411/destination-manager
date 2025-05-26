@@ -15,8 +15,9 @@ import useLoadMeWithGroups from "../../../api/useLoadMeWithGroups";
 import { convertShortMonthToLong } from "../../../helpers/months";
 import { useAuthContextSupabase } from "../../../context/AuthContextSupabase";
 import RegionDataView from "./RegionDataView";
-import useFeatures from "../../../api/useFeatures";
 import useVisitsStore from "../../../api/useVisitStore";
+import AddToListModal from '../../../components/Modals/AddToListModal';
+import { useListsStoreBase } from '../../../api/useListsStore';
 
 
 
@@ -25,21 +26,39 @@ export const CountryPopup = ({ country }) => {
   const [selectedGroups, setSelectedGroups] = useState();
   const iconStyle = { fontSize: '12px' };
   const { user } = useAuthContextSupabase();
-  const { features } = useFeatures();
   const visits = useVisitsStore((state) => state.visits);
   const fetchVisits = useVisitsStore((state) => state.fetchVisits);
+  const lists = useListsStoreBase((state) => state.lists);
+  const fetchLists = useListsStoreBase((state) => state.fetchLists);
+  const updateList = useListsStoreBase((state) => state.updateList);
   
   const modal = useAppModal();
   const { data: groups, fetch: fetchGroups } = useLoadMeWithGroups();
 
   useEffect(() => {
     fetchVisits();
-  }, [fetchVisits]);
+    if (user?.id) fetchLists(user);
+  }, [fetchVisits, user, fetchLists]);
 
   const onCreateNewRegionVisit = useCallback(() => {
     modal.setIsOpen(true);
     modal.setComponent(<HandleVisit country={country} />);
-  }, [country]);
+  }, [country, modal]);
+
+
+  const onShowAddToListModal = useCallback(() => {
+    modal.setIsOpen(true);
+    modal.setComponent(
+      <AddToListModal
+        lists={lists}
+        country={country}
+        updateList={updateList}
+        fetchLists={fetchLists}
+        user={user}
+        onClose={() => modal.setIsOpen(false)}
+      />
+    );
+  }, [lists, country, updateList, modal]);
 
   const budgetLabel = country.budgetLevel < 40 ? "Low" : country.budgetLevel < 80 ? "Medium" : "High";
 
@@ -78,11 +97,17 @@ export const CountryPopup = ({ country }) => {
     <div style={{ color: "white" }}>
       <Col className={'d-flex justify-content-between align-items-center'}>
         <p className={'m-0'} style={{ fontSize: '10px' }}>{country.country}</p>
-        {user?.id && features.addVisit === "popup" && (
-          <button onClick={onCreateNewRegionVisit} className='btn btn-secondary py-0 px-0' style={{fontSize: '12px'}}>
-            <span>Add new visit</span>
-            <CompassOutlined className={'ms-2'}/>
-          </button>
+        {user?.id && (
+          <div className="d-flex gap-2">
+            <button onClick={onCreateNewRegionVisit} className='btn btn-secondary py-0 px-0' style={{fontSize: '12px'}}>
+              <span>Add new visit</span>
+              <CompassOutlined className={'ms-2'}/>
+            </button>
+            <button onClick={onShowAddToListModal} className='btn btn-secondary py-0 px-1' style={{fontSize: '12px'}}>
+              <span>Add to list</span>
+              <FolderOutlined className={'ms-2'}/>
+            </button>
+          </div>
         )}
       </Col>
       <h6 className={'d-flex fw-bold gap-2'} style={{fontSize: '12px'}}>

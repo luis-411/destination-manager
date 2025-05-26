@@ -95,7 +95,7 @@ const Preferences = ({ link }) => {
         <ListCard link={link} />
         </div>
       )}
-      {user && !link && features.addVisit === "leftPanel" && (
+      {user && !link && (
         <div className="white-theme my-4 d-flex flex-row gap-2">
         <button className={'add-button'} onClick={() => {setShowAddVisit(!showAddVisit); setShowAddList(false)}}>
           {showAddVisit ? "Close" : "Add new Visit"}
@@ -104,11 +104,6 @@ const Preferences = ({ link }) => {
           {showAddList ? "Close" : "Add new List"}
         </button>
       </div>
-      )}
-      {user && !link && features.addVisit === "popup" && (
-        <button className={'btn btn-primary mb-4 mt-2'} onClick={() => {setShowAddList(!showAddList); setShowAddVisit(false)}}>
-          {showAddList ? "Close" : "Add new List"}
-        </button>
       )}
       {user && showAddVisit && !link && (
         <AddVisitView

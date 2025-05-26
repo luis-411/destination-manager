@@ -158,7 +158,7 @@ const Map = ({ setActiveResult }) => {
       }
       if(features.displaySelectedList === "emoji" || features.displaySelectedList === "colorAndEmoji"){
         layer.bindTooltip(`
-          <div>
+          <div style= "background-color: rgba(255, 255, 255, 0.7); border-radius: 10px;">
             <h4>${listEmoji}</h4>
           </div>`, {
         permanent: true,
