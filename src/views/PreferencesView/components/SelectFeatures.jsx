@@ -37,12 +37,12 @@ const SelectFeatures = () => {
                 onChange={handleFeatureChange}
               >
                 <option value="star">Star Rating</option>
-                <option value="emoji">Emoji Rating</option>
+                {/* <option value="emoji">Emoji Rating</option> */}
                 <option value="slider">Slider Rating</option>
               </select>
             </label>
           </div>
-          <div className="select-features-group">
+          {/* <div className="select-features-group">
             <label className="select-features-label">
               Add Visit Style:
               <select
@@ -55,7 +55,7 @@ const SelectFeatures = () => {
                 <option value="leftPanel">In left Panel</option>
               </select>
             </label>
-          </div>
+          </div> */}
           <div className="select-features-group">
             <label className="select-features-label">
               Display Visited Countries:
@@ -83,8 +83,8 @@ const SelectFeatures = () => {
               >
                 <option value="color">Color on selected Countries</option>
                 <option value="emoji">List Emoji on selected Countries</option>
-                <option value="colorAndEmoji">Color and List Emoji on selecetd Countries</option>
-                <option value="border">Colored border on selecetd Countries</option>
+                <option value="colorAndEmoji">Color and List Emoji on selected Countries</option>
+                <option value="border">Colored border on selected Countries</option>
               </select>
             </label>
           </div>
