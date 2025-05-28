@@ -4,7 +4,7 @@ import "./SelectFeatures.css";
 
 const SelectFeatures = () => {
   const { features, updateFeature } = useFeatures();
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
 
   const handleFeatureChange = (e) => {
     const { name, value } = e.target;
