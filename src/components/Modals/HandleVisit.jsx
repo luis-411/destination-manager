@@ -25,7 +25,13 @@ const HandleVisit = ({ country, handleCancel }) => {
   const handleSave = async () => {
     const visitData = Object.fromEntries(visit.entries());
     try {
-      await addVisit(visitData);
+      if(visitData.arrive && visitData.depart && visitData.region_id && visitData.title) {
+        await addVisit(visitData);
+      }
+      else {
+        message.error("Please enter the missing value(s)");
+        return;
+      }
       //message.success(`New visit with title "${visitData.title}" was added`);
       reset();
     } catch (e) {
