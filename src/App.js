@@ -43,11 +43,7 @@ const App = () => {
 
   return (
     <div style={{ height: "100vh" }}>
-        {countries.length === 0 ? (
-          <Loading />
-        ) : (
-          <AppRoutes/>
-        )}
+      <AppRoutes />
     </div>
   );
 };
